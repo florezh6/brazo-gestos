@@ -118,7 +118,7 @@ def conexiones():
 
 def brazo():
     W, H = 640, 430
-    s = [f'<svg viewBox="0 0 {W} {H}" class="dibujo-brazo" aria-hidden="true">']
+    s = [f'<svg viewBox="0 0 {W} {H}" data-dibujo="brazo" aria-hidden="true">']
     s.append('''<defs>
   <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta"/></marker>
 </defs>''')
@@ -155,7 +155,69 @@ def brazo():
     return '\n'.join(s)
 
 
+# Los colores van tambien como atributos dentro del SVG, para que el
+# dibujo salga bien aunque la hoja de estilos no cargue o sea de otra
+# version. Las reglas de css/estilo.css tienen prioridad sobre estos
+# atributos, asi que alli se pueden seguir ajustando.
+LETRA = 'font-family="Barlow, system-ui, sans-serif"'
+ESTILOS = {
+    'd-portatil': '', 'd-fuente': '',
+    'd-t': f'{LETRA} font-size="13" font-weight="600" fill="#1b2c41"',
+    'd-t chico': f'{LETRA} font-size="11.5" font-weight="600" fill="#1b2c41"',
+    'd-t claro': f'{LETRA} font-size="13" font-weight="600" fill="#ffffff"',
+    'd-t claro chico': f'{LETRA} font-size="11.5" font-weight="600" fill="#ffffff"',
+    'd-signo': f'{LETRA} font-size="22" font-weight="700" fill="#ffffff"',
+    'd-placa': 'fill="#0f6e8c" stroke="#111" stroke-width="3"',
+    'd-metal': 'fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"',
+    'd-jack': 'fill="#222" stroke="#111" stroke-width="2"',
+    'd-pin': 'fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"',
+    'd-pin usado': 'fill="#ffe500" stroke="#111" stroke-width="1.5"',
+    'd-bornera': 'fill="#2fae5b" stroke="#111" stroke-width="2"',
+    'd-tornillo': 'fill="#c7cfd8" stroke="#39434f" stroke-width="2"',
+    'd-tachado': 'stroke="#ff5a45" stroke-width="4" stroke-linecap="round" fill="none"',
+    'd-pantalla': 'fill="#1b2c41"',
+    'd-vidrio': 'fill="#d9e6f6"',
+    'd-teclado': 'fill="#9fb0c4" stroke="#1b2c41" stroke-width="2"',
+    'd-adaptador': 'fill="#2b3a4f" stroke="#111" stroke-width="2.5"',
+    'd-adaptador-bornera': 'fill="#2fae5b" stroke="#111" stroke-width="2"',
+    'd-cable-usb': 'stroke="#6b7c90" stroke-width="7" fill="none" stroke-linecap="round"',
+    'd-cable-dc': 'stroke="#222" stroke-width="6" fill="none" stroke-linecap="round"',
+    'd-cable-pos': 'stroke="#d6402b" stroke-width="4.5" fill="none" stroke-linejoin="round"',
+    'd-cable-neg': 'stroke="#111" stroke-width="4.5" fill="none" stroke-linejoin="round"',
+    'd-funda': 'stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"',
+    'd-hilo': 'stroke-width="3.2" fill="none" stroke-linejoin="round"',
+    'd-servo': 'fill="#2b3a4f" stroke="#111" stroke-width="2.5"',
+    'd-servo-alas': 'fill="#3b4c63" stroke="#111" stroke-width="2"',
+    'd-cuerno': 'fill="#f6f9fd" stroke="#111" stroke-width="2.5"',
+    'd-recuadro': 'fill="#ffffff" stroke="#cfd8e3" stroke-width="2"',
+    'd-punta': 'fill="#1b2c41"',
+    'b-base': 'fill="#e4eefc" stroke="#1b2c41" stroke-width="3"',
+    'b-base-lado': 'fill="#c9d8ec" stroke="#1b2c41" stroke-width="3"',
+    'b-tornamesa': 'fill="#f6f9fd" stroke="#1b2c41" stroke-width="2.5"',
+    'b-pieza': 'fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"',
+    'b-servo': 'fill="#2b3a4f" stroke="#111" stroke-width="2.5"',
+    'b-barra-borde': 'stroke="#1b2c41" stroke-width="24" stroke-linecap="round" fill="none"',
+    'b-barra': 'stroke="#f6f9fd" stroke-width="17" stroke-linecap="round" fill="none"',
+    'b-varilla': 'stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"',
+    'b-garra': 'stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"',
+    'b-eje': 'fill="#ffe500" stroke="#111" stroke-width="3"',
+    'b-mov': 'stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round"',
+    'b-punta': 'fill="#1f5fc8"',
+    'b-guia': 'stroke="#52637a" stroke-width="2.5" stroke-dasharray="5 5" fill="none"',
+}
+
+
+def con_atributos(svg):
+    def poner(m):
+        clase = m.group(1)
+        if clase not in ESTILOS:
+            raise SystemExit('Falta el estilo de la clase ' + clase)
+        return f'class="{clase}" {ESTILOS[clase]}'.rstrip()
+    return re.sub(r'class="([^"]+)"', poner, svg)
+
+
 def insertar(nombre, svg):
+    svg = con_atributos(svg)
     p = RAIZ / 'index.html'
     html = p.read_text(encoding='utf-8')
     patron = re.compile(rf'(<!-- diagrama:{nombre} -->)(.*?)(<!-- /diagrama:{nombre} -->)', re.S)

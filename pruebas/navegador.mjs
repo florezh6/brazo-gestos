@@ -304,9 +304,9 @@ const ESCENARIOS = {
     await pagina.evaluate(async () => {
       await navigator.serviceWorker.ready;
       for (let k = 0; k < 100; k++) {
-        const caja = await caches.open('brazo-gestos-v2');
-        const llaves = await caja.keys();
-        if (llaves.some((r) => r.url.endsWith('.wasm')) && llaves.length >= 25) return;
+        const pagina = await (await caches.open('brazo-gestos-pagina-v3')).keys();
+        const fijos = await (await caches.open('brazo-gestos-fijos-v1')).keys();
+        if (fijos.some((r) => r.url.endsWith('.wasm')) && fijos.length >= 4 && pagina.length >= 22) return;
         await new Promise((r) => setTimeout(r, 300));
       }
       throw new Error('el service worker no guardo los archivos');

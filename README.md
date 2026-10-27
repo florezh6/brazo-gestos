@@ -25,6 +25,25 @@ La página está en **https://florezh6.github.io/brazo-gestos/**. Funciona en Go
 | `vendor/mediapipe/`, `modelo/` | MediaPipe Tasks Vision 1.0.1 y el modelo `hand_landmarker.task`, copiados en versión fija. |
 | `pruebas/` | Pruebas con un Arduino simulado. La página no las carga. |
 
+## Antes de publicar un cambio
+
+```
+python3 herramientas/diagramas.py   # si se tocaron los diagramas
+python3 herramientas/versionar.py   # siempre que cambie CSS o JavaScript
+npm test
+```
+
+`versionar.py` pone en `index.html` un código sacado del contenido en la dirección de cada CSS y JavaScript, como `estilo.css?v=3f9a2c`. Sin eso, el navegador puede seguir usando un archivo viejo de su memoria y mezclar versiones: HTML nuevo con CSS viejo. `npm test` falla si se olvida.
+
+`sw.js` pide los archivos de la página primero a internet y usa lo guardado solo sin conexión. MediaPipe y el modelo se sirven siempre de lo guardado.
+
+Para probar que una actualización llega limpia, con dos copias del sitio, la publicada y la nueva:
+
+```
+node pruebas/servidor_pages.mjs <copia publicada>        # imita a GitHub Pages, puerto 8766
+node pruebas/actualizacion.mjs <copia publicada> <copia nueva> <selector solo en el HTML nuevo> <selector solo en el CSS nuevo>
+```
+
 ## Cambiar el programa de la placa
 
 Después de editar `brazo_web.ino` hay que recompilar el `.hex`, porque es lo que carga la página:

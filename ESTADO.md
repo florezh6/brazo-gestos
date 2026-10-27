@@ -66,6 +66,14 @@ Segunda vuelta del mismo día, con comentarios de Hugo:
 - Modo teléfono: en un teléfono o tablet la página sirve para probar la detección y leer Cómo funciona y la guía. Se ocultan el brazo, el panel del profesor y la pantalla completa, y un aviso explica que el brazo se maneja desde un computador. Probado con emulación de iPhone en Chrome, no en un iPhone real.
 - PAUSA en pantalla solo con dos manos de verdad.
 
+Tercera vuelta, después de que Hugo vio los diagramas en negro y el consejo de la Mechita desarmado:
+
+- Causa comprobada con `pruebas/actualizacion.mjs`: el service worker servía primero lo guardado y GitHub Pages deja reusar cada archivo 10 minutos, así que tras publicar quedaba HTML nuevo con CSS viejo. Sin estilos, un SVG pinta todo en negro.
+- Arreglo en tres partes: `sw.js` pide primero a internet; `herramientas/versionar.py` pone un código de contenido en la dirección de cada CSS y JavaScript; la página pide revisar si hay service worker nuevo al cargar y cada 30 minutos.
+- Error propio encontrado en el camino: el service worker nuevo esperaba la recarga de la página dentro de su activación, y la recarga esperaba a la activación. La página quedaba congelada. Corregido y documentado en `sw.js`.
+- Defensas adicionales: los diagramas llevan sus colores dentro del SVG y el texto de la Mechita para teléfono viene oculto desde el HTML.
+- Quien abrió la página antes de este arreglo tiene el service worker viejo: necesita una recarga forzada una sola vez, Cmd+Shift+R o Ctrl+Shift+R.
+
 **La Mechita es provisional.** Está dibujada en `marca/mechita.svg` a partir de la publicación del departamento del 11 de abril de 2025 en Instagram. Hay que reemplazarla por los archivos oficiales de comunicaciones IMEC; basta con sobrescribir `marca/mechita.svg` y `marca/mechita-cara.svg`.
 
 ## Decisiones tomadas sin aprobación de Hugo

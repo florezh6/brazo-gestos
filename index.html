@@ -6,7 +6,7 @@
   <title>Al alcance de la mano</title>
   <meta name="description" content="Actividad del Departamento de Ingeniería Mecánica de la Universidad de los Andes: un brazo robótico que obedece gestos de la mano reconocidos con inteligencia artificial.">
   <link rel="icon" href="marca/mechita-cara.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/estilo.css?v=2986cda00a">
 </head>
 <body>
   <header class="cabecera">
@@ -97,7 +97,7 @@
       <aside class="mechita-dice">
         <img src="marca/mechita-cara.svg" alt="">
         <p class="solo-computador">Parte del reto es que cada equipo recuerde su propio diseño. Por eso la pantalla no muestra qué hace cada gesto.</p>
-        <p class="solo-telefono">Haz un número del 0 al 5 con los dedos frente a la cámara. Con las dos manos a la vista aparece PAUSA.</p>
+        <p class="solo-telefono" hidden>Haz un número del 0 al 5 con los dedos frente a la cámara. Con las dos manos a la vista aparece PAUSA.</p>
       </aside>
     </aside>
   </main>
@@ -202,34 +202,34 @@
         <p class="detalle">Cada botón está donde se mueve esa parte del brazo. Los de girar funcionan mientras se mantengan presionados.</p>
         <div class="mando-brazo" id="manual">
           <!-- diagrama:brazo -->
-<svg viewBox="0 0 640 430" class="dibujo-brazo" aria-hidden="true">
+<svg viewBox="0 0 640 430" data-dibujo="brazo" aria-hidden="true">
 <defs>
-  <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta"/></marker>
+  <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta" fill="#1f5fc8"/></marker>
 </defs>
-<path d="M110 360 L110 386 A150 32 0 0 0 410 386 L410 360" class="b-base-lado"/>
-<ellipse cx="260" cy="360" rx="150" ry="32" class="b-base"/>
-<ellipse cx="260" cy="346" rx="96" ry="20" class="b-tornamesa"/>
-<path d="M206 399 A150 32 0 0 1 114 370" class="b-mov" marker-end="url(#b-flecha)"/>
-<path d="M314 399 A150 32 0 0 0 406 370" class="b-mov" marker-end="url(#b-flecha)"/>
-<path d="M215 346 L225 250 L295 250 L305 346 Z" class="b-pieza"/>
-<rect x="196" y="268" width="34" height="58" rx="5" class="b-servo"/>
-<rect x="290" y="268" width="34" height="58" rx="5" class="b-servo"/>
-<path d="M260 258 L330 116" class="b-barra-borde"/><path d="M260 258 L330 116" class="b-barra"/>
-<path d="M330 116 L505 158" class="b-barra-borde"/><path d="M330 116 L505 158" class="b-barra"/>
-<path d="M282 276 L350 136" class="b-varilla"/>
-<path d="M350 136 L512 176" class="b-varilla"/>
-<path d="M330 116 L350 136 L340 96 Z" class="b-pieza"/>
-<rect x="494" y="128" width="30" height="24" rx="4" class="b-servo"/>
-<path d="M500 166 C486 196 492 222 514 232" class="b-garra"/>
-<path d="M520 166 C546 192 544 220 522 234" class="b-garra"/>
-<circle cx="260" cy="258" r="12" class="b-eje"/>
-<circle cx="330" cy="116" r="11" class="b-eje"/>
-<circle cx="505" cy="158" r="9" class="b-eje"/>
-<circle cx="282" cy="276" r="6" class="b-eje"/>
-<circle cx="350" cy="136" r="6" class="b-eje"/>
-<path d="M440 112 L440 66" class="b-mov" marker-end="url(#b-flecha)"/>
-<path d="M440 182 L440 228" class="b-mov" marker-end="url(#b-flecha)"/>
-<path d="M530 238 L560 266" class="b-guia"/>
+<path d="M110 360 L110 386 A150 32 0 0 0 410 386 L410 360" class="b-base-lado" fill="#c9d8ec" stroke="#1b2c41" stroke-width="3"/>
+<ellipse cx="260" cy="360" rx="150" ry="32" class="b-base" fill="#e4eefc" stroke="#1b2c41" stroke-width="3"/>
+<ellipse cx="260" cy="346" rx="96" ry="20" class="b-tornamesa" fill="#f6f9fd" stroke="#1b2c41" stroke-width="2.5"/>
+<path d="M206 399 A150 32 0 0 1 114 370" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M314 399 A150 32 0 0 0 406 370" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M215 346 L225 250 L295 250 L305 346 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="196" y="268" width="34" height="58" rx="5" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="290" y="268" width="34" height="58" rx="5" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<path d="M260 258 L330 116" class="b-barra-borde" stroke="#1b2c41" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M260 258 L330 116" class="b-barra" stroke="#f6f9fd" stroke-width="17" stroke-linecap="round" fill="none"/>
+<path d="M330 116 L505 158" class="b-barra-borde" stroke="#1b2c41" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M330 116 L505 158" class="b-barra" stroke="#f6f9fd" stroke-width="17" stroke-linecap="round" fill="none"/>
+<path d="M282 276 L350 136" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M350 136 L512 176" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M330 116 L350 136 L340 96 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="494" y="128" width="30" height="24" rx="4" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<path d="M500 166 C486 196 492 222 514 232" class="b-garra" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/>
+<path d="M520 166 C546 192 544 220 522 234" class="b-garra" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/>
+<circle cx="260" cy="258" r="12" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="330" cy="116" r="11" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="505" cy="158" r="9" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="282" cy="276" r="6" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="350" cy="136" r="6" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<path d="M440 112 L440 66" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M440 182 L440 228" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M530 238 L560 266" class="b-guia" stroke="#52637a" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
 </svg>
 <!-- /diagrama:brazo -->
           <button class="boton control" data-letra="s" style="left:68.8%;top:8.8%">Subir <kbd>s</kbd></button>
@@ -343,137 +343,137 @@
           <!-- diagrama:conexiones -->
 <svg viewBox="0 0 920 560" role="img" aria-label="Tres circuitos: el USB lleva datos y la alimentación del Arduino; la fuente alimenta solo los motores por la bornera del shield; cada servo recibe su señal por la columna de su pin. El puente SEL va retirado.">
 <defs>
-  <marker id="d-flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="d-punta"/></marker>
+  <marker id="d-flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="d-punta" fill="#1b2c41"/></marker>
 </defs>
 <g class="d-portatil">
-  <rect x="34" y="70" width="150" height="96" rx="8" class="d-pantalla"/>
-  <rect x="44" y="80" width="130" height="76" rx="3" class="d-vidrio"/>
-  <path d="M22 172 L196 172 L184 186 L34 186 Z" class="d-teclado"/>
-  <text x="109" y="124" class="d-t" text-anchor="middle">Chrome o Edge</text>
+  <rect x="34" y="70" width="150" height="96" rx="8" class="d-pantalla" fill="#1b2c41"/>
+  <rect x="44" y="80" width="130" height="76" rx="3" class="d-vidrio" fill="#d9e6f6"/>
+  <path d="M22 172 L196 172 L184 186 L34 186 Z" class="d-teclado" fill="#9fb0c4" stroke="#1b2c41" stroke-width="2"/>
+  <text x="109" y="124" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41" text-anchor="middle">Chrome o Edge</text>
 </g>
-<rect x="300" y="70" width="360" height="270" rx="12" class="d-placa"/>
-<rect x="274" y="92" width="40" height="46" rx="4" class="d-metal"/>
-<rect x="282" y="260" width="34" height="40" rx="5" class="d-jack"/>
-<text x="520.0" y="324" class="d-t claro" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
-<text x="386" y="190" class="d-t claro chico" text-anchor="middle">D</text>
-<text x="386" y="127" class="d-t claro chico" text-anchor="middle">S</text>
-<text x="386" y="148" class="d-t claro chico" text-anchor="middle">V</text>
-<text x="386" y="169" class="d-t claro chico" text-anchor="middle">G</text>
-<text x="408" y="190" class="d-t claro chico" text-anchor="middle">2</text>
-<rect x="400" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="400" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="400" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="429" y="190" class="d-t claro chico" text-anchor="middle">3</text>
-<rect x="421" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="421" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="421" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
-<text x="450" y="190" class="d-t claro chico" text-anchor="middle">4</text>
-<rect x="442" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="442" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="442" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="471" y="190" class="d-t claro chico" text-anchor="middle">5</text>
-<rect x="463" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="463" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="463" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="492" y="190" class="d-t claro chico" text-anchor="middle">6</text>
-<rect x="484" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="484" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="484" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="513" y="190" class="d-t claro chico" text-anchor="middle">7</text>
-<rect x="505" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="505" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="505" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="534" y="190" class="d-t claro chico" text-anchor="middle">8</text>
-<rect x="526" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="526" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="526" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="555" y="190" class="d-t claro chico" text-anchor="middle">9</text>
-<rect x="547" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="547" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="547" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
-<text x="576" y="190" class="d-t claro chico" text-anchor="middle">10</text>
-<rect x="568" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="568" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="568" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
-<text x="597" y="190" class="d-t claro chico" text-anchor="middle">11</text>
-<rect x="589" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="589" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
-<rect x="589" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
-<text x="618" y="190" class="d-t claro chico" text-anchor="middle">12</text>
-<rect x="610" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="610" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="610" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<text x="639" y="190" class="d-t claro chico" text-anchor="middle">13</text>
-<rect x="631" y="114" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="631" y="135" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="631" y="156" width="16" height="16" rx="2" class="d-pin"/>
-<rect x="340" y="246" width="74" height="34" rx="4" class="d-bornera"/>
-<circle cx="358" cy="263" r="8" class="d-tornillo"/><circle cx="396" cy="263" r="8" class="d-tornillo"/>
-<text x="344" y="306" class="d-signo" text-anchor="middle">+</text><text x="410" y="306" class="d-signo" text-anchor="middle">−</text>
-<text x="377" y="238" class="d-t claro chico" text-anchor="middle">bornera</text>
-<rect x="468" y="250" width="16" height="16" rx="2" class="d-pin"/><rect x="488" y="250" width="16" height="16" rx="2" class="d-pin"/>
-<path d="M460 242 L512 274 M512 242 L460 274" class="d-tachado"/>
-<text x="486" y="294" class="d-t claro chico" text-anchor="middle">SEL sin puente</text>
-<path d="M184 120 C230 120 240 115 274 115" class="d-cable-usb"/>
-<text x="236" y="104" class="d-t" text-anchor="middle">USB</text>
-<text x="236" y="146" class="d-t chico" text-anchor="middle">datos y 5 V</text>
-<text x="236" y="162" class="d-t chico" text-anchor="middle">para el Arduino</text>
+<rect x="300" y="70" width="360" height="270" rx="12" class="d-placa" fill="#0f6e8c" stroke="#111" stroke-width="3"/>
+<rect x="274" y="92" width="40" height="46" rx="4" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/>
+<rect x="282" y="260" width="34" height="40" rx="5" class="d-jack" fill="#222" stroke="#111" stroke-width="2"/>
+<text x="520.0" y="324" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
+<text x="386" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">D</text>
+<text x="386" y="127" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">S</text>
+<text x="386" y="148" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">V</text>
+<text x="386" y="169" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">G</text>
+<text x="408" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
+<rect x="400" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="400" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="400" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="429" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<rect x="421" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="421" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="421" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<text x="450" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
+<rect x="442" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="442" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="442" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="471" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
+<rect x="463" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="463" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="463" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="492" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
+<rect x="484" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="484" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="484" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="513" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">7</text>
+<rect x="505" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="505" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="505" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="534" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">8</text>
+<rect x="526" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="526" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="526" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="555" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">9</text>
+<rect x="547" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="547" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="547" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<text x="576" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">10</text>
+<rect x="568" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="568" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="568" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<text x="597" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">11</text>
+<rect x="589" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="589" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<rect x="589" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
+<text x="618" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">12</text>
+<rect x="610" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="610" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="610" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<text x="639" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">13</text>
+<rect x="631" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="631" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="631" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<rect x="340" y="246" width="74" height="34" rx="4" class="d-bornera" fill="#2fae5b" stroke="#111" stroke-width="2"/>
+<circle cx="358" cy="263" r="8" class="d-tornillo" fill="#c7cfd8" stroke="#39434f" stroke-width="2"/><circle cx="396" cy="263" r="8" class="d-tornillo" fill="#c7cfd8" stroke="#39434f" stroke-width="2"/>
+<text x="344" y="306" class="d-signo" font-family="Barlow, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">+</text><text x="410" y="306" class="d-signo" font-family="Barlow, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">−</text>
+<text x="377" y="238" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">bornera</text>
+<rect x="468" y="250" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/><rect x="488" y="250" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
+<path d="M460 242 L512 274 M512 242 L460 274" class="d-tachado" stroke="#ff5a45" stroke-width="4" stroke-linecap="round" fill="none"/>
+<text x="486" y="294" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">SEL sin puente</text>
+<path d="M184 120 C230 120 240 115 274 115" class="d-cable-usb" stroke="#6b7c90" stroke-width="7" fill="none" stroke-linecap="round"/>
+<text x="236" y="104" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41" text-anchor="middle">USB</text>
+<text x="236" y="146" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">datos y 5 V</text>
+<text x="236" y="162" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">para el Arduino</text>
 <g class="d-fuente">
-  <rect x="40" y="400" width="130" height="92" rx="14" class="d-adaptador"/>
-  <rect x="22" y="424" width="20" height="9" rx="2" class="d-metal"/><rect x="22" y="458" width="20" height="9" rx="2" class="d-metal"/>
-  <text x="105" y="440" class="d-t claro" text-anchor="middle">Fuente</text>
-  <text x="105" y="460" class="d-t claro chico" text-anchor="middle">5 a 6 V · 3 A o más</text>
+  <rect x="40" y="400" width="130" height="92" rx="14" class="d-adaptador" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+  <rect x="22" y="424" width="20" height="9" rx="2" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/><rect x="22" y="458" width="20" height="9" rx="2" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/>
+  <text x="105" y="440" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">Fuente</text>
+  <text x="105" y="460" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">5 a 6 V · 3 A o más</text>
 </g>
-<path d="M170 446 C210 446 200 470 236 470" class="d-cable-dc"/>
-<rect x="236" y="456" width="56" height="30" rx="4" class="d-adaptador-bornera"/>
-<text x="264" y="510" class="d-t chico" text-anchor="middle">plug a bornera</text>
-<path d="M292 464 L358 464 L358 271" class="d-cable-pos"/>
-<path d="M292 478 L396 478 L396 271" class="d-cable-neg"/>
-<text x="412" y="432" class="d-t">energía de los motores</text>
-<text x="412" y="448" class="d-t chico">no pasa por el Arduino</text>
-<path d="M429 114 L429 26 L732 26 L732 104 L770 104" class="d-funda"/>
-<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
-<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
-<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
-<rect x="770" y="74" width="120" height="60" rx="6" class="d-servo"/>
-<rect x="760" y="96" width="140" height="16" rx="3" class="d-servo-alas"/>
-<circle cx="864" cy="104" r="14" class="d-cuerno"/>
-<text x="814" y="109" class="d-t claro" text-anchor="middle">garra</text>
-<text x="814" y="154" class="d-t chico" text-anchor="middle">pin 3</text>
-<path d="M555 114 L555 34 L722 34 L722 216 L770 216" class="d-funda"/>
-<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
-<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
-<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
-<rect x="770" y="186" width="120" height="60" rx="6" class="d-servo"/>
-<rect x="760" y="208" width="140" height="16" rx="3" class="d-servo-alas"/>
-<circle cx="864" cy="216" r="14" class="d-cuerno"/>
-<text x="814" y="221" class="d-t claro" text-anchor="middle">base</text>
-<text x="814" y="266" class="d-t chico" text-anchor="middle">pin 9</text>
-<path d="M576 114 L576 42 L712 42 L712 328 L770 328" class="d-funda"/>
-<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
-<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
-<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
-<rect x="770" y="298" width="120" height="60" rx="6" class="d-servo"/>
-<rect x="760" y="320" width="140" height="16" rx="3" class="d-servo-alas"/>
-<circle cx="864" cy="328" r="14" class="d-cuerno"/>
-<text x="814" y="333" class="d-t claro" text-anchor="middle">altura</text>
-<text x="814" y="378" class="d-t chico" text-anchor="middle">pin 10</text>
-<path d="M597 114 L597 50 L702 50 L702 440 L770 440" class="d-funda"/>
-<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
-<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
-<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
-<rect x="770" y="410" width="120" height="60" rx="6" class="d-servo"/>
-<rect x="760" y="432" width="140" height="16" rx="3" class="d-servo-alas"/>
-<circle cx="864" cy="440" r="14" class="d-cuerno"/>
-<text x="814" y="445" class="d-t claro" text-anchor="middle">alcance</text>
-<text x="814" y="490" class="d-t chico" text-anchor="middle">pin 11</text>
-<text x="716" y="18" class="d-t chico" text-anchor="middle">señal de cada servo</text>
+<path d="M170 446 C210 446 200 470 236 470" class="d-cable-dc" stroke="#222" stroke-width="6" fill="none" stroke-linecap="round"/>
+<rect x="236" y="456" width="56" height="30" rx="4" class="d-adaptador-bornera" fill="#2fae5b" stroke="#111" stroke-width="2"/>
+<text x="264" y="510" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">plug a bornera</text>
+<path d="M292 464 L358 464 L358 271" class="d-cable-pos" stroke="#d6402b" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+<path d="M292 478 L396 478 L396 271" class="d-cable-neg" stroke="#111" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+<text x="412" y="432" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41">energía de los motores</text>
+<text x="412" y="448" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">no pasa por el Arduino</text>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<rect x="770" y="74" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="760" y="96" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<circle cx="864" cy="104" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
+<text x="814" y="109" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">garra</text>
+<text x="814" y="154" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 3</text>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<rect x="770" y="186" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="760" y="208" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<circle cx="864" cy="216" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
+<text x="814" y="221" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">base</text>
+<text x="814" y="266" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 9</text>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<rect x="770" y="298" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="760" y="320" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<circle cx="864" cy="328" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
+<text x="814" y="333" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">altura</text>
+<text x="814" y="378" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 10</text>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
+<rect x="770" y="410" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="760" y="432" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<circle cx="864" cy="440" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
+<text x="814" y="445" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">alcance</text>
+<text x="814" y="490" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 11</text>
+<text x="716" y="18" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">señal de cada servo</text>
 <g transform="translate(470 470)">
-  <rect x="0" y="0" width="250" height="70" rx="8" class="d-recuadro"/>
-  <text x="14" y="22" class="d-t chico">Conector del servo</text>
-  <rect x="16" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="42" y="49" class="d-t chico">G marrón</text>
-  <rect x="98" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="124" y="49" class="d-t chico">V rojo</text>
-  <rect x="170" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="196" y="49" class="d-t chico">S naranja</text>
+  <rect x="0" y="0" width="250" height="70" rx="8" class="d-recuadro" fill="#ffffff" stroke="#cfd8e3" stroke-width="2"/>
+  <text x="14" y="22" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">Conector del servo</text>
+  <rect x="16" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="42" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">G marrón</text>
+  <rect x="98" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="124" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">V rojo</text>
+  <rect x="170" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="196" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">S naranja</text>
 </g>
 </svg>
 <!-- /diagrama:conexiones -->
@@ -611,6 +611,21 @@
     <p>Departamento de Ingeniería Mecánica, Universidad de los Andes. Actividad «Al alcance de la mano».</p>
   </footer>
 
-  <script type="module" src="js/app.js"></script>
+  <!-- mapa-modulos -->
+  <script type="importmap">
+{
+  "imports": {
+    "./js/brazo.js": "./js/brazo.js?v=a788691a45",
+    "./js/camara.js": "./js/camara.js?v=56a717bb08",
+    "./js/deteccion.js": "./js/deteccion.js?v=fc080b4d41",
+    "./js/mapeo.js": "./js/mapeo.js?v=800722691e",
+    "./js/programador.js": "./js/programador.js?v=c1c59d6556",
+    "./js/protocolo.js": "./js/protocolo.js?v=2757a2fa31",
+    "./vendor/mediapipe/vision_bundle.mjs": "./vendor/mediapipe/vision_bundle.mjs?v=d885630c29"
+  }
+}
+  </script>
+  <!-- /mapa-modulos -->
+  <script type="module" src="js/app.js?v=2787a32855"></script>
 </body>
 </html>

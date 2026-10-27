@@ -907,6 +907,8 @@ const esTelefono = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
   || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
 if (esTelefono) {
   document.body.classList.add('modo-telefono');
+  for (const el of document.querySelectorAll('.solo-telefono')) el.hidden = false;
+  for (const el of document.querySelectorAll('.solo-computador')) el.hidden = true;
   aviso('telefono', 'Desde el teléfono se puede probar la detección de la mano y leer cómo funciona. Para mover el brazo, abra esta página en un computador con Chrome o Edge.');
 } else if (!('serial' in navigator)) {
   aviso('navegador', 'Este navegador no puede conectarse con el Arduino. La detección de la mano funciona igual, pero para mover el brazo abra esta página en Google Chrome o Microsoft Edge.', { grave: true });
@@ -922,7 +924,15 @@ iniciarCamara(idGuardado).catch(() => {});
 if (!esTelefono) brazo.reconectar().catch(() => {});
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  // Se pide revisar si hay una version nueva al cargar y cada 30 minutos.
+  // Chrome no siempre lo hace solo al recargar, y sin esto una
+  // actualizacion publicada podia tardar en llegar.
+  navigator.serviceWorker.register('sw.js')
+    .then((registro) => {
+      registro.update().catch(() => {});
+      setInterval(() => registro.update().catch(() => {}), 30 * 60 * 1000);
+    })
+    .catch(() => {});
 }
 
 // Para depurar desde la consola del navegador.

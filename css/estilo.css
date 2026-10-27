@@ -279,7 +279,7 @@ kbd, code {
 /* Control manual sobre el dibujo del brazo. Cada boton se centra en el
    punto del dibujo que mueve. */
 .mando-brazo { position: relative; aspect-ratio: 640 / 430; margin: .6rem 0; }
-.dibujo-brazo { width: 100%; height: 100%; display: block; }
+.mando-brazo svg { width: 100%; height: 100%; display: block; }
 .b-base { fill: #e4eefc; stroke: var(--marino); stroke-width: 3; }
 .b-base-lado { fill: #c9d8ec; stroke: var(--marino); stroke-width: 3; }
 .b-tornamesa { fill: #f6f9fd; stroke: var(--marino); stroke-width: 2.5; }
