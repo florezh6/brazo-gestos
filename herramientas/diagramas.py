@@ -116,41 +116,83 @@ def conexiones():
     return '\n'.join(s)
 
 
+def _barra(a, b, ancho_a, ancho_b):
+    """Pieza impresa conica entre dos ejes, con extremos redondeados."""
+    import math
+    (x1, y1), (x2, y2) = a, b
+    dx, dy = x2 - x1, y2 - y1
+    largo = math.hypot(dx, dy)
+    nx, ny = -dy / largo, dx / largo
+    ra, rb = ancho_a / 2, ancho_b / 2
+    p1 = (x1 + nx * ra, y1 + ny * ra); p2 = (x2 + nx * rb, y2 + ny * rb)
+    p3 = (x2 - nx * rb, y2 - ny * rb); p4 = (x1 - nx * ra, y1 - ny * ra)
+    return (f'M{p1[0]:.1f} {p1[1]:.1f} L{p2[0]:.1f} {p2[1]:.1f} '
+            f'A{rb} {rb} 0 0 0 {p3[0]:.1f} {p3[1]:.1f} L{p4[0]:.1f} {p4[1]:.1f} '
+            f'A{ra} {ra} 0 0 0 {p1[0]:.1f} {p1[1]:.1f} Z')
+
+
+def _ranura(a, b, t1, t2):
+    """Agujero de alivianamiento a lo largo de una barra, entre t1 y t2."""
+    (x1, y1), (x2, y2) = a, b
+    return (f'M{x1 + (x2 - x1) * t1:.1f} {y1 + (y2 - y1) * t1:.1f} '
+            f'L{x1 + (x2 - x1) * t2:.1f} {y1 + (y2 - y1) * t2:.1f}')
+
+
 def brazo():
-    W, H = 640, 430
+    """EEZYbotARM MK2 de perfil, mirando a la derecha: base con engranaje,
+    cuerpo con el servo del hombro, brazo principal, brazo horizontal que
+    sigue detras del codo, varilla trasera y varilla superior del
+    paralelogramo, y pinza de dos dedos con su SG90."""
+    W, H = 700, 440
     s = [f'<svg viewBox="0 0 {W} {H}" data-dibujo="brazo" aria-hidden="true">']
-    s.append('''<defs>
-  <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta"/></marker>
-</defs>''')
-    # base: caja, tornamesa
-    s.append('<path d="M110 360 L110 386 A150 32 0 0 0 410 386 L410 360" class="b-base-lado"/>')
-    s.append('<ellipse cx="260" cy="360" rx="150" ry="32" class="b-base"/>')
-    s.append('<ellipse cx="260" cy="346" rx="96" ry="20" class="b-tornamesa"/>')
-    # flechas de giro sobre el frente de la base
-    s.append('<path d="M206 399 A150 32 0 0 1 114 370" class="b-mov" marker-end="url(#b-flecha)"/>')
-    s.append('<path d="M314 399 A150 32 0 0 0 406 370" class="b-mov" marker-end="url(#b-flecha)"/>')
-    # torre con sus dos servos
-    s.append('<path d="M215 346 L225 250 L295 250 L305 346 Z" class="b-pieza"/>')
-    s.append('<rect x="196" y="268" width="34" height="58" rx="5" class="b-servo"/>')
-    s.append('<rect x="290" y="268" width="34" height="58" rx="5" class="b-servo"/>')
-    # brazo principal y antebrazo (barras con contorno)
-    for d in ('M260 258 L330 116', 'M330 116 L505 158'):
-        s.append(f'<path d="{d}" class="b-barra-borde"/><path d="{d}" class="b-barra"/>')
-    # varillas del paralelogramo
-    s.append('<path d="M282 276 L350 136" class="b-varilla"/>')
-    s.append('<path d="M350 136 L512 176" class="b-varilla"/>')
-    s.append('<path d="M330 116 L350 136 L340 96 Z" class="b-pieza"/>')
-    # garra tipo canasta y su servo
-    s.append('<rect x="494" y="128" width="30" height="24" rx="4" class="b-servo"/>')
-    s.append('<path d="M500 166 C486 196 492 222 514 232" class="b-garra"/>')
-    s.append('<path d="M520 166 C546 192 544 220 522 234" class="b-garra"/>')
-    for cx, cy, r in ((260, 258, 12), (330, 116, 11), (505, 158, 9), (282, 276, 6), (350, 136, 6)):
+    s.append("""<defs>
+  <marker id="b-flecha" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta"/></marker>
+</defs>""")
+    hombro, codo, trasero, muneca, triangulo = (262, 268), (330, 96), (284, 88), (520, 150), (348, 64)
+    # piso, sombra y base con sus patas
+    s.append('<ellipse cx="262" cy="402" rx="170" ry="14" class="b-sombra"/>')
+    s.append('<path d="M128 400 L150 380 L176 380 L176 400 Z M396 400 L374 380 L350 380 L350 400 Z" class="b-pieza"/>')
+    s.append('<rect x="160" y="318" width="206" height="82" rx="30" class="b-pieza"/>')
+    # servo de la base, vertical, con su engranaje acostado arriba
+    s.append('<rect x="304" y="304" width="40" height="72" rx="5" class="b-servo"/>')
+    s.append('<rect x="298" y="318" width="52" height="10" rx="2" class="b-servo-alas"/>')
+    s.append('<ellipse cx="262" cy="318" rx="74" ry="14" class="b-engranaje"/>')
+    # flechas de giro alrededor de la base
+    s.append('<path d="M232 344 A110 26 0 0 1 152 322" class="b-mov" marker-end="url(#b-flecha)"/>')
+    s.append('<path d="M292 344 A110 26 0 0 0 372 322" class="b-mov" marker-end="url(#b-flecha)"/>')
+    # cuerpo que gira, con el servo grande del hombro
+    s.append('<path d="M196 318 L208 246 L300 246 L322 318 Z" class="b-pieza"/>')
+    s.append('<rect x="230" y="252" width="64" height="58" rx="6" class="b-servo"/>')
+    s.append('<rect x="222" y="270" width="80" height="10" rx="2" class="b-servo-alas"/>')
+    # varilla trasera: de la palanca del segundo servo al extremo trasero del brazo horizontal
+    s.append(f'<path d="M214 280 L{trasero[0]} {trasero[1]}" class="b-varilla"/>')
+    s.append(f'<path d="M222 282 L{trasero[0] + 8} {trasero[1] + 2}" class="b-varilla"/>')
+    # brazo principal, ancho y con ranuras
+    s.append(f'<path d="{_barra(hombro, codo, 44, 32)}" class="b-pieza"/>')
+    s.append(f'<path d="{_ranura(hombro, codo, 0.22, 0.46)}" class="b-ranura"/>')
+    s.append(f'<path d="{_ranura(hombro, codo, 0.56, 0.8)}" class="b-ranura"/>')
+    # placa triangular del codo y varilla superior hasta la pinza
+    s.append(f'<path d="M{codo[0]} {codo[1]} L{triangulo[0]} {triangulo[1]} L362 104 Z" class="b-pieza"/>')
+    s.append(f'<path d="M{triangulo[0]} {triangulo[1]} L540 120" class="b-varilla"/>')
+    # brazo horizontal, que sigue detras del codo
+    s.append(f'<path d="{_barra(trasero, muneca, 30, 22)}" class="b-pieza"/>')
+    s.append(f'<path d="{_ranura(codo, muneca, 0.16, 0.48)}" class="b-ranura"/>')
+    s.append(f'<path d="{_ranura(codo, muneca, 0.58, 0.84)}" class="b-ranura"/>')
+    # pinza: soporte, SG90 encima y dos dedos planos
+    s.append('<path d="M528 118 L548 118 L556 150 L540 172 L520 164 Z" class="b-pieza"/>')
+    s.append('<rect x="556" y="128" width="40" height="22" rx="4" class="b-servo"/>')
+    s.append('<rect x="540" y="150" width="70" height="16" rx="5" class="b-pieza"/>')
+    s.append('<path d="M604 150 L646 146 L652 136 L658 140 L652 154 L606 158 Z" class="b-dedo"/>')
+    s.append('<path d="M604 166 L646 170 L652 180 L658 176 L652 162 L606 158 Z" class="b-dedo"/>')
+    # ejes con su tornillo
+    for (cx, cy, r) in ((262, 268, 14), (330, 96, 11), (284, 88, 8), (520, 150, 9), (214, 280, 7), (348, 64, 7), (540, 120, 7)):
         s.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" class="b-eje"/>')
-    # movimiento de la altura: el antebrazo sube y baja
-    s.append('<path d="M440 112 L440 66" class="b-mov" marker-end="url(#b-flecha)"/>')
-    s.append('<path d="M440 182 L440 228" class="b-mov" marker-end="url(#b-flecha)"/>')
-    # garra: una guia del dedo de la garra a sus dos botones
-    s.append('<path d="M530 238 L560 266" class="b-guia"/>')
+        s.append(f'<circle cx="{cx}" cy="{cy}" r="{max(2, r // 3)}" class="b-tornillo"/>')
+    # subir y bajar: el brazo horizontal entero
+    s.append('<path d="M470 100 L470 62" class="b-mov" marker-end="url(#b-flecha)"/>')
+    s.append('<path d="M470 178 L470 216" class="b-mov" marker-end="url(#b-flecha)"/>')
+    # guia de la pinza a sus botones
+    s.append('<path d="M640 182 L640 226" class="b-guia"/>')
     s.append('</svg>')
     return '\n'.join(s)
 
@@ -191,6 +233,12 @@ ESTILOS = {
     'd-cuerno': 'fill="#f6f9fd" stroke="#111" stroke-width="2.5"',
     'd-recuadro': 'fill="#ffffff" stroke="#cfd8e3" stroke-width="2"',
     'd-punta': 'fill="#1b2c41"',
+    'b-engranaje': 'fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-dasharray="5 3"',
+    'b-sombra': 'fill="#1b2c41" fill-opacity="0.08"',
+    'b-ranura': 'stroke="#c9d6e8" stroke-width="7" stroke-linecap="round" fill="none"',
+    'b-tornillo': 'fill="#1b2c41"',
+    'b-servo-alas': 'fill="#3b4c63" stroke="#111" stroke-width="2"',
+    'b-dedo': 'fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"',
     'b-base': 'fill="#e4eefc" stroke="#1b2c41" stroke-width="3"',
     'b-base-lado': 'fill="#c9d8ec" stroke="#1b2c41" stroke-width="3"',
     'b-tornamesa': 'fill="#f6f9fd" stroke="#1b2c41" stroke-width="2.5"',

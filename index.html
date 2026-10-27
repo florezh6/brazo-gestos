@@ -6,7 +6,7 @@
   <title>Al alcance de la mano</title>
   <meta name="description" content="Actividad del Departamento de Ingeniería Mecánica de la Universidad de los Andes: un brazo robótico que obedece gestos de la mano reconocidos con inteligencia artificial.">
   <link rel="icon" href="marca/mechita-cara.png" type="image/png">
-  <link rel="stylesheet" href="css/estilo.css?v=299a256427">
+  <link rel="stylesheet" href="css/estilo.css?v=0ee5588b14">
 </head>
 <body>
   <header class="cabecera">
@@ -146,13 +146,13 @@
       <article>
         <h2>Lo mecánico</h2>
         <h3>Un mecanismo de paralelogramo</h3>
-        <p>El brazo EEZYbotARM une sus barras formando paralelogramos. Así la garra conserva su orientación mientras el brazo sube, baja o se estira, sin un motor dedicado a la muñeca. Es el mismo principio de las lámparas de escritorio articuladas y de muchos brazos de paletizado industrial.</p>
+        <p>El brazo EEZYbotARM MK2 une sus barras formando paralelogramos. Así la garra conserva su orientación mientras el brazo sube, baja o se estira, sin un motor dedicado a la muñeca. Es el mismo principio de las lámparas de escritorio articuladas y de muchos brazos de paletizado industrial.</p>
         <h3>Servomotores</h3>
         <p>Un servo es un motor con una caja de engranajes y un sensor de posición. El Arduino le indica el ángulo con un pulso eléctrico de entre 0,5 y 2,4 milisegundos que se repite 50 veces por segundo. El servo empuja con una fuerza proporcional a la distancia entre donde está y donde se le pidió estar.</p>
         <h3>Par contra la gravedad</h3>
         <p>Subir el brazo exige mucho más par que girar la base, porque el motor de la altura levanta todo el peso del brazo con un brazo de palanca largo. Por eso el programa manda la altura directo al extremo, para que el servo empuje con toda su fuerza desde el primer instante, y la baja en pasos cortos para no dejar caer el objeto.</p>
         <h3>Energía y seguridad</h3>
-        <p>Cada servo puede pedir más de un amperio al arrancar, cinco veces lo que entrega el Arduino. Por eso los motores se alimentan de una fuente aparte. Y si se corta la comunicación, por un cable que se suelta o una pestaña que se cierra, el Arduino detiene el brazo en menos de medio segundo.</p>
+        <p>Los servos piden al arrancar mucha más corriente de la que puede entregar el Arduino. Por eso los motores se alimentan de una fuente aparte. Y si se corta la comunicación, por un cable que se suelta o una pestaña que se cierra, el Arduino detiene el brazo en menos de medio segundo.</p>
       </article>
 
       <article>
@@ -187,6 +187,7 @@
         <div class="preparar" id="bloque-preparar">
           <h3>Preparar la placa</h3>
           <p>Carga en el Arduino el programa del taller. Hace falta una vez por placa, o cuando la placa trae otro programa. Sirve para Arduino Uno y Nano, originales o clones. Con un Uno tarda unos 6 segundos y con un Nano de bootloader viejo puede tardar más. Durante ese tiempo no hay que desconectar el cable.</p>
+          <p class="advertencia">Antes de preparar la placa, desconecte la fuente de los servos. Al cargar el programa la placa se reinicia varias veces, y con la fuente conectada los servos saltan de golpe a su posición de arranque en cada reinicio.</p>
           <div class="acciones">
             <button class="boton" id="boton-preparar">Preparar la placa</button>
           </div>
@@ -202,43 +203,62 @@
         <p class="detalle">Cada botón está donde se mueve esa parte del brazo. Los de girar funcionan mientras se mantengan presionados.</p>
         <div class="mando-brazo" id="manual">
           <!-- diagrama:brazo -->
-<svg viewBox="0 0 640 430" data-dibujo="brazo" aria-hidden="true">
+<svg viewBox="0 0 700 440" data-dibujo="brazo" aria-hidden="true">
 <defs>
-  <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta" fill="#1f5fc8"/></marker>
+  <marker id="b-flecha" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta" fill="#1f5fc8"/></marker>
 </defs>
-<path d="M110 360 L110 386 A150 32 0 0 0 410 386 L410 360" class="b-base-lado" fill="#c9d8ec" stroke="#1b2c41" stroke-width="3"/>
-<ellipse cx="260" cy="360" rx="150" ry="32" class="b-base" fill="#e4eefc" stroke="#1b2c41" stroke-width="3"/>
-<ellipse cx="260" cy="346" rx="96" ry="20" class="b-tornamesa" fill="#f6f9fd" stroke="#1b2c41" stroke-width="2.5"/>
-<path d="M206 399 A150 32 0 0 1 114 370" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
-<path d="M314 399 A150 32 0 0 0 406 370" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
-<path d="M215 346 L225 250 L295 250 L305 346 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
-<rect x="196" y="268" width="34" height="58" rx="5" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
-<rect x="290" y="268" width="34" height="58" rx="5" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
-<path d="M260 258 L330 116" class="b-barra-borde" stroke="#1b2c41" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M260 258 L330 116" class="b-barra" stroke="#f6f9fd" stroke-width="17" stroke-linecap="round" fill="none"/>
-<path d="M330 116 L505 158" class="b-barra-borde" stroke="#1b2c41" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M330 116 L505 158" class="b-barra" stroke="#f6f9fd" stroke-width="17" stroke-linecap="round" fill="none"/>
-<path d="M282 276 L350 136" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
-<path d="M350 136 L512 176" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
-<path d="M330 116 L350 136 L340 96 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
-<rect x="494" y="128" width="30" height="24" rx="4" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
-<path d="M500 166 C486 196 492 222 514 232" class="b-garra" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/>
-<path d="M520 166 C546 192 544 220 522 234" class="b-garra" stroke="#111" stroke-width="8" stroke-linecap="round" fill="none"/>
-<circle cx="260" cy="258" r="12" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
-<circle cx="330" cy="116" r="11" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
-<circle cx="505" cy="158" r="9" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
-<circle cx="282" cy="276" r="6" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
-<circle cx="350" cy="136" r="6" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
-<path d="M440 112 L440 66" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
-<path d="M440 182 L440 228" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
-<path d="M530 238 L560 266" class="b-guia" stroke="#52637a" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
+<ellipse cx="262" cy="402" rx="170" ry="14" class="b-sombra" fill="#1b2c41" fill-opacity="0.08"/>
+<path d="M128 400 L150 380 L176 380 L176 400 Z M396 400 L374 380 L350 380 L350 400 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="160" y="318" width="206" height="82" rx="30" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="304" y="304" width="40" height="72" rx="5" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="298" y="318" width="52" height="10" rx="2" class="b-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<ellipse cx="262" cy="318" rx="74" ry="14" class="b-engranaje" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-dasharray="5 3"/>
+<path d="M232 344 A110 26 0 0 1 152 322" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M292 344 A110 26 0 0 0 372 322" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M196 318 L208 246 L300 246 L322 318 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="230" y="252" width="64" height="58" rx="6" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="222" y="270" width="80" height="10" rx="2" class="b-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
+<path d="M214 280 L284 88" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M222 282 L292 90" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M282.5 276.1 L344.9 101.9 A16.0 16.0 0 0 0 315.1 90.1 L241.5 259.9 A22.0 22.0 0 0 0 282.5 276.1 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<path d="M277.0 230.2 L293.3 188.9" class="b-ranura" stroke="#c9d6e8" stroke-width="7" stroke-linecap="round" fill="none"/>
+<path d="M300.1 171.7 L316.4 130.4" class="b-ranura" stroke="#c9d6e8" stroke-width="7" stroke-linecap="round" fill="none"/>
+<path d="M330 96 L348 64 L362 104 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<path d="M348 64 L540 120" class="b-varilla" stroke="#1b2c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M280.2 102.5 L517.2 160.6 A11.0 11.0 0 0 0 522.8 139.4 L287.8 73.5 A15.0 15.0 0 0 0 280.2 102.5 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<path d="M360.4 104.6 L421.2 121.9" class="b-ranura" stroke="#c9d6e8" stroke-width="7" stroke-linecap="round" fill="none"/>
+<path d="M440.2 127.3 L489.6 141.4" class="b-ranura" stroke="#c9d6e8" stroke-width="7" stroke-linecap="round" fill="none"/>
+<path d="M528 118 L548 118 L556 150 L540 172 L520 164 Z" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<rect x="556" y="128" width="40" height="22" rx="4" class="b-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
+<rect x="540" y="150" width="70" height="16" rx="5" class="b-pieza" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<path d="M604 150 L646 146 L652 136 L658 140 L652 154 L606 158 Z" class="b-dedo" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<path d="M604 166 L646 170 L652 180 L658 176 L652 162 L606 158 Z" class="b-dedo" fill="#f6f9fd" stroke="#1b2c41" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="262" cy="268" r="14" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="262" cy="268" r="4" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="330" cy="96" r="11" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="330" cy="96" r="3" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="284" cy="88" r="8" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="284" cy="88" r="2" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="520" cy="150" r="9" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="520" cy="150" r="3" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="214" cy="280" r="7" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="214" cy="280" r="2" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="348" cy="64" r="7" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="348" cy="64" r="2" class="b-tornillo" fill="#1b2c41"/>
+<circle cx="540" cy="120" r="7" class="b-eje" fill="#ffe500" stroke="#111" stroke-width="3"/>
+<circle cx="540" cy="120" r="2" class="b-tornillo" fill="#1b2c41"/>
+<path d="M470 100 L470 62" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M470 178 L470 216" class="b-mov" stroke="#1f5fc8" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#b-flecha)"/>
+<path d="M640 182 L640 226" class="b-guia" stroke="#52637a" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
 </svg>
 <!-- /diagrama:brazo -->
-          <button class="boton control" data-letra="s" style="left:68.8%;top:8.8%">Subir <kbd>s</kbd></button>
-          <button class="boton control" data-letra="b" style="left:68.8%;top:59.5%">Bajar <kbd>b</kbd></button>
-          <button class="boton control" data-letra="o" style="left:86.9%;top:64.2%">Abrir garra <kbd>o</kbd></button>
-          <button class="boton control" data-letra="c" style="left:86.9%;top:78.1%">Cerrar garra <kbd>c</kbd></button>
-          <button class="boton control" data-letra="i" style="left:20.6%;top:94.4%">Girar a la izquierda <kbd>i</kbd></button>
-          <button class="boton control" data-letra="d" style="left:60.6%;top:94.4%">Girar a la derecha <kbd>d</kbd></button>
-          <button class="boton control pausa" data-letra="p" style="left:10.0%;top:7.0%">Pausa <kbd>p</kbd></button>
+          <button class="boton control" data-letra="s" style="left:67.1%;top:9.1%">Subir <kbd>s</kbd></button>
+          <button class="boton control" data-letra="b" style="left:67.1%;top:54.5%">Bajar <kbd>b</kbd></button>
+          <button class="boton control" data-letra="o" style="left:91.4%;top:56.8%">Abrir garra <kbd>o</kbd></button>
+          <button class="boton control" data-letra="c" style="left:91.4%;top:67.3%">Cerrar garra <kbd>c</kbd></button>
+          <button class="boton control" data-letra="i" style="left:20.0%;top:96.4%">Girar a la izquierda <kbd>i</kbd></button>
+          <button class="boton control" data-letra="d" style="left:54.9%;top:96.4%">Girar a la derecha <kbd>d</kbd></button>
+          <button class="boton control pausa" data-letra="p" style="left:10.0%;top:6.8%">Pausa <kbd>p</kbd></button>
         </div>
         <p class="ayuda">Izquierda y derecha se ven desde atrás del brazo, mirando hacia donde apunta la garra. Si el brazo gira al revés, intercambie los dos topes de la base en «Límites y posiciones».</p>
       </section>
@@ -254,7 +274,7 @@
     <section class="tarjeta" aria-labelledby="t-posiciones">
       <h2 id="t-posiciones">Límites y posiciones</h2>
       <p class="detalle">Cada cambio lleva el servo a ese ángulo para que se vea dónde queda. Conviene avanzar de a 5 grados y detenerse en cuanto el servo zumbe o llegue al tope.</p>
-      <p class="advertencia" id="advertencia-garra">Si se manda un servo más allá del tope mecánico de su pieza, el motor sigue empujando contra el tope sin poder llegar. Consume mucha corriente, se calienta en pocos minutos y puede dañar sus engranajes. Se reconoce porque zumba quieto. En la garra pasa al pedirle que cierre más de lo que la canasta permite. Para corregirlo, devuelva el valor 5 grados hacia adentro hasta que el zumbido pare y guarde.</p>
+      <p class="advertencia" id="advertencia-garra">Si se manda un servo más allá del tope mecánico de su pieza, el motor sigue empujando contra el tope sin poder llegar. Consume mucha corriente, se calienta en pocos minutos y puede dañar sus engranajes. Se reconoce porque zumba quieto. En la garra pasa al pedirle que cierre más de lo que sus dedos permiten. Para corregirlo, devuelva el valor 5 grados hacia adentro hasta que el zumbido pare y guarde.</p>
       <div class="posiciones" id="posiciones"></div>
       <p class="aviso-config" id="aviso-posiciones" role="alert"></p>
       <div class="acciones guardar">
@@ -328,11 +348,11 @@
         <ul>
           <li>Un portátil Windows o Mac con cámara, o con una cámara web.</li>
           <li>Google Chrome o Microsoft Edge. Safari y Firefox muestran la detección de la mano, pero no pueden comunicarse con el Arduino.</li>
-          <li>El brazo EEZYbotARM armado, con sus cuatro servos MG995 o similares.</li>
+          <li>El brazo EEZYbotARM MK2 armado, con tres servos MG995 o MG946 para la base, la altura y el alcance, y un servo SG90 para la garra.</li>
           <li>Un Arduino Uno o Nano con un Sensor Shield V5.</li>
           <li>Una fuente de 5 a 6 V que entregue al menos 3 A, con un adaptador de plug a bornera.</li>
           <li>Un cable USB de datos para el Arduino. Hay cables que solo cargan y no transmiten datos.</li>
-          <li>Un objeto liviano que quepa dentro de la garra cerrada, y dos puntos marcados en la mesa, A y B, a la misma distancia de la base del brazo.</li>
+          <li>Un objeto liviano que la pinza pueda sujetar, y dos puntos marcados en la mesa, A y B, a la misma distancia de la base del brazo.</li>
         </ul>
       </section>
 
@@ -481,7 +501,7 @@
         </figure>
         <p>Hay tres detalles que deciden si funciona o no.</p>
         <ol>
-          <li><strong>Los servos se alimentan de la fuente, nunca del USB.</strong> Un servo MG995 puede pedir más de 1 A al arrancar y el Arduino entrega unos 0,2 A. Alimentados desde el USB, la placa se reinicia apenas el brazo se mueve.</li>
+          <li><strong>Los servos se alimentan de la fuente, nunca del USB.</strong> Al moverse piden mucha más corriente de la que puede entregar el Arduino por el USB. Alimentados desde el USB, la placa se reinicia apenas el brazo se mueve.</li>
           <li><strong>El puente SEL del shield se quita antes de conectar la fuente.</strong> Ese puente une la alimentación de los servos con la del Arduino. Si se deja puesto, la fuente queda conectada directo al Arduino y lo puede dañar. Con el puente retirado, el Arduino se alimenta del USB, los servos de la fuente, y el shield une las tierras.</li>
           <li><strong>La polaridad de la fuente.</strong> En casi todos los adaptadores de pared el positivo es el centro del plug. La etiqueta del adaptador lo indica con un círculo y un punto en el centro marcado con +.</li>
         </ol>
@@ -505,7 +525,7 @@
           <li>Abra la página en Chrome o Edge. Cuando el navegador pregunte por la cámara, elija «Permitir».</li>
           <li>Conecte el Arduino por USB y encienda la fuente de los servos.</li>
           <li>Presione «Conectar brazo», elija la placa en la lista y presione «Conectar». La placa se reinicia al conectarse y responde en unos 3 segundos.</li>
-          <li>Si aparece «La placa no tiene el programa del taller», vaya a la pestaña Brazo y presione «Preparar la placa».</li>
+          <li>Si aparece «La placa no tiene el programa del taller», vaya a la pestaña Brazo y presione «Preparar la placa». Antes de preparar la placa, desconecte la fuente de los servos. Al cargar el programa la placa se reinicia varias veces, y con la fuente conectada los servos saltan de golpe a su posición de arranque en cada reinicio.</li>
           <li>En la pestaña Brazo, presione «Mover un poco» en cada servo y confirme que se mueve el que corresponde. Si se mueve otro, elija el pin correcto. Si ese pin lo tenía otro servo, los dos se intercambian.</li>
           <li>Revise los límites de cada servo con los botones de 5 en 5 grados y presione «Guardar en la placa». La placa conserva esos valores aunque se desconecte.</li>
           <li>Pruebe los seis gestos en la pestaña Actividad.</li>
