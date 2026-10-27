@@ -1,0 +1,3 @@
+Bootloaders de Arduino, copiados del nucleo arduino:avr 1.8.8, solo para las pruebas.
+optiboot_atmega328.hex: el del Arduino Uno y los Nano nuevos (licencia GPL v2, Optiboot).
+ATmegaBOOT_168_atmega328.hex: el "Old Bootloader" de los Nano clones (licencia GPL v2).

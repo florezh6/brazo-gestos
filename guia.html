@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guía del brazo por gestos</title>
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    .guia { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+    .guia h1 { font-size: 2rem; font-weight: 800; margin-bottom: .4rem; }
+    .guia h2 { font-size: 1.35rem; margin: 2.2rem 0 .6rem; }
+    .guia h3 { margin: 1.4rem 0 .4rem; }
+    .guia p, .guia li { max-width: 68ch; }
+    .guia ol, .guia ul { padding-left: 1.3rem; }
+    .guia li { margin-bottom: .35rem; }
+    .guia table { border-collapse: collapse; width: 100%; background: var(--superficie); margin: .6rem 0 1rem; }
+    .guia th, .guia td { text-align: left; padding: .45rem .7rem; border-bottom: 1px solid var(--papel); vertical-align: top; }
+    .guia .advertencia { margin: 1rem 0; }
+    .guia .volver { display: inline-block; margin-bottom: 1rem; }
+    .problema { margin: 1rem 0; }
+    .problema h3 { margin: 0 0 .25rem; }
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      .guia { padding: 0; max-width: none; }
+      .guia .volver { display: none; }
+      .guia h2 { break-after: avoid; }
+      .problema, table { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main class="guia">
+  <a class="volver" href="./">Volver a la actividad</a>
+  <h1>Guía del brazo por gestos</h1>
+  <p>Un brazo robótico que obedece gestos de la mano. La cámara del portátil ve la mano, un modelo de inteligencia artificial ubica 21 puntos sobre ella y la página cuenta cuántos dedos están levantados. Cada número de dedos es una orden para el brazo. Los estudiantes, en equipos, deciden qué orden va con cada gesto y luego intentan mover un objeto de un punto a otro con su propio diseño.</p>
+  <p>Todo corre en el navegador. No hay que instalar nada en el computador.</p>
+
+  <h2>Qué se necesita</h2>
+  <ul>
+    <li>Un portátil Windows o Mac con cámara, o con una cámara web.</li>
+    <li>Google Chrome o Microsoft Edge. Safari y Firefox muestran la detección, pero no pueden hablar con el Arduino.</li>
+    <li>El brazo EEZYbotARM armado, con un Arduino Uno o Nano y cuatro servos.</li>
+    <li>Una fuente de 5 a 6 V que entregue al menos 3 A para los servos.</li>
+    <li>Un cable USB de datos para el Arduino. Algunos cables solo cargan y no sirven.</li>
+    <li>Un formulario impreso por equipo, a doble cara. Se imprime desde la pestaña Formulario.</li>
+    <li>Un objeto liviano que quepa dentro de la garra cerrada, y dos puntos marcados en la mesa, A y B, a la misma distancia de la base del brazo.</li>
+  </ul>
+
+  <h2>Conexión eléctrica</h2>
+  <p>Los servos no se alimentan del Arduino. Cada servo MG995 puede pedir más de 1 A al moverse y el Arduino entrega unos 0,2 A. Si se alimentan del Arduino, la placa se reinicia sola en cuanto el brazo se mueve.</p>
+  <p class="advertencia">El negativo, o GND, de la fuente tiene que ir unido al GND del Arduino. Sin esa unión las señales no llegan bien y los servos se mueven al azar o no se mueven.</p>
+  <p>Cada servo tiene tres cables. El marrón o negro va al GND común, el rojo va al positivo de la fuente y el naranja o amarillo, que es la señal, va al pin del Arduino. Los pines de fábrica son estos:</p>
+  <table>
+    <thead><tr><th scope="col">Servo</th><th scope="col">Pin de señal</th><th scope="col">Qué mueve</th></tr></thead>
+    <tbody>
+      <tr><td>Base</td><td>D9</td><td>Gira todo el brazo a izquierda y derecha.</td></tr>
+      <tr><td>Altura</td><td>D10</td><td>Sube y baja el brazo.</td></tr>
+      <tr><td>Alcance</td><td>D11</td><td>Acerca o aleja la garra. Queda fijo durante la actividad.</td></tr>
+      <tr><td>Garra</td><td>D3</td><td>Abre y cierra la canasta.</td></tr>
+    </tbody>
+  </table>
+  <p>Si el brazo se armó con otros pines, no hay que cambiar ningún cable. Los pines se ajustan desde la pestaña Brazo, como se explica más abajo.</p>
+
+  <h2>La primera vez</h2>
+  <ol>
+    <li>Abra la página en Chrome o Edge. Cuando el navegador pregunte por la cámara, elija «Permitir».</li>
+    <li>Conecte el Arduino por USB y encienda la fuente de los servos.</li>
+    <li>Presione «Conectar brazo», arriba a la derecha, elija la placa en la lista y presione «Conectar». La placa se reinicia al conectarse y tarda unos 3 segundos en responder.</li>
+    <li>Si aparece «La placa no tiene el programa del taller», vaya a la pestaña Brazo y presione «Preparar la placa». Tarda unos 20 segundos. Hace falta una sola vez por placa.</li>
+    <li>En la pestaña Brazo, presione «Mover un poco» en cada servo y confirme que se mueve el que corresponde. Si se mueve otro, elija el pin correcto en la lista. Si el pin elegido ya lo tenía otro servo, los dos se intercambian solos.</li>
+    <li>Revise los límites con los botones de 5 en 5 grados. Cada cambio mueve el servo para que se vea dónde queda. Al terminar, presione «Guardar en la placa». La placa conserva los valores aunque se desconecte.</li>
+    <li>Vuelva a la pestaña Actividad y pruebe los seis gestos.</li>
+  </ol>
+  <p>Después de la primera visita, la página queda guardada en el navegador y funciona aunque el colegio no tenga internet ese día.</p>
+  <p class="advertencia">Cuidado con la garra. En el brazo original, 90° es la canasta cerrada del todo. Por debajo de ese ángulo el servo empuja contra el tope y se calienta. Si el brazo es distinto, busque el cierre subiendo desde abierta y deténgase en cuanto el servo zumbe.</p>
+
+  <h2>Cómo se hacen los gestos</h2>
+  <p>El sistema cuenta cuántos dedos hay levantados, de 0 a 5, sin importar cuáles. Dos instrucciones mejoran mucho la detección y conviene darlas al empezar:</p>
+  <ul>
+    <li>El dorso de la mano hacia la cámara, no la palma.</li>
+    <li>Para el 5, abrir bien la mano y separar el pulgar. En las pruebas, la mano abierta relajada se reconoció en uno de cada cuatro cuadros, y abierta a propósito en casi todos.</li>
+  </ul>
+  <p>Con esas dos instrucciones el sistema acertó el 98,8 % de los cuadros en las pruebas de agosto. Un gesto cuenta cuando se sostiene unos cinco cuadros seguidos, poco menos de un quinto de segundo.</p>
+  <p>Mostrar las dos manos es PAUSA y detiene el brazo, sea cual sea el diseño del equipo. Es una regla de seguridad fija. Si la mano sale del encuadre, el brazo también se queda quieto.</p>
+  <p>Girar a la izquierda o a la derecha dura mientras se sostenga el gesto. Subir, bajar, abrir y cerrar van al extremo de una vez y ahí se quedan, así que sostener el gesto no hace más.</p>
+
+  <h2>La actividad en una hora</h2>
+  <p>El reto es mover un objeto del punto A al punto B solo con gestos. Los grupos trabajan en equipos de 4 o 5 con cuatro roles que rotan entre intentos:</p>
+  <ul>
+    <li>Operador, que hace los gestos frente a la cámara.</li>
+    <li>Copiloto, que mira el brazo y le dice al operador qué corregir.</li>
+    <li>Cronómetro y juez, que mide el tiempo y revisa las reglas.</li>
+    <li>Registro, que anota qué funcionó y qué no para el cierre.</li>
+  </ul>
+  <p>La cámara apunta a las manos del operador, no al brazo. El operador queda de espaldas o de lado al robot y depende del copiloto, como en una teleoperación real.</p>
+  <table>
+    <thead><tr><th scope="col">Minuto</th><th scope="col">Qué pasa</th></tr></thead>
+    <tbody>
+      <tr><td>0 a 5</td><td>Se proyecta la cámara con los 21 puntos sobre la mano de un voluntario y se presenta el reto. Esta parte funciona aunque el brazo no esté conectado.</td></tr>
+      <tr><td>5 a 10</td><td>Se forman los equipos y se reparten los roles.</td></tr>
+      <tr><td>10 a 25</td><td>Cada equipo llena su formulario con la orden que va en cada gesto.</td></tr>
+      <tr><td>25 a 50</td><td>Turnos en el brazo, unos 5 minutos por equipo con un reintento. Los equipos que esperan anotan en su hoja qué creen que va a pasar con el diseño del otro.</td></tr>
+      <tr><td>50 a 60</td><td>Cierre con los diseños que funcionaron y por qué.</td></tr>
+    </tbody>
+  </table>
+  <p>Cada equipo puede corregir su diseño después del primer intento.</p>
+
+  <h3>Cargar el diseño de un equipo</h3>
+  <p>El formulario termina en seis casillas con una letra cada una, del gesto 0 al 5. Las letras son c cerrar garra, o abrir garra, i girar izquierda, d girar derecha, s subir y b bajar.</p>
+  <ol>
+    <li>Presione la tecla M, o haga clic en la primera casilla de «Diseño del equipo». Mientras se escribe, el brazo se queda quieto.</li>
+    <li>Escriba las seis letras de izquierda a derecha y presione Enter.</li>
+    <li>La tabla «Qué hace cada gesto» se actualiza al instante.</li>
+  </ol>
+  <p>La página no acepta letras repetidas ni menos de seis. Si un diseño deja el brazo imposible de manejar, la tecla F o el botón «Volver al de fábrica» recuperan el diseño conocido. Al final, «Descargar diseños usados» entrega la lista de diseños con su hora, útil para el cierre.</p>
+
+  <h3>Para proyectar</h3>
+  <p>El botón «Pantalla completa» deja solo el video y la tabla de gestos. Con Esc se sale.</p>
+
+  <h2>Si algo falla</h2>
+
+  <div class="problema">
+    <h3>No se ve la cámara</h3>
+    <p>Haga clic en el ícono de la cámara a la derecha de la barra de direcciones y elija «Permitir». Si ya estaba permitido, el bloqueo viene del sistema.</p>
+    <p>En Mac, abra Ajustes del Sistema › Privacidad y seguridad › Cámara, active Chrome o Edge y vuelva a abrir el navegador.</p>
+    <p>En Windows, abra Configuración › Privacidad y seguridad › Cámara y active «Permitir que las aplicaciones de escritorio accedan a la cámara».</p>
+    <p>Si dice que la cámara está ocupada, cierre Zoom, Teams, Meet u otra pestaña que la esté usando.</p>
+  </div>
+
+  <div class="problema">
+    <h3>La placa no aparece en la lista al conectar</h3>
+    <p>Pruebe otro cable USB, porque muchos solo cargan. Si la placa es un clon con chip CH340, Windows 10 y 11 suelen instalar el controlador solos la primera vez que se conecta, con internet. Si después de un minuto sigue sin aparecer, use «No aparece mi placa en la lista», en la pestaña Brazo, que muestra todos los puertos.</p>
+  </div>
+
+  <div class="problema">
+    <h3>«El puerto está ocupado»</h3>
+    <p>Otro programa tiene la placa abierta. Cierre el Arduino IDE, su Monitor Serie o cualquier otra pestaña con esta página, y vuelva a conectar.</p>
+  </div>
+
+  <div class="problema">
+    <h3>«El brazo se está usando en otra pestaña»</h3>
+    <p>La página está abierta dos veces. Solo una puede mandar órdenes al brazo, a propósito. Cierre la otra.</p>
+  </div>
+
+  <div class="problema">
+    <h3>El brazo se mueve solo o tiembla, o el Arduino se reinicia</h3>
+    <p>Casi siempre es la alimentación. Revise que los servos estén en la fuente externa y que el GND de la fuente esté unido al del Arduino.</p>
+  </div>
+
+  <div class="problema">
+    <h3>Un servo zumba o no tiene fuerza</h3>
+    <p>Si zumba quieto, está empujando contra un tope. Ajuste ese límite 5 grados hacia adentro en la pestaña Brazo y guarde. Si no tiene fuerza para subir, revise que las tuercas de las articulaciones no estén demasiado apretadas. Con el servo suelto, el brazo debe subir empujándolo con dos dedos.</p>
+  </div>
+
+  <div class="problema">
+    <h3>La detección falla durante la actividad</h3>
+    <p>Revise la luz y repita las dos instrucciones de los gestos. Si no se recupera, la pestaña Brazo tiene botones para mover el brazo a mano y terminar el turno.</p>
+  </div>
+
+  <div class="problema">
+    <h3>«El navegador tiene apagada la aceleración gráfica»</h3>
+    <p>La detección necesita la tarjeta gráfica del navegador. En Chrome escriba chrome://settings/system en la barra de direcciones; en Edge, edge://settings/system. Active «Usar aceleración de gráficos cuando esté disponible» y reinicie el navegador.</p>
+  </div>
+
+  <h2>Más detalle</h2>
+  <p>La pestaña Brazo tiene la lista de órdenes que entiende la placa y una consola con todo lo que se manda y se recibe. El código está en <a href="https://github.com/florezh6/brazo-gestos">github.com/florezh6/brazo-gestos</a>.</p>
+</main>
+</body>
+</html>

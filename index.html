@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brazo por gestos</title>
+  <meta name="description" content="Actividad del taller IMEC: un brazo robótico que obedece gestos de la mano, reconocidos con inteligencia artificial en el navegador.">
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="barra">
+    <h1 class="marca">Brazo por gestos</h1>
+    <nav class="pestanas" aria-label="Secciones">
+      <button class="pestana" data-pestana="actividad" aria-current="page">Actividad</button>
+      <button class="pestana" data-pestana="brazo">Brazo</button>
+      <a class="pestana" href="guia.html" target="_blank" rel="noopener">Guía</a>
+      <a class="pestana" href="formulario.html" target="_blank" rel="noopener">Formulario</a>
+    </nav>
+    <div class="estado-brazo" id="estado-brazo" data-estado="desconectado">
+      <span class="luz" aria-hidden="true"></span>
+      <span id="estado-texto">Brazo sin conectar</span>
+      <button class="boton" id="boton-conectar">Conectar brazo</button>
+    </div>
+  </header>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <!-- ============================ ACTIVIDAD ============================ -->
+  <main id="actividad" class="seccion actividad">
+    <div class="escenario" id="escenario">
+      <div class="lienzo-marco">
+        <video id="video" playsinline muted></video>
+        <canvas id="lienzo"></canvas>
+
+        <div class="cargando" id="cargando">
+          <p id="cargando-texto">Cargando el modelo de la mano…</p>
+        </div>
+
+        <div class="lectura" id="lectura" hidden>
+          <span class="lectura-numero" id="lectura-numero">–</span>
+          <span class="lectura-comando" id="lectura-comando"></span>
+        </div>
+        <p class="crudo" id="crudo">detectando: –</p>
+        <p class="quieto" id="quieto" hidden>El brazo está quieto mientras se carga el diseño de un equipo</p>
+      </div>
+
+      <aside class="tabla-mapeo" aria-label="Qué hace cada gesto">
+        <h2>Qué hace cada gesto</h2>
+        <ol class="filas-mapeo" id="filas-mapeo"></ol>
+        <p class="regla-pausa">Con las dos manos a la vista, <strong>PAUSA</strong>. Sin ninguna mano, el brazo también se queda quieto.</p>
+      </aside>
+    </div>
+
+    <div class="mando">
+      <form class="cargar-mapeo" id="form-mapeo" autocomplete="off">
+        <h2>Diseño del equipo</h2>
+        <p class="ayuda">Escriba las seis letras del formulario, del gesto 0 al 5, y presione Enter.</p>
+        <div class="casillas" id="casillas"></div>
+        <p class="chuleta"><span><kbd>c</kbd> cerrar garra</span><span><kbd>o</kbd> abrir garra</span><span><kbd>i</kbd> girar izquierda</span><span><kbd>d</kbd> girar derecha</span><span><kbd>s</kbd> subir</span><span><kbd>b</kbd> bajar</span></p>
+        <p class="aviso-mapeo" id="aviso-mapeo" role="alert"></p>
+        <div class="acciones">
+          <button type="submit" class="boton principal">Aplicar diseño</button>
+          <button type="button" class="boton" id="boton-fabrica">Volver al de fábrica</button>
+        </div>
+      </form>
+
+      <div class="ajustes-actividad">
+        <h2>Cámara y proyección</h2>
+        <label class="campo">
+          <span>Cámara</span>
+          <select id="selector-camara"><option value="">Sin cámara todavía</option></select>
+        </label>
+        <div class="acciones">
+          <button type="button" class="boton" id="boton-pantalla">Pantalla completa</button>
+          <button type="button" class="boton" id="boton-registro">Descargar diseños usados</button>
+        </div>
+        <p class="ayuda">Con <kbd>M</kbd> se carga un diseño, con <kbd>F</kbd> se vuelve al de fábrica y con <kbd>Esc</kbd> se cancela la carga. <span id="motor"></span></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================== BRAZO ============================== -->
+  <main id="brazo" class="seccion brazo" hidden>
+    <p class="aviso-seccion">Mientras esta pestaña está abierta, los gestos no mueven el brazo. Se mueve solo con los botones de aquí.</p>
+
+    <section class="bloque" aria-labelledby="t-conexion">
+      <h2 id="t-conexion">Conexión</h2>
+      <p id="conexion-detalle" class="detalle">Conecte el Arduino por USB y presione «Conectar brazo».</p>
+      <div class="acciones">
+        <button class="boton principal" id="boton-conectar-2">Conectar brazo</button>
+        <button class="boton" id="boton-desconectar" disabled>Desconectar</button>
+        <button class="boton enlace" id="boton-todos">No aparece mi placa en la lista</button>
+      </div>
+
+      <div class="preparar" id="bloque-preparar">
+        <h3>Preparar la placa</h3>
+        <p>Carga en el Arduino el programa del taller. Hace falta una sola vez por placa, o si la placa llegó con otro programa. Funciona con Arduino Uno y Nano. Tarda unos 20 segundos y no hay que tocar nada mientras tanto.</p>
+        <div class="acciones">
+          <button class="boton" id="boton-preparar">Preparar la placa</button>
+        </div>
+        <div class="progreso" id="progreso" hidden>
+          <progress id="barra-progreso" max="1" value="0"></progress>
+          <span id="texto-progreso"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque" aria-labelledby="t-manual">
+      <h2 id="t-manual">Control manual</h2>
+      <p class="detalle">Para probar el brazo sin la cámara, o si la detección falla durante la actividad. Mantenga presionado un botón de giro para girar.</p>
+      <div class="manual" id="manual">
+        <button class="boton" data-letra="i">Girar izquierda <kbd>i</kbd></button>
+        <button class="boton" data-letra="d">Girar derecha <kbd>d</kbd></button>
+        <button class="boton" data-letra="s">Subir <kbd>s</kbd></button>
+        <button class="boton" data-letra="b">Bajar <kbd>b</kbd></button>
+        <button class="boton" data-letra="o">Abrir garra <kbd>o</kbd></button>
+        <button class="boton" data-letra="c">Cerrar garra <kbd>c</kbd></button>
+        <button class="boton pausa" data-letra="p">Pausa <kbd>p</kbd></button>
+      </div>
+    </section>
+
+    <section class="bloque" aria-labelledby="t-pines">
+      <h2 id="t-pines">Pines de los servos</h2>
+      <p class="detalle">A qué pin del Arduino va el cable de señal de cada servo. «Mover un poco» sacude ese servo unos grados para reconocer cuál es.</p>
+      <div class="pines" id="pines"></div>
+      <p class="aviso-config" id="aviso-pines" role="alert"></p>
+    </section>
+
+    <section class="bloque" aria-labelledby="t-posiciones">
+      <h2 id="t-posiciones">Límites y posiciones</h2>
+      <p class="detalle">Cada cambio mueve el servo a ese ángulo para que se vea dónde queda. Vaya de a 5 grados y deténgase en cuanto el servo zumbe o llegue al tope.</p>
+      <p class="advertencia" id="advertencia-garra">Cuidado con la garra. En el brazo original 90° es la canasta cerrada del todo. Por debajo de ese ángulo el servo empuja contra el tope y se calienta, y así se recalentó uno el 8 de agosto. Busque el cierre subiendo desde abierta, nunca bajando a ciegas.</p>
+      <div class="posiciones" id="posiciones"></div>
+      <p class="aviso-config" id="aviso-posiciones" role="alert"></p>
+      <div class="acciones guardar">
+        <button class="boton principal" id="boton-guardar" disabled>Guardar en la placa</button>
+        <button class="boton" id="boton-config-fabrica">Volver a la configuración de fábrica</button>
+        <span class="sin-guardar" id="sin-guardar" hidden>Hay cambios sin guardar. Si se desconecta la placa, se pierden.</span>
+      </div>
+    </section>
+
+    <section class="bloque" aria-labelledby="t-consola">
+      <h2 id="t-consola">Consola</h2>
+      <p class="detalle">Todo lo que la página le manda a la placa y lo que la placa responde. Los latidos, un punto cada décima de segundo, no se muestran.</p>
+      <pre class="consola" id="consola" tabindex="0" aria-label="Consola"></pre>
+      <form class="enviar-consola" id="form-consola" autocomplete="off">
+        <label class="campo">
+          <span>Escribir a la placa</span>
+          <input id="entrada-consola" placeholder="por ejemplo #config o ?">
+        </label>
+        <button class="boton" type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <section class="bloque" aria-labelledby="t-comandos">
+      <h2 id="t-comandos">Comandos que entiende la placa</h2>
+      <table class="comandos">
+        <thead><tr><th scope="col">Se escribe</th><th scope="col">Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>i</code> / <code>d</code></td><td>Gira la base a la izquierda o a la derecha mientras siga llegando señal. Cualquier otra letra detiene el giro.</td></tr>
+          <tr><td><code>s</code> / <code>b</code></td><td>Lleva el brazo arriba de un golpe, o abajo de a poco. No hay alturas intermedias.</td></tr>
+          <tr><td><code>o</code> / <code>c</code></td><td>Abre la garra de un golpe, o la cierra de a poco.</td></tr>
+          <tr><td><code>p</code></td><td>Pausa. Detiene el giro. La altura y la garra se quedan como estén.</td></tr>
+          <tr><td><code>.</code></td><td>Latido. Si pasan 400 ms sin recibir nada, la placa detiene el brazo sola.</td></tr>
+          <tr><td><code>1</code> a <code>8</code></td><td>Calibración. Mueven base, altura, alcance o garra de a 5 grados. <code>?</code> muestra los ángulos.</td></tr>
+          <tr><td><code>#info</code></td><td>Responde <code>IMEC-BRAZO v1</code> si la placa tiene el programa del taller.</td></tr>
+          <tr><td><code>#config</code></td><td>Muestra pines y ángulos guardados.</td></tr>
+          <tr><td><code>#set clave valor</code></td><td>Cambia un valor, por ejemplo <code>#set pin_garra 5</code>.</td></tr>
+          <tr><td><code>#mover servo ángulo</code></td><td>Lleva un servo a un ángulo, por ejemplo <code>#mover base 90</code>.</td></tr>
+          <tr><td><code>#guardar</code> / <code>#fabrica</code></td><td>Guarda la configuración en la placa, o vuelve a la de fábrica.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

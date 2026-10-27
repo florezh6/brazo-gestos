@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Formulario de equipo — Taller IMEC</title>
+<style>
+  /* Pensado para IMPRIMIR en blanco y negro. Una hoja por equipo,
+     por las dos caras: cara 1 = diseno, cara 2 = predicciones. */
+  @page { size: letter; margin: 14mm; }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #000;
+    background: #fff;
+    font-size: 10pt;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .hoja { page-break-after: always; }
+  .hoja:last-child { page-break-after: auto; }
+
+  h1 { font-size: 14pt; margin: 0 0 1.5mm; }
+  h2 { font-size: 11pt; margin: 4mm 0 1.5mm; border-bottom: 1.5pt solid #000;
+       padding-bottom: .8mm; }
+  p  { margin: 0 0 1.5mm; }
+
+  .sub { font-size: 9pt; color: #444; margin-bottom: 3mm; }
+
+  .datos { display: flex; gap: 6mm; margin-bottom: 3mm; }
+  .datos div { flex: 1; }
+  .linea { border-bottom: 1pt solid #000; height: 6mm; }
+  .etiqueta { font-size: 8pt; text-transform: uppercase;
+              letter-spacing: .04em; color: #444; }
+
+  .aviso {
+    border: 1.5pt solid #000; padding: 2mm 2.5mm; margin-bottom: 3mm;
+    font-size: 9.5pt;
+  }
+  .aviso .titulo { font-weight: bold; display: block; margin-bottom: .8mm; }
+  .aviso p:last-child { margin-bottom: 0; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1pt solid #000; padding: 1.2mm 1.8mm; vertical-align: middle; }
+  th { background: #eee; font-size: 8.5pt; text-transform: uppercase;
+       letter-spacing: .04em; }
+
+  .gesto { width: 24mm; text-align: center; }
+  .gesto .num { font-size: 17pt; font-weight: bold; line-height: 1.05; }
+  .gesto .txt { font-size: 7.5pt; color: #444; }
+
+  /* Las seis opciones de comando: se rodea con un circulo la elegida. */
+  .opciones { display: flex; flex-wrap: wrap; gap: .8mm 1.5mm; }
+  .op {
+    border: 1pt solid #999; border-radius: 2mm; padding: .8mm 1.5mm;
+    font-size: 8.5pt; white-space: nowrap;
+  }
+  .op b { font-family: "Courier New", monospace; font-size: 9.5pt; }
+
+  /* La fila de casillas que el profesor lee de corrido para teclearla. */
+  .casillas { display: flex; gap: 2.5mm; margin-top: 2.5mm; align-items: flex-end; }
+  .casilla { text-align: center; }
+  .casilla .caja { width: 12mm; height: 12mm; border: 1.5pt solid #000; }
+  .casilla .pie { font-size: 8pt; margin-top: .5mm; }
+  .casillas .rotulo { font-size: 8.5pt; max-width: 40mm; padding-bottom: 1.5mm; }
+
+  .chequeo { font-size: 9pt; margin-top: 2mm; }
+
+  .escribir { border: 1pt solid #000; height: 22mm; margin-bottom: 2mm; }
+  .escribir.baja { height: 30mm; }
+
+  .pie-hoja { font-size: 8.5pt; color: #555; margin-top: 3mm;
+              border-top: 1pt solid #ccc; padding-top: 1.5mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ CARA 1: EL DISENO ============ -->
+<div class="hoja">
+
+  <h1>Diseña el control del robot</h1>
+  <p class="sub">Taller de IA y Robótica · Ingeniería Mecánica, Universidad de los Andes</p>
+
+  <div class="datos">
+    <div>
+      <div class="etiqueta">Equipo</div>
+      <div class="linea"></div>
+    </div>
+    <div>
+      <div class="etiqueta">Integrantes</div>
+      <div class="linea"></div>
+    </div>
+  </div>
+
+  <div class="aviso">
+    <span class="titulo">Su trabajo: decidir qué significa cada gesto.</span>
+    <p>El robot ya sabe reconocer seis gestos de la mano — de 0 a 5 dedos — y sabe
+    hacer seis movimientos. Lo que <u>nadie</u> ha decidido todavía es cuál gesto
+    manda cuál movimiento. Eso lo deciden ustedes, y después van a operar el
+    brazo con el control que acaban de diseñar.</p>
+  </div>
+
+  <h2>Diseño 1 — antes del primer intento</h2>
+
+  <p style="font-size:9.5pt">
+    Para cada gesto, <b>rodeen con un círculo</b> el movimiento que le asignan.
+    <b>Cada movimiento se usa una sola vez</b>: si repiten uno, se quedan sin otro
+    y el reto no se puede resolver.
+  </p>
+
+  <table>
+    <tr>
+      <th class="gesto">Gesto</th>
+      <th>Movimiento del brazo (rodeen uno)</th>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">0</div><div class="txt">puño cerrado</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">1</div><div class="txt">un dedo</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">2</div><div class="txt">dos dedos</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">3</div><div class="txt">tres dedos</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">4</div><div class="txt">cuatro dedos</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+
+    <tr>
+      <td class="gesto"><div class="num">5</div><div class="txt">mano bien abierta</div></td>
+      <td><div class="opciones">
+        <span class="op"><b>c</b> cerrar garra</span>
+        <span class="op"><b>o</b> abrir garra</span>
+        <span class="op"><b>i</b> girar izquierda</span>
+        <span class="op"><b>d</b> girar derecha</span>
+        <span class="op"><b>s</b> subir</span>
+        <span class="op"><b>b</b> bajar</span>
+      </div></td>
+    </tr>
+  </table>
+
+  <div class="casillas">
+    <div class="rotulo"><b>Pasen aquí su diseño</b><br>una letra por gesto,
+      en orden:</div>
+    <div class="casilla"><div class="caja"></div><div class="pie">0</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">1</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">2</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">3</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">4</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">5</div></div>
+  </div>
+
+  <p class="chequeo">
+    <b>Antes de entregar, revisen:</b>
+    ☐ las seis casillas están llenas &nbsp;·&nbsp;
+    ☐ no hay ninguna letra repetida &nbsp;·&nbsp;
+    ☐ están las seis letras <b>c o i d s b</b>
+  </p>
+
+  <div class="aviso" style="margin-top:4mm">
+    <span class="titulo">Dos reglas que no se negocian</span>
+    <p><b>1. Las dos manos = parada de emergencia.</b> Mostrar las dos manos a la
+      cámara detiene el brazo, hagan el gesto que hagan. Esa no la pueden cambiar:
+      en ingeniería, las funciones de seguridad no se rediseñan.</p>
+    <p><b>2. Muestren el dorso de la mano</b> (no la palma) y, para el gesto de 5,
+      <b>abran bien la mano y separen el pulgar</b>. El sistema los reconoce mucho
+      mejor así.</p>
+  </div>
+
+  <div class="pie-hoja">
+    Van a tener un <b>segundo intento</b>, y entre uno y otro pueden cambiar su
+    diseño. Un diseño que falla no es un fracaso: así trabaja la ingeniería de verdad.
+  </div>
+
+</div>
+
+<!-- ============ CARA 2: REDISENO Y PREDICCIONES ============ -->
+<div class="hoja">
+
+  <h1>Segundo intento y observación</h1>
+  <p class="sub">Equipo: ________________________________</p>
+
+  <h2>Qué pasó en el primer intento</h2>
+  <p style="font-size:9.5pt">¿Qué gesto les resultó incómodo, lento o confuso? ¿Cuál funcionó bien?</p>
+  <div class="escribir"></div>
+
+  <h2>Diseño 2 — su corrección</h2>
+  <p style="font-size:9.5pt">
+    Escriban solo las letras. Siguen valiendo las mismas reglas: las seis, sin repetir.
+  </p>
+
+  <div class="casillas">
+    <div class="rotulo"><b>Diseño corregido</b></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">0</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">1</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">2</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">3</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">4</div></div>
+    <div class="casilla"><div class="caja"></div><div class="pie">5</div></div>
+  </div>
+
+  <p class="chequeo" style="margin-bottom:4mm">
+    Recordatorio de las letras:
+    <b>c</b> cerrar garra &nbsp;·&nbsp; <b>o</b> abrir garra &nbsp;·&nbsp;
+    <b>i</b> girar izquierda &nbsp;·&nbsp; <b>d</b> girar derecha &nbsp;·&nbsp;
+    <b>s</b> subir &nbsp;·&nbsp; <b>b</b> bajar
+  </p>
+
+  <h2>Mientras otro equipo opera</h2>
+  <p style="font-size:9.5pt">
+    Antes de que empiece el turno de otro equipo, miren su diseño y anoten qué
+    creen que va a pasar. Después comparen con lo que pasó de verdad.
+  </p>
+
+  <table>
+    <tr>
+      <th style="width:34mm">Equipo que opera</th>
+      <th>Qué creemos que va a pasar, y por qué</th>
+      <th style="width:52mm">Qué pasó en realidad</th>
+    </tr>
+    <tr><td style="height:16mm"></td><td></td><td></td></tr>
+    <tr><td style="height:16mm"></td><td></td><td></td></tr>
+    <tr><td style="height:16mm"></td><td></td><td></td></tr>
+    <tr><td style="height:16mm"></td><td></td><td></td></tr>
+  </table>
+
+  <h2>Para el cierre</h2>
+  <p style="font-size:9.5pt">
+    Si tuvieran que diseñar el control de una máquina de verdad —una grúa, un
+    brazo de fábrica, un robot quirúrgico— ¿qué se llevan de hoy?
+  </p>
+  <div class="escribir baja"></div>
+
+</div>
+
+</body>
+</html>

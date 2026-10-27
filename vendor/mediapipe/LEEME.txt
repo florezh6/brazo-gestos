@@ -1,0 +1,5 @@
+MediaPipe Tasks Vision 1.0.1, copiado de npm (@mediapipe/tasks-vision@1.0.1).
+Licencia Apache 2.0, de Google. https://github.com/google-ai-edge/mediapipe
+Solo se copiaron vision_bundle.mjs y los .wasm que usa la pagina.
+El modelo modelo/hand_landmarker.task es el de MediaPipe (float16, version 1),
+el mismo que usa la version Python del taller.
