@@ -140,6 +140,14 @@ kbd, code {
 /* -------------------------------------------------------- actividad */
 
 .actividad { display: grid; grid-template-columns: minmax(0, 1fr) 24rem; gap: 1.5rem; align-items: start; }
+.columna-video { display: grid; gap: 1.2rem; }
+/* Bajo el video, la camara y la proyeccion en una sola franja. */
+.barra-proyeccion {
+  display: grid; grid-template-columns: minmax(12rem, 1fr) auto; gap: .4rem 1.5rem; align-items: end;
+}
+.barra-proyeccion h2 { grid-column: 1 / -1; margin-bottom: .2rem; }
+.barra-proyeccion .acciones { margin-top: 0; }
+.barra-proyeccion .ayuda { grid-column: 1 / -1; margin: .4rem 0 0; }
 .escenario {
   position: relative; background: var(--escena);
   border-radius: var(--radio); overflow: hidden; aspect-ratio: 16 / 9;
@@ -268,18 +276,29 @@ kbd, code {
 .progreso progress::-webkit-progress-value { background: var(--confirmado); }
 .progreso progress::-moz-progress-bar { background: var(--confirmado); }
 
-/* Control manual sobre el dibujo del brazo */
-.mando-brazo { position: relative; aspect-ratio: 520 / 360; margin: .6rem 0; }
+/* Control manual sobre el dibujo del brazo. Cada boton se centra en el
+   punto del dibujo que mueve. */
+.mando-brazo { position: relative; aspect-ratio: 640 / 430; margin: .6rem 0; }
 .dibujo-brazo { width: 100%; height: 100%; display: block; }
-.dibujo-brazo .pieza-base { fill: var(--azul-claro); stroke: var(--marino); stroke-width: 3; }
-.dibujo-brazo .pieza { fill: #dbe5f1; stroke: var(--marino); stroke-width: 3; }
-.dibujo-brazo .barra { stroke: var(--marino); stroke-width: 16; stroke-linecap: round; fill: none; }
-.dibujo-brazo .barra.fina { stroke-width: 6; opacity: .55; }
-.dibujo-brazo .articulacion { fill: var(--amarillo); stroke: var(--trazo); stroke-width: 3; }
-.dibujo-brazo .garra { stroke: var(--trazo); stroke-width: 7; stroke-linecap: round; fill: none; }
-.dibujo-brazo .flecha-giro, .dibujo-brazo .flecha-recta { stroke: var(--azul); stroke-width: 4; fill: none; stroke-linecap: round; }
-.dibujo-brazo .punta { fill: var(--azul); }
-.boton.control { position: absolute; padding: .4rem .7rem; font-size: .92rem; white-space: nowrap; touch-action: none; user-select: none; box-shadow: 3px 3px 0 var(--marino); }
+.b-base { fill: #e4eefc; stroke: var(--marino); stroke-width: 3; }
+.b-base-lado { fill: #c9d8ec; stroke: var(--marino); stroke-width: 3; }
+.b-tornamesa { fill: #f6f9fd; stroke: var(--marino); stroke-width: 2.5; }
+.b-pieza { fill: #f6f9fd; stroke: var(--marino); stroke-width: 3; stroke-linejoin: round; }
+.b-servo { fill: #2b3a4f; stroke: var(--trazo); stroke-width: 2.5; }
+.b-barra-borde { stroke: var(--marino); stroke-width: 24; stroke-linecap: round; fill: none; }
+.b-barra { stroke: #f6f9fd; stroke-width: 17; stroke-linecap: round; fill: none; }
+.b-varilla { stroke: var(--marino); stroke-width: 5; stroke-linecap: round; fill: none; }
+.b-garra { stroke: var(--trazo); stroke-width: 8; stroke-linecap: round; fill: none; }
+.b-eje { fill: var(--amarillo); stroke: var(--trazo); stroke-width: 3; }
+.b-mov { stroke: var(--azul); stroke-width: 5; fill: none; stroke-linecap: round; }
+.b-punta { fill: var(--azul); }
+.b-guia { stroke: var(--tinta-suave); stroke-width: 2.5; stroke-dasharray: 5 5; fill: none; }
+.boton.control {
+  position: absolute; transform: translate(-50%, -50%);
+  padding: .4rem .7rem; font-size: .92rem; white-space: nowrap; touch-action: none; user-select: none;
+  box-shadow: 3px 3px 0 var(--marino);
+}
+.boton.control:active:not(:disabled) { transform: translate(-50%, calc(-50% + 1px)); }
 .boton.control.pausa { background: var(--amarillo); border-color: var(--trazo); box-shadow: 3px 3px 0 var(--trazo); }
 .boton.control.activo { background: var(--azul); color: #fff; border-color: var(--azul); }
 
@@ -288,6 +307,7 @@ kbd, code {
 .pin label { font-weight: 700; }
 .pin select { font: inherit; padding: .35rem; border: 2px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
 .pin .boton { grid-column: 1 / -1; }
+.pines > p, .posiciones > p { grid-column: 1 / -1; margin: 0; }
 
 .advertencia { border-left: 6px solid var(--alerta); background: #fdecea; padding: .7rem 1rem; border-radius: var(--radio); max-width: 95ch; }
 .posiciones { display: grid; grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr)); gap: 1rem; }
@@ -335,28 +355,51 @@ kbd, code {
 .diagrama { margin: 1.2rem 0; background: var(--fondo); border-radius: var(--radio); padding: 1rem; }
 .diagrama svg { width: 100%; height: auto; display: block; color: var(--marino); }
 .diagrama figcaption { color: var(--tinta-suave); font-size: .95rem; margin-top: .6rem; }
-.d-caja { fill: var(--superficie); stroke: var(--marino); stroke-width: 2.5; }
-.d-placa { fill: #136d8f; stroke: var(--trazo); stroke-width: 3; }
-.d-fila { fill: #f3f6fa; stroke: var(--trazo); stroke-width: 2; }
-.d-fila.activa { fill: var(--amarillo); }
+.d-t { font: 600 13px var(--texto); fill: var(--marino); }
+.d-t.chico { font-size: 11.5px; font-weight: 600; }
+.d-t.claro { fill: #fff; }
+.d-signo { font: 800 22px var(--texto); fill: #fff; }
+.d-placa { fill: #0f6e8c; stroke: var(--trazo); stroke-width: 3; }
+.d-metal { fill: #c7cfd8; stroke: #5d6b7a; stroke-width: 2; }
+.d-jack { fill: #222; stroke: var(--trazo); stroke-width: 2; }
+.d-pin { fill: #e9eef4; stroke: #0b3c4d; stroke-width: 1.5; }
+.d-pin.usado { fill: var(--amarillo); stroke: var(--trazo); }
 .d-bornera { fill: #2fae5b; stroke: var(--trazo); stroke-width: 2; }
-.d-sel { fill: #e8edf3; stroke: var(--trazo); stroke-width: 2; }
-.d-tachado { stroke: var(--alerta); stroke-width: 4; stroke-linecap: round; }
-.d-servo { fill: #2b3a4f; stroke: var(--trazo); stroke-width: 2; }
-.d-servos .d-texto-chico { fill: #fff; }
-.d-cable { fill: none; stroke-width: 5; stroke-linecap: round; }
-.d-cable.usb { stroke: #6b7c90; }
-.d-cable.positivo { stroke: #d6402b; }
-.d-cable.negativo { stroke: #111; }
-.d-cable.servo { stroke: #e8862a; }
-.d-texto { font: 600 17px var(--texto); fill: var(--marino); }
-.d-texto-chico { font: 600 13px var(--texto); fill: var(--marino); }
-.d-texto.claro, .d-texto-chico.claro { fill: #fff; }
+.d-tornillo { fill: #c7cfd8; stroke: #39434f; stroke-width: 2; }
+.d-tachado { stroke: #ff5a45; stroke-width: 4; stroke-linecap: round; }
+.d-pantalla { fill: var(--marino); }
+.d-vidrio { fill: #d9e6f6; }
+.d-teclado { fill: #9fb0c4; stroke: var(--marino); stroke-width: 2; }
+.d-adaptador { fill: #2b3a4f; stroke: var(--trazo); stroke-width: 2.5; }
+.d-adaptador-bornera { fill: #2fae5b; stroke: var(--trazo); stroke-width: 2; }
+.d-cable-usb { stroke: #6b7c90; stroke-width: 7; fill: none; stroke-linecap: round; }
+.d-cable-dc { stroke: #222; stroke-width: 6; fill: none; stroke-linecap: round; }
+.d-cable-pos { stroke: #d6402b; stroke-width: 4.5; fill: none; stroke-linejoin: round; }
+.d-cable-neg { stroke: #111; stroke-width: 4.5; fill: none; stroke-linejoin: round; }
+.d-funda { stroke: rgb(0 0 0 / .18); stroke-width: 14; fill: none; stroke-linejoin: round; }
+.d-hilo { stroke-width: 3.2; fill: none; stroke-linejoin: round; }
+.d-servo { fill: #2b3a4f; stroke: var(--trazo); stroke-width: 2.5; }
+.d-servo-alas { fill: #3b4c63; stroke: var(--trazo); stroke-width: 2; }
+.d-cuerno { fill: #f6f9fd; stroke: var(--trazo); stroke-width: 2.5; }
+.d-recuadro { fill: var(--superficie); stroke: var(--linea); stroke-width: 2; }
+.d-punta { fill: currentColor; }
 
 .problemas { background: var(--fondo); border-radius: var(--radio); padding: 1.6rem 1.8rem; border-top: 6px solid var(--alerta); }
 .problema { background: var(--superficie); border-radius: var(--radio); padding: 1rem 1.2rem; margin-top: .9rem; }
 .problema h3 { margin-top: 0; }
 .problema p:last-child { margin-bottom: 0; }
+
+/* --------------------------------------------------- modo telefono */
+
+.solo-telefono { display: none; }
+.modo-telefono .solo-telefono { display: block; }
+.modo-telefono .solo-computador,
+.modo-telefono .estado-brazo,
+.modo-telefono .pestana[data-pestana='brazo'],
+.modo-telefono .riel,
+.modo-telefono #boton-registro,
+.modo-telefono .barra-proyeccion .ayuda { display: none !important; }
+.modo-telefono .actividad { grid-template-columns: minmax(0, 1fr); }
 
 /* ------------------------------------------------------------- pie */
 
@@ -370,7 +413,7 @@ kbd, code {
   .pasos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 1100px) {
-  .actividad, .brazo-arriba, .bloques-como { grid-template-columns: minmax(0, 1fr); }
+  .actividad, .brazo-arriba, .bloques-como, .barra-proyeccion { grid-template-columns: minmax(0, 1fr); }
   .cabecera-fila { grid-template-columns: 1fr; }
   .estado-brazo { justify-self: start; }
   .guia { grid-template-columns: minmax(0, 1fr); }

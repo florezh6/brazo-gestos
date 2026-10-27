@@ -58,6 +58,14 @@ Hugo aprobó un plan con estos cambios, todos hechos:
 - Guía como pestaña, con diagrama de conexiones del Sensor Shield V5, placas compatibles, gestos con dorso o palma, minuto a minuto revisado, formulario opcional y solución de problemas aparte.
 - Advertencias reescritas sin anécdotas: fenómeno, riesgo y arreglo.
 
+Segunda vuelta del mismo día, con comentarios de Hugo:
+
+- Diagramas de conexiones y del brazo rehechos. Se generan con `herramientas/diagramas.py`, que los inserta en `index.html` entre los comentarios `<!-- diagrama:... -->`. Para cambiarlos se edita el script, no el HTML.
+- El diseño de fábrica queda a la vista; solo el de cada equipo se oculta.
+- Bajo el video va la barra de cámara; el consejo de la Mechita pasó a la columna derecha.
+- Modo teléfono: en un teléfono o tablet la página sirve para probar la detección y leer Cómo funciona y la guía. Se ocultan el brazo, el panel del profesor y la pantalla completa, y un aviso explica que el brazo se maneja desde un computador. Probado con emulación de iPhone en Chrome, no en un iPhone real.
+- PAUSA en pantalla solo con dos manos de verdad.
+
 **La Mechita es provisional.** Está dibujada en `marca/mechita.svg` a partir de la publicación del departamento del 11 de abril de 2025 en Instagram. Hay que reemplazarla por los archivos oficiales de comunicaciones IMEC; basta con sobrescribir `marca/mechita.svg` y `marca/mechita-cara.svg`.
 
 ## Decisiones tomadas sin aprobación de Hugo

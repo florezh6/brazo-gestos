@@ -38,6 +38,7 @@
 
   <!-- ============================ ACTIVIDAD ============================ -->
   <main id="actividad" class="seccion actividad">
+    <div class="columna-video">
     <div class="escenario" id="escenario">
       <video id="video" playsinline muted></video>
       <canvas id="lienzo"></canvas>
@@ -52,6 +53,23 @@
       </div>
       <p class="crudo" id="crudo">detectando –</p>
       <p class="quieto" id="quieto" hidden>Brazo quieto mientras se carga un diseño</p>
+    </div>
+
+    <div class="bajo-video">
+      <section class="tarjeta barra-proyeccion" aria-labelledby="t-proyeccion">
+        <h2 id="t-proyeccion">Cámara y proyección</h2>
+        <label class="campo">
+          <span>Cámara</span>
+          <select id="selector-camara"><option value="">Sin cámara todavía</option></select>
+        </label>
+        <div class="acciones">
+          <button type="button" class="boton principal" id="boton-pantalla">Proyectar en pantalla completa</button>
+          <button type="button" class="boton" id="boton-registro">Descargar los diseños usados</button>
+        </div>
+        <p class="ayuda">Atajos de teclado: <kbd>M</kbd> para cargar un diseño, <kbd>F</kbd> para volver al de fábrica y <kbd>Esc</kbd> para cancelar. <span id="motor"></span></p>
+      </section>
+
+    </div>
     </div>
 
     <aside class="riel" aria-label="Controles del profesor">
@@ -76,22 +94,10 @@
         </div>
       </form>
 
-      <section class="tarjeta" aria-labelledby="t-proyeccion">
-        <h2 id="t-proyeccion">Cámara y proyección</h2>
-        <label class="campo">
-          <span>Cámara</span>
-          <select id="selector-camara"><option value="">Sin cámara todavía</option></select>
-        </label>
-        <div class="acciones">
-          <button type="button" class="boton principal" id="boton-pantalla">Proyectar en pantalla completa</button>
-          <button type="button" class="boton" id="boton-registro">Descargar los diseños usados</button>
-        </div>
-        <p class="ayuda">Atajos de teclado: <kbd>M</kbd> para cargar un diseño, <kbd>F</kbd> para volver al de fábrica y <kbd>Esc</kbd> para cancelar. <span id="motor"></span></p>
-      </section>
-
       <aside class="mechita-dice">
         <img src="marca/mechita-cara.svg" alt="">
-        <p>Parte del reto es que cada equipo recuerde su propio diseño. Por eso la pantalla no muestra qué hace cada gesto.</p>
+        <p class="solo-computador">Parte del reto es que cada equipo recuerde su propio diseño. Por eso la pantalla no muestra qué hace cada gesto.</p>
+        <p class="solo-telefono">Haz un número del 0 al 5 con los dedos frente a la cámara. Con las dos manos a la vista aparece PAUSA.</p>
       </aside>
     </aside>
   </main>
@@ -195,33 +201,44 @@
         <h2 id="t-manual">Control manual</h2>
         <p class="detalle">Cada botón está donde se mueve esa parte del brazo. Los de girar funcionan mientras se mantengan presionados.</p>
         <div class="mando-brazo" id="manual">
-          <svg viewBox="0 0 520 360" class="dibujo-brazo" aria-hidden="true">
-            <ellipse cx="230" cy="318" rx="120" ry="22" class="pieza-base"/>
-            <path d="M120 300 A120 22 0 0 0 150 334" class="flecha-giro" marker-end="url(#punta)"/>
-            <path d="M340 300 A120 22 0 0 1 310 334" class="flecha-giro" marker-end="url(#punta)"/>
-            <rect x="195" y="240" width="70" height="72" rx="8" class="pieza"/>
-            <path d="M230 250 L300 130" class="barra"/>
-            <path d="M300 130 L405 165" class="barra"/>
-            <path d="M250 268 L318 150" class="barra fina"/>
-            <circle cx="230" cy="250" r="12" class="articulacion"/>
-            <circle cx="300" cy="130" r="11" class="articulacion"/>
-            <circle cx="405" cy="165" r="9" class="articulacion"/>
-            <path d="M405 165 L430 200 M405 165 L445 180" class="garra"/>
-            <path d="M300 92 L300 58" class="flecha-recta" marker-end="url(#punta)"/>
-            <path d="M330 175 L330 210" class="flecha-recta" marker-end="url(#punta)"/>
-            <defs>
-              <marker id="punta" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L10 5 L0 10 Z" class="punta"/>
-              </marker>
-            </defs>
-          </svg>
-          <button class="boton control" data-letra="s" style="left:52%;top:2%">Subir <kbd>s</kbd></button>
-          <button class="boton control" data-letra="b" style="left:52%;top:62%">Bajar <kbd>b</kbd></button>
-          <button class="boton control" data-letra="o" style="left:80%;top:30%">Abrir garra <kbd>o</kbd></button>
-          <button class="boton control" data-letra="c" style="left:80%;top:62%">Cerrar garra <kbd>c</kbd></button>
-          <button class="boton control" data-letra="i" style="left:0%;top:76%">Girar a la izquierda <kbd>i</kbd></button>
-          <button class="boton control" data-letra="d" style="left:66%;top:84%">Girar a la derecha <kbd>d</kbd></button>
-          <button class="boton control pausa" data-letra="p" style="left:2%;top:4%">Pausa <kbd>p</kbd></button>
+          <!-- diagrama:brazo -->
+<svg viewBox="0 0 640 430" class="dibujo-brazo" aria-hidden="true">
+<defs>
+  <marker id="b-flecha" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="b-punta"/></marker>
+</defs>
+<path d="M110 360 L110 386 A150 32 0 0 0 410 386 L410 360" class="b-base-lado"/>
+<ellipse cx="260" cy="360" rx="150" ry="32" class="b-base"/>
+<ellipse cx="260" cy="346" rx="96" ry="20" class="b-tornamesa"/>
+<path d="M206 399 A150 32 0 0 1 114 370" class="b-mov" marker-end="url(#b-flecha)"/>
+<path d="M314 399 A150 32 0 0 0 406 370" class="b-mov" marker-end="url(#b-flecha)"/>
+<path d="M215 346 L225 250 L295 250 L305 346 Z" class="b-pieza"/>
+<rect x="196" y="268" width="34" height="58" rx="5" class="b-servo"/>
+<rect x="290" y="268" width="34" height="58" rx="5" class="b-servo"/>
+<path d="M260 258 L330 116" class="b-barra-borde"/><path d="M260 258 L330 116" class="b-barra"/>
+<path d="M330 116 L505 158" class="b-barra-borde"/><path d="M330 116 L505 158" class="b-barra"/>
+<path d="M282 276 L350 136" class="b-varilla"/>
+<path d="M350 136 L512 176" class="b-varilla"/>
+<path d="M330 116 L350 136 L340 96 Z" class="b-pieza"/>
+<rect x="494" y="128" width="30" height="24" rx="4" class="b-servo"/>
+<path d="M500 166 C486 196 492 222 514 232" class="b-garra"/>
+<path d="M520 166 C546 192 544 220 522 234" class="b-garra"/>
+<circle cx="260" cy="258" r="12" class="b-eje"/>
+<circle cx="330" cy="116" r="11" class="b-eje"/>
+<circle cx="505" cy="158" r="9" class="b-eje"/>
+<circle cx="282" cy="276" r="6" class="b-eje"/>
+<circle cx="350" cy="136" r="6" class="b-eje"/>
+<path d="M440 112 L440 66" class="b-mov" marker-end="url(#b-flecha)"/>
+<path d="M440 182 L440 228" class="b-mov" marker-end="url(#b-flecha)"/>
+<path d="M530 238 L560 266" class="b-guia"/>
+</svg>
+<!-- /diagrama:brazo -->
+          <button class="boton control" data-letra="s" style="left:68.8%;top:8.8%">Subir <kbd>s</kbd></button>
+          <button class="boton control" data-letra="b" style="left:68.8%;top:59.5%">Bajar <kbd>b</kbd></button>
+          <button class="boton control" data-letra="o" style="left:88.8%;top:67.4%">Abrir garra <kbd>o</kbd></button>
+          <button class="boton control" data-letra="c" style="left:88.8%;top:77.7%">Cerrar garra <kbd>c</kbd></button>
+          <button class="boton control" data-letra="i" style="left:14.4%;top:74.9%">Girar a la izquierda <kbd>i</kbd></button>
+          <button class="boton control" data-letra="d" style="left:67.5%;top:74.9%">Girar a la derecha <kbd>d</kbd></button>
+          <button class="boton control pausa" data-letra="p" style="left:10.0%;top:7.0%">Pausa <kbd>p</kbd></button>
         </div>
         <p class="ayuda">Izquierda y derecha se ven desde atrás del brazo, mirando hacia donde apunta la garra. Si el brazo gira al revés, intercambie los dos topes de la base en «Límites y posiciones».</p>
       </section>
@@ -323,68 +340,144 @@
         <h2>Conexión eléctrica</h2>
         <p>El Arduino no se conecta a los servos con cables sueltos. Encima va un <strong>Sensor Shield V5</strong>, una tarjeta que se encaja sobre los pines del Arduino como una tapa. Por cada pin digital trae una fila de tres pines, marcados G, V y S, que coinciden con el conector de tres cables de un servo. También trae una bornera de tornillos para la alimentación de los motores.</p>
         <figure class="diagrama">
-          <svg viewBox="0 0 780 440" role="img" aria-labelledby="t-diagrama">
-            <title id="t-diagrama">Diagrama de conexiones: computador por USB al Arduino con Sensor Shield, fuente a la bornera y cuatro servos en los pines 3, 9, 10 y 11</title>
-            <defs>
-              <marker id="flecha-cable" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><circle cx="5" cy="5" r="4" fill="currentColor"/></marker>
-            </defs>
-            <!-- computador -->
-            <rect x="20" y="40" width="140" height="90" rx="8" class="d-caja"/>
-            <text x="90" y="80" class="d-texto" text-anchor="middle">Computador</text>
-            <text x="90" y="102" class="d-texto-chico" text-anchor="middle">Chrome o Edge</text>
-            <path d="M160 85 L250 85" class="d-cable usb"/>
-            <text x="205" y="75" class="d-texto-chico" text-anchor="middle">USB</text>
-            <!-- arduino + shield -->
-            <rect x="250" y="40" width="300" height="275" rx="10" class="d-placa"/>
-            <text x="400" y="66" class="d-texto claro" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
-            <!-- filas de pines: G V S, como en el shield -->
-            <g class="d-pines">
-              <text x="391" y="100" class="d-texto-chico claro" text-anchor="middle">G</text>
-              <text x="419" y="100" class="d-texto-chico claro" text-anchor="middle">V</text>
-              <text x="447" y="100" class="d-texto-chico claro" text-anchor="middle">S</text>
-              <text x="270" y="128" class="d-texto-chico claro">D3 garra</text>
-              <rect x="380" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="408" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="436" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
-              <text x="270" y="164" class="d-texto-chico claro">D9 base</text>
-              <rect x="380" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="408" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="436" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
-              <text x="270" y="200" class="d-texto-chico claro">D10 altura</text>
-              <rect x="380" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="408" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="436" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
-              <text x="270" y="236" class="d-texto-chico claro">D11 alcance</text>
-              <rect x="380" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="408" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
-              <rect x="436" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
-            </g>
-            <!-- bornera y puente SEL -->
-            <rect x="270" y="252" width="70" height="30" rx="4" class="d-bornera"/>
-            <text x="305" y="272" class="d-texto-chico" text-anchor="middle">+  −</text>
-            <rect x="400" y="252" width="44" height="24" rx="4" class="d-sel"/>
-            <path d="M396 248 L448 280 M448 248 L396 280" class="d-tachado"/>
-            <text x="422" y="300" class="d-texto-chico claro" text-anchor="middle">puente SEL retirado</text>
-
-            <!-- fuente -->
-            <rect x="20" y="320" width="200" height="90" rx="8" class="d-caja"/>
-            <text x="120" y="358" class="d-texto" text-anchor="middle">Fuente 5 a 6 V</text>
-            <text x="120" y="382" class="d-texto-chico" text-anchor="middle">3 A o más</text>
-            <path d="M220 350 L292 350 L292 282" class="d-cable positivo"/>
-            <path d="M220 380 L318 380 L318 282" class="d-cable negativo"/>
-            <!-- servos -->
-            <g class="d-servos">
-              <rect x="640" y="70" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="97" class="d-texto-chico" text-anchor="middle">Servo garra</text>
-              <rect x="640" y="140" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="167" class="d-texto-chico" text-anchor="middle">Servo base</text>
-              <rect x="640" y="210" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="237" class="d-texto-chico" text-anchor="middle">Servo altura</text>
-              <rect x="640" y="280" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="307" class="d-texto-chico" text-anchor="middle">Servo alcance</text>
-              <path d="M458 123 C560 123 560 92 640 92" class="d-cable servo"/>
-              <path d="M458 159 C560 159 560 162 640 162" class="d-cable servo"/>
-              <path d="M458 195 C560 195 560 232 640 232" class="d-cable servo"/>
-              <path d="M458 231 C560 231 560 302 640 302" class="d-cable servo"/>
-            </g>
-          </svg>
-          <figcaption>Cada servo se enchufa en la fila de su pin, con el cable marrón o negro en G, el rojo en V y el naranja o amarillo en S. La fuente se atornilla a la bornera respetando + y −.</figcaption>
+          <!-- diagrama:conexiones -->
+<svg viewBox="0 0 920 560" role="img" aria-label="Tres circuitos: el USB lleva datos y la alimentación del Arduino; la fuente alimenta solo los motores por la bornera del shield; cada servo recibe su señal por la columna de su pin. El puente SEL va retirado.">
+<defs>
+  <marker id="d-flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="d-punta"/></marker>
+</defs>
+<g class="d-portatil">
+  <rect x="34" y="70" width="150" height="96" rx="8" class="d-pantalla"/>
+  <rect x="44" y="80" width="130" height="76" rx="3" class="d-vidrio"/>
+  <path d="M22 172 L196 172 L184 186 L34 186 Z" class="d-teclado"/>
+  <text x="109" y="124" class="d-t" text-anchor="middle">Chrome o Edge</text>
+</g>
+<rect x="300" y="70" width="360" height="270" rx="12" class="d-placa"/>
+<rect x="274" y="92" width="40" height="46" rx="4" class="d-metal"/>
+<rect x="282" y="260" width="34" height="40" rx="5" class="d-jack"/>
+<text x="520.0" y="324" class="d-t claro" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
+<text x="386" y="190" class="d-t claro chico" text-anchor="middle">D</text>
+<text x="386" y="127" class="d-t claro chico" text-anchor="middle">S</text>
+<text x="386" y="148" class="d-t claro chico" text-anchor="middle">V</text>
+<text x="386" y="169" class="d-t claro chico" text-anchor="middle">G</text>
+<text x="408" y="190" class="d-t claro chico" text-anchor="middle">2</text>
+<rect x="400" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="400" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="400" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="429" y="190" class="d-t claro chico" text-anchor="middle">3</text>
+<rect x="421" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="421" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="421" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
+<text x="450" y="190" class="d-t claro chico" text-anchor="middle">4</text>
+<rect x="442" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="442" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="442" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="471" y="190" class="d-t claro chico" text-anchor="middle">5</text>
+<rect x="463" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="463" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="463" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="492" y="190" class="d-t claro chico" text-anchor="middle">6</text>
+<rect x="484" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="484" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="484" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="513" y="190" class="d-t claro chico" text-anchor="middle">7</text>
+<rect x="505" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="505" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="505" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="534" y="190" class="d-t claro chico" text-anchor="middle">8</text>
+<rect x="526" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="526" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="526" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="555" y="190" class="d-t claro chico" text-anchor="middle">9</text>
+<rect x="547" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="547" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="547" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
+<text x="576" y="190" class="d-t claro chico" text-anchor="middle">10</text>
+<rect x="568" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="568" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="568" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
+<text x="597" y="190" class="d-t claro chico" text-anchor="middle">11</text>
+<rect x="589" y="114" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="589" y="135" width="16" height="16" rx="2" class="d-pin usado"/>
+<rect x="589" y="156" width="16" height="16" rx="2" class="d-pin usado"/>
+<text x="618" y="190" class="d-t claro chico" text-anchor="middle">12</text>
+<rect x="610" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="610" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="610" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<text x="639" y="190" class="d-t claro chico" text-anchor="middle">13</text>
+<rect x="631" y="114" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="631" y="135" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="631" y="156" width="16" height="16" rx="2" class="d-pin"/>
+<rect x="340" y="246" width="74" height="34" rx="4" class="d-bornera"/>
+<circle cx="358" cy="263" r="8" class="d-tornillo"/><circle cx="396" cy="263" r="8" class="d-tornillo"/>
+<text x="344" y="306" class="d-signo" text-anchor="middle">+</text><text x="410" y="306" class="d-signo" text-anchor="middle">−</text>
+<text x="377" y="238" class="d-t claro chico" text-anchor="middle">bornera</text>
+<rect x="468" y="250" width="16" height="16" rx="2" class="d-pin"/><rect x="488" y="250" width="16" height="16" rx="2" class="d-pin"/>
+<path d="M460 242 L512 274 M512 242 L460 274" class="d-tachado"/>
+<text x="486" y="294" class="d-t claro chico" text-anchor="middle">SEL sin puente</text>
+<path d="M184 120 C230 120 240 115 274 115" class="d-cable-usb"/>
+<text x="236" y="104" class="d-t" text-anchor="middle">USB</text>
+<text x="236" y="146" class="d-t chico" text-anchor="middle">datos y 5 V</text>
+<text x="236" y="162" class="d-t chico" text-anchor="middle">para el Arduino</text>
+<g class="d-fuente">
+  <rect x="40" y="400" width="130" height="92" rx="14" class="d-adaptador"/>
+  <rect x="22" y="424" width="20" height="9" rx="2" class="d-metal"/><rect x="22" y="458" width="20" height="9" rx="2" class="d-metal"/>
+  <text x="105" y="440" class="d-t claro" text-anchor="middle">Fuente</text>
+  <text x="105" y="460" class="d-t claro chico" text-anchor="middle">5 a 6 V · 3 A o más</text>
+</g>
+<path d="M170 446 C210 446 200 470 236 470" class="d-cable-dc"/>
+<rect x="236" y="456" width="56" height="30" rx="4" class="d-adaptador-bornera"/>
+<text x="264" y="510" class="d-t chico" text-anchor="middle">plug a bornera</text>
+<path d="M292 464 L358 464 L358 271" class="d-cable-pos"/>
+<path d="M292 478 L396 478 L396 271" class="d-cable-neg"/>
+<text x="412" y="432" class="d-t">energía de los motores</text>
+<text x="412" y="448" class="d-t chico">no pasa por el Arduino</text>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" class="d-funda"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
+<path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
+<rect x="770" y="74" width="120" height="60" rx="6" class="d-servo"/>
+<rect x="760" y="96" width="140" height="16" rx="3" class="d-servo-alas"/>
+<circle cx="864" cy="104" r="14" class="d-cuerno"/>
+<text x="814" y="109" class="d-t claro" text-anchor="middle">garra</text>
+<text x="814" y="154" class="d-t chico" text-anchor="middle">pin 3</text>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" class="d-funda"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
+<path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
+<rect x="770" y="186" width="120" height="60" rx="6" class="d-servo"/>
+<rect x="760" y="208" width="140" height="16" rx="3" class="d-servo-alas"/>
+<circle cx="864" cy="216" r="14" class="d-cuerno"/>
+<text x="814" y="221" class="d-t claro" text-anchor="middle">base</text>
+<text x="814" y="266" class="d-t chico" text-anchor="middle">pin 9</text>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" class="d-funda"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
+<path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
+<rect x="770" y="298" width="120" height="60" rx="6" class="d-servo"/>
+<rect x="760" y="320" width="140" height="16" rx="3" class="d-servo-alas"/>
+<circle cx="864" cy="328" r="14" class="d-cuerno"/>
+<text x="814" y="333" class="d-t claro" text-anchor="middle">altura</text>
+<text x="814" y="378" class="d-t chico" text-anchor="middle">pin 10</text>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" class="d-funda"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(0 0)" stroke="#d6402b" class="d-hilo"/>
+<path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(3.5 3.5)" stroke="#f08a1c" class="d-hilo"/>
+<rect x="770" y="410" width="120" height="60" rx="6" class="d-servo"/>
+<rect x="760" y="432" width="140" height="16" rx="3" class="d-servo-alas"/>
+<circle cx="864" cy="440" r="14" class="d-cuerno"/>
+<text x="814" y="445" class="d-t claro" text-anchor="middle">alcance</text>
+<text x="814" y="490" class="d-t chico" text-anchor="middle">pin 11</text>
+<text x="716" y="18" class="d-t chico" text-anchor="middle">señal de cada servo</text>
+<g transform="translate(470 470)">
+  <rect x="0" y="0" width="250" height="70" rx="8" class="d-recuadro"/>
+  <text x="14" y="22" class="d-t chico">Conector del servo</text>
+  <rect x="16" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="42" y="49" class="d-t chico">G marrón</text>
+  <rect x="98" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="124" y="49" class="d-t chico">V rojo</text>
+  <rect x="170" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="196" y="49" class="d-t chico">S naranja</text>
+</g>
+</svg>
+<!-- /diagrama:conexiones -->
+          <figcaption>Tres circuitos separados. El USB lleva los datos y alimenta el Arduino. La fuente alimenta solo los motores, a través de la bornera del shield. Cada servo recibe su señal por la columna de su pin, con el hilo marrón en G, el rojo en V y el naranja en S. El puente SEL va retirado para que la fuente no quede conectada al Arduino.</figcaption>
         </figure>
         <p>Hay tres detalles que deciden si funciona o no.</p>
         <ol>

@@ -94,6 +94,8 @@ export async function abrirCamara(video, idCamara) {
     audio: false,
     video: {
       deviceId: idCamara ? { exact: idCamara } : undefined,
+      // En un telefono, la camara de adelante: la mano se ve en la pantalla.
+      facingMode: idCamara ? undefined : 'user',
       width: { ideal: 1280 },
       height: { ideal: 720 },
     },

@@ -66,6 +66,8 @@ function quitarAviso(id) {
 //  PESTANAS
 // ---------------------------------------------------------------------
 function irA(pestana) {
+  // En el telefono no hay pestana Brazo.
+  if (pestana === 'brazo' && document.body.classList.contains('modo-telefono')) pestana = 'actividad';
   estado.pestana = pestana;
   for (const b of document.querySelectorAll('button.pestana')) {
     if (b.dataset.pestana === pestana) b.setAttribute('aria-current', 'page');
@@ -156,6 +158,10 @@ function avisoMapeo(texto, bien = false) {
 
 let relojMostrar = null;
 
+function esDeFabrica(mapeo) {
+  return GESTOS.every((g) => mapeo[g] === MAPEO_DE_FABRICA[g]);
+}
+
 function ocultarDiseno(oculto) {
   clearTimeout(relojMostrar);
   $('casillas').classList.toggle('oculto', oculto);
@@ -170,14 +176,17 @@ function abrirMapeo(vaciar) {
 }
 
 function cerrarMapeo() {
+  estado.escribiendo = false;
   for (const c of casillas) c.blur();
 }
 
-function aplicarMapeo(mapeo, mensaje) {
+// El diseno de fabrica queda a la vista: no es de ningun equipo y es la
+// referencia del profesor. El de un equipo se oculta.
+function aplicarMapeo(mapeo, mensaje, oculto = true) {
   estado.mapeo = { ...mapeo };
   registrarMapeo(estado.mapeo, $('nombre-equipo').value.trim());
   llenarCasillas(letrasDe(estado.mapeo));
-  ocultarDiseno(true);
+  ocultarDiseno(oculto);
   // El operador puede estar sosteniendo el mismo gesto de antes, pero
   // ahora significa otra cosa: hay que confirmarlo desde cero.
   estabilizador.reiniciar();
@@ -191,6 +200,13 @@ formMapeo.addEventListener('focusin', () => {
 });
 formMapeo.addEventListener('focusout', (e) => {
   if (formMapeo.contains(e.relatedTarget)) return;
+  // Si se sale a mitad de un diseno sin aplicarlo, vuelven las letras
+  // del diseno vigente, ocultas o no segun corresponda.
+  if (estado.escribiendo) {
+    estado.escribiendo = false;
+    llenarCasillas(letrasDe(estado.mapeo));
+    ocultarDiseno(!esDeFabrica(estado.mapeo));
+  }
   estado.mapeoAbierto = false;
   revisarPermiso();
 });
@@ -199,7 +215,10 @@ casillas.forEach((c, k) => {
   // Tocar una casilla oculta empieza un diseno nuevo desde cero, para
   // que no se vea el anterior.
   c.addEventListener('focus', () => {
-    if ($('casillas').classList.contains('oculto')) abrirMapeo(true);
+    if ($('casillas').classList.contains('oculto') || esDeFabrica(estado.mapeo) && !estado.escribiendo) {
+      estado.escribiendo = true;
+      abrirMapeo(true);
+    }
   });
   c.addEventListener('input', () => {
     c.value = c.value.toLowerCase();
@@ -222,7 +241,7 @@ casillas.forEach((c, k) => {
     if (e.key === 'Escape') {
       // Cancelar: queda el diseno que estaba.
       llenarCasillas(letrasDe(estado.mapeo));
-      ocultarDiseno(true);
+      ocultarDiseno(!esDeFabrica(estado.mapeo));
       avisoMapeo('Carga cancelada. Sigue el diseño anterior.');
       cerrarMapeo();
       e.stopPropagation();
@@ -255,7 +274,8 @@ $('boton-mostrar').addEventListener('click', () => {
 });
 
 function volverAFabrica() {
-  aplicarMapeo(MAPEO_DE_FABRICA, 'De vuelta al diseño de fábrica, oculto.');
+  $('nombre-equipo').value = '';
+  aplicarMapeo(MAPEO_DE_FABRICA, 'De vuelta al diseño de fábrica.', false);
   cerrarMapeo();
 }
 $('boton-fabrica').addEventListener('click', volverAFabrica);
@@ -376,7 +396,9 @@ function pintarLectura() {
     : estado.lectura === PAUSA ? 'dos manos' : estado.lectura);
   const confirmado = estabilizador.confirmado;
   const caja = $('lectura');
-  if (confirmado === null) {
+  // La PAUSA interna que deja el estabilizador al reiniciarse no se
+  // muestra: solo la de dos manos de verdad.
+  if (confirmado === null || (confirmado === PAUSA && estabilizador.candidato !== PAUSA)) {
     caja.hidden = true;
   } else if (confirmado === PAUSA) {
     caja.hidden = false;
@@ -439,6 +461,10 @@ if (navigator.mediaDevices) {
     llenarSelectorCamaras($('selector-camara').value).catch(() => {});
   });
 }
+
+// En iPhone el navegador no deja poner en pantalla completa una parte de
+// la pagina: el boton no se muestra.
+if (!document.fullscreenEnabled) $('boton-pantalla').hidden = true;
 
 $('boton-pantalla').addEventListener('click', () => {
   const escenario = $('escenario');
@@ -606,7 +632,15 @@ function pintarConfiguracion() {
   // Pines
   const pines = $('pines');
   pines.replaceChildren();
-  for (const s of SERVOS) {
+  if (!configurable) {
+    const p = document.createElement('p');
+    p.className = 'detalle';
+    p.textContent = brazo.estado === 'programa-antiguo'
+      ? 'La placa tiene el programa de agosto, que no permite cambiar los pines. Prepárela con el programa nuevo.'
+      : 'Conecte una placa con el programa del taller para ver y cambiar los pines.';
+    pines.append(p);
+  }
+  for (const s of configurable ? SERVOS : []) {
     const fila = document.createElement('div');
     fila.className = 'pin';
     const etiqueta = document.createElement('label');
@@ -647,7 +681,7 @@ function pintarConfiguracion() {
     p.className = 'detalle';
     p.textContent = brazo.estado === 'programa-antiguo'
       ? 'La placa tiene el programa de agosto, que no deja cambiar esto. Prepárela con el programa nuevo.'
-      : 'Conecte una placa con el programa del taller para ver y cambiar estos valores.';
+      : 'Conecte una placa con el programa del taller para ver y cambiar los límites.';
     contenedor.append(p);
   } else {
     for (const s of SERVOS) {
@@ -861,10 +895,20 @@ $('form-consola').addEventListener('submit', async (e) => {
 //  ARRANQUE
 // ---------------------------------------------------------------------
 llenarCasillas(letrasDe(estado.mapeo));
-ocultarDiseno(true);
+ocultarDiseno(false);
 pintarEstadoBrazo();
 
-if (!('serial' in navigator)) {
+// En un telefono o una tablet la pagina sirve para explorar: probar la
+// deteccion de la mano y leer como funciona. El brazo se maneja desde un
+// computador, porque un iPhone no puede hablar con un Arduino por USB y
+// en Android depende del modelo. Se ocultan los controles del brazo y
+// del profesor en vez de mostrar errores.
+const esTelefono = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+  || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+if (esTelefono) {
+  document.body.classList.add('modo-telefono');
+  aviso('telefono', 'Desde el teléfono se puede probar la detección de la mano y leer cómo funciona. Para mover el brazo, abra esta página en un computador con Chrome o Edge.');
+} else if (!('serial' in navigator)) {
   aviso('navegador', 'Este navegador no puede conectarse con el Arduino. La detección de la mano funciona igual, pero para mover el brazo abra esta página en Google Chrome o Microsoft Edge.', { grave: true });
 }
 
@@ -875,7 +919,7 @@ iniciarDeteccion();
 let idGuardado = '';
 try { idGuardado = localStorage.getItem('imec-camara') || ''; } catch (e) { /* nada */ }
 iniciarCamara(idGuardado).catch(() => {});
-brazo.reconectar().catch(() => {});
+if (!esTelefono) brazo.reconectar().catch(() => {});
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

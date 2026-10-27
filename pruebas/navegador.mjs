@@ -46,10 +46,11 @@ async function abrirNavegador({ camara = true, webgl = true } = {}) {
   return chromium.launch({ channel: 'chrome', headless: true, args });
 }
 
-async function nuevaPagina(navegador, escenario, { ancho = 1366, alto = 768, camara = true } = {}) {
+async function nuevaPagina(navegador, escenario, { ancho = 1366, alto = 768, camara = true, agente } = {}) {
   const contexto = await navegador.newContext({
     viewport: { width: ancho, height: alto },
     permissions: camara ? ['camera'] : [],
+    ...(agente ? { userAgent: agente, isMobile: true, hasTouch: true } : {}),
   });
   await contexto.addInitScript(instalarSerialFalso, escenario);
   const pagina = await contexto.newPage();
@@ -175,7 +176,8 @@ const ESCENARIOS = {
     const { contexto, pagina, errores } = await nuevaPagina(nav, { programa: 'antiguo', autorizado: true });
     await esperarEstado(pagina, 'programa-antiguo');
     await pagina.click('button[data-pestana="brazo"]');
-    assert.equal(await pagina.locator('#pines select').first().isDisabled(), true);
+    assert.equal(await pagina.locator('#pines select').count(), 0, 'sin listas de pines');
+    assert.match(await textoDe(pagina, '#pines'), /programa de agosto/);
     assert.match(await textoDe(pagina, '#posiciones'), /programa de agosto/);
     const enviadas = await letrasEnviadas(pagina);
     // Al programa viejo no se le puede mandar ninguna letra de
@@ -317,6 +319,23 @@ const ESCENARIOS = {
     assert.equal(await pagina.isVisible('.aviso[data-id="deteccion"]'), false);
     await pagina.waitForFunction(() => window.taller.estado.cuadros > 20, null, { timeout: 15000 });
     assert.deepEqual(errores.filter((e) => !/ERR_INTERNET_DISCONNECTED|Failed to load resource/.test(e)), []);
+    await contexto.close();
+  },
+
+  async 'abrir el enlace desde un iPhone'(nav) {
+    const iphone = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1';
+    const { contexto, pagina, errores } = await nuevaPagina(nav, { sinSerial: true }, { ancho: 390, alto: 844, agente: iphone });
+    await pagina.waitForSelector('.aviso[data-id="telefono"]');
+    await pagina.waitForFunction(() => window.taller.estado.cuadros > 10, null, { timeout: 30000 });
+    assert.equal(await pagina.locator('.aviso.grave').count(), 0, 'sin avisos rojos en el telefono');
+    assert.equal(await pagina.isVisible('.riel'), false);
+    assert.equal(await pagina.isVisible('button[data-pestana="brazo"]'), false);
+    assert.equal(await pagina.isVisible('#estado-brazo'), false);
+    await pagina.screenshot({ path: `${CAPTURAS}/15-iphone.png`, fullPage: true });
+    await pagina.goto(BASE + '#brazo');
+    await pagina.waitForSelector('.aviso[data-id="telefono"]');
+    assert.equal(await pagina.isVisible('#actividad'), true, '#brazo en el telefono abre la actividad');
+    assert.deepEqual(errores, []);
     await contexto.close();
   },
 
