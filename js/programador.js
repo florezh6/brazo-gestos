@@ -195,11 +195,16 @@ class Sesion {
   // esta conectada al pin de reset a traves de un condensador: bajarla
   // y volverla a subir produce un pulso que reinicia el chip, y el
   // bootloader queda escuchando cerca de un segundo.
+  //
+  // Despues del pulso se esperan 300 ms antes de mandar nada. Medido con
+  // un Uno real: lo que se manda 50 ms despues del reinicio se pierde
+  // (0 respuestas de 6), y a 300 ms llega siempre (6 de 6); el
+  // bootloader contesta unos 445 ms despues del pulso.
   async reiniciar() {
     await this.puerto.setSignals({ dataTerminalReady: false, requestToSend: false });
     await esperar(250);
     await this.puerto.setSignals({ dataTerminalReady: true, requestToSend: true });
-    await esperar(50);
+    await esperar(300);
     this.lector.vaciar();
   }
 

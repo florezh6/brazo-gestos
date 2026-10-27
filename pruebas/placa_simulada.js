@@ -297,6 +297,7 @@ export class PuertoSimulado {
     this.desconectado = false;
     this.reloj = null;
     this.registro = [];   // todo lo que manda el computador, para revisar
+    this.ultimoReinicio = 0;
   }
 
   getInfo() {
@@ -344,6 +345,12 @@ export class PuertoSimulado {
       write: (bytes) => {
         if (this.desconectado) throw new DOMException('The device has been lost.', 'NetworkError');
         this.registro.push(...bytes);
+        // Medido con un Arduino Uno real el 27-oct-2026: lo que se manda
+        // en los primeros instantes despues del pulso de reinicio se
+        // pierde (50 ms despues: 0 de 6 respuestas; 300 ms: 6 de 6). Se
+        // pierde en el chip USB de la placa, no en el bootloader, por eso
+        // avr8js solo no lo muestra. Se imita con una ventana de 200 ms.
+        if (Date.now() - this.ultimoReinicio < 200) return;
         this.placa.escribirDesdeComputador(bytes, this.baudios);
       },
     });
@@ -355,7 +362,10 @@ export class PuertoSimulado {
   async setSignals({ dataTerminalReady }) {
     if (!this.abierto) throw new DOMException('The port is closed.', 'InvalidStateError');
     if (dataTerminalReady !== undefined) {
-      if (dataTerminalReady && !this.dtr) this.placa.reiniciar();
+      if (dataTerminalReady && !this.dtr) {
+        this.placa.reiniciar();
+        this.ultimoReinicio = Date.now();
+      }
       this.dtr = dataTerminalReady;
     }
   }
