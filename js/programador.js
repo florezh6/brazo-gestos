@@ -220,18 +220,28 @@ class Sesion {
     return r.slice(1, 1 + largoRespuesta);
   }
 
-  // Intenta sincronizar con el bootloader varias veces. Devuelve true
-  // si contesto.
+  // Sincroniza con el bootloader. Despues de cada reinicio se manda UNA
+  // sola orden de sincronizar y se espera hasta un segundo la respuesta.
+  //
+  // Por que una sola: al reiniciar, el optiboot del Uno pasa casi medio
+  // segundo parpadeando el LED sin leer el puerto. Si en ese tiempo se
+  // mandan varias ordenes, se acumulan en el buffer del chip, que guarda
+  // tres bytes. El bootloader responde la primera, pero queda un byte
+  // suelto de la segunda; la orden siguiente llega pegada a ese byte, el
+  // bootloader la lee mal y por diseno se sale al programa normal. Con el
+  // Uno real eso se veia como "respondio algo inesperado".
+  //
+  // Si no responde, se reinicia la placa y se intenta otra vez.
   async sincronizar() {
-    for (let intento = 0; intento < 10; intento++) {
-      this.lector.vaciar();
+    for (let intento = 0; intento < 4; intento++) {
+      if (intento > 0) await this.reiniciar();
       await this.enviar([STK.GET_SYNC, STK.CRC_EOP]);
-      const r = await this.lector.leer(2, 150);
+      const r = await this.lector.leer(2, 1000);
       if (r && r[0] === STK.INSYNC && r[1] === STK.OK) {
-        // Puede quedar algun eco de los intentos anteriores.
-        await esperar(30);
-        this.lector.vaciar();
-        return true;
+        // Nada mas deberia llegar. Si llega algo, no es un bootloader
+        // limpio: se reinicia y se intenta de nuevo.
+        await esperar(60);
+        if (this.lector.buffer.length === 0) return true;
       }
     }
     return false;

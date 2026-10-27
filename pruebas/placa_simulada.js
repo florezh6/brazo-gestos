@@ -98,8 +98,12 @@ export class PlacaSimulada {
     };
 
     this.usart.onByteTransmit = (b) => this.recibido(b);
-    // Lo que va por el cable hacia el chip, y la memoria intermedia de
-    // un byte que tiene el puerto serie del ATmega328P ademas de UDR0.
+    // Lo que va por el cable hacia el chip, y la memoria intermedia del
+    // puerto serie del ATmega328P: ademas de UDR0, un segundo nivel de
+    // FIFO y el registro de desplazamiento retienen dos bytes mas. En
+    // total guarda TRES bytes sin leer (hoja de datos, seccion USART,
+    // "Data OverRun"). Con solo dos, el simulador escondia una falla
+    // real del programador: un byte sobrante de una sincronizacion.
     this.cable = [];
     this.transmitiendo = false;
     this.fifo = [];
@@ -184,7 +188,7 @@ export class PlacaSimulada {
   llegaByte(b) {
     if (!this.usart.rxEnable) return;
     if (this.cpu.data[UCSR0A] & RXC0) {
-      if (this.fifo.length < 1) this.fifo.push(b);
+      if (this.fifo.length < 2) this.fifo.push(b);
       return;
     }
     this.usart.writeByte(b, true);
