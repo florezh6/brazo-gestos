@@ -74,6 +74,8 @@ Tercera vuelta, después de que Hugo vio los diagramas en negro y el consejo de 
 - Defensas adicionales: los diagramas llevan sus colores dentro del SVG y el texto de la Mechita para teléfono viene oculto desde el HTML.
 - Quien abrió la página antes de este arreglo tiene el service worker viejo: necesita una recarga forzada una sola vez, Cmd+Shift+R o Ctrl+Shift+R.
 
+**Pendiente al cortar la sesión del 27-oct por límite de uso.** Publicado el commit 770196a con el arreglo de versiones; las 35 pruebas de Node y los 14 escenarios del navegador pasan, y la transición desde la versión anterior funciona en las pruebas locales, incluida la secuencia recarga forzada y luego navegación normal. En el Chrome real de Hugo, después de una recarga forzada la página se ve completa y consistente, pero el service worker nuevo quedó en estado «esperando» sin tomar el control. La hipótesis no verificada es otra pestaña de Hugo con la página abierta bajo el service worker viejo. Próximo paso: pedirle a Hugo que cierre todas las pestañas de la página, abrirla de nuevo y revisar el estado; si sigue esperando, agregar a sw.js un mensaje 'activar' que llame skipWaiting y que app.js lo envíe cuando vea registration.waiting.
+
 **La Mechita es provisional.** Está dibujada en `marca/mechita.svg` a partir de la publicación del departamento del 11 de abril de 2025 en Instagram. Hay que reemplazarla por los archivos oficiales de comunicaciones IMEC; basta con sobrescribir `marca/mechita.svg` y `marca/mechita-cara.svg`.
 
 ## Decisiones tomadas sin aprobación de Hugo
