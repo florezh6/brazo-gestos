@@ -277,17 +277,23 @@ let detector = null;
 let ultimoTiempo = -1;
 let fallaDeteccion = false;
 
+// Se detecta sobre el cuadro YA VOLTEADO en espejo, como hace la
+// version Python (cv2.flip antes de detectar). No da lo mismo: el modelo
+// de la mano no responde igual a una imagen y a su reflejo, y el umbral
+// del pulgar y el 98.8 % de acierto se midieron con la imagen en espejo.
+// Con un video real, detectar sin espejo hacia que un 3 se leyera como
+// 4 durante casi un segundo (comparacion del 27 de octubre).
 function detectar() {
   // MediaPipe exige tiempos en milisegundos siempre crecientes.
   const tiempo = Math.max(Math.round(performance.now()), ultimoTiempo + 1);
   ultimoTiempo = tiempo;
-  return detector.detectForVideo(video, tiempo).landmarks || [];
+  return detector.detectForVideo(lienzo, tiempo).landmarks || [];
 }
 
 function dibujarMano(puntos, ancho, alto) {
   const escala = ancho / 640;
-  // En espejo: la imagen se dibuja volteada, asi que los puntos tambien.
-  const px = puntos.map((p) => [(1 - p.x) * ancho, p.y * alto]);
+  // Los puntos ya vienen en las coordenadas de la imagen en espejo.
+  const px = puntos.map((p) => [p.x * ancho, p.y * alto]);
   ctx.strokeStyle = '#ffffff';
   ctx.lineWidth = 2 * escala;
   ctx.beginPath();

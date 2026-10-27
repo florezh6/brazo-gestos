@@ -14,6 +14,7 @@ La página está publicada en https://florezh6.github.io/brazo-gestos/ desde el 
 | Programador desde el navegador | Contra optiboot real del Uno y el bootloader viejo del Nano, en avr8js | Escribe, verifica y el programa arranca en los dos |
 | Conexión `brazo.js` | 7 pruebas contra la placa simulada | Todas pasan, tres vueltas seguidas |
 | Regla de conteo | Comparada con `contar_dedos` del Python original en 12 000 manos sintéticas | Idéntica. Con margen 0,10 difieren 230, así que la prueba sí detecta cambios |
+| Detección de punta a punta | Video real de Hugo, 294 cuadros, página contra el Python del taller | 99,7 % de cuadros iguales |
 | Usuario simulado en Chrome | 13 escenarios en `pruebas/navegador.mjs`, en localhost y en la página publicada | Todos pasan |
 
 Escenarios del usuario simulado: arranque, cargar el diseño de un equipo, placa vacía y prepararla, programa de agosto, pines con cambio e intercambio y guardado, control manual y consola, desconexión y reconexión, dos pestañas, navegador sin Web Serial, sin internet, tres tamaños de pantalla, cámara negada y navegador sin aceleración gráfica.
@@ -38,13 +39,12 @@ BASE=https://florezh6.github.io/brazo-gestos/ node pruebas/navegador.mjs captura
    3. Los seis gestos con el brazo moviéndose, la pausa con dos manos y sacar la mano del encuadre.
    4. Desenchufar el USB con la base girando. Debe detenerse en menos de medio segundo.
    5. Repetir el paso 1 en el Windows.
-3. **Paridad de punta a punta con un video real.** La comparación ya está armada y probada con un video sin manos, 30 de 30 cuadros iguales. Falta el video de Hugo, de unos 30 s, con la mano haciendo 0 a 5 con el dorso hacia la cámara. Las dos versiones procesan los mismos cuadros, 10 por segundo: Python con su volteo en espejo, como el programa del taller, y la página sin volteo, como ella. Criterio acordado: al menos 95 % de cuadros con la misma lectura. Pasos, con el servidor de pruebas corriendo:
+3. **Paridad de punta a punta con un video real: hecha el 27 de octubre.** Con un video de Hugo de 29,5 s, 294 cuadros a 10 por segundo, la página y el Python del taller dan la misma lectura en 293 cuadros, el 99,7 %. La única diferencia es un cuadro suelto en una transición, que el estabilizador descarta. La primera corrida dio 96,3 % y mostró un 3 leído como 4 durante 7 cuadros seguidos, casi un segundo: la página detectaba sobre la imagen sin voltear y el Python sobre la imagen en espejo. El modelo de la mano no responde igual a una imagen y a su reflejo, y el umbral del pulgar se midió en espejo, así que ahora la página detecta sobre el cuadro ya volteado. Los cuadros del video quedan en `pruebas/datos/video/`, fuera de git porque muestran la cara de Hugo. Para repetir, con el servidor de pruebas corriendo:
    ```
    pruebas/video_preparar.sh <video>
    <python con mediapipe 1.0.0> pruebas/video_python.py <ruta a tecnico/deteccion_dedos.py> modelo/hand_landmarker.task
    node pruebas/video.mjs
    ```
-   El Python con MediaPipe 1.0.0 se arma aparte, por ejemplo con `python3 -m venv` y `pip install mediapipe==1.0.0`. El `venv/` de la carpeta del taller está roto.
 4. **Aprobación de textos por Hugo.** La guía `guia.html` y los mensajes de la página están redactados con su marco de redacción, pero él no los ha leído. Mostrárselos antes de darlos por terminados.
 
 ## Decisiones tomadas sin aprobación de Hugo

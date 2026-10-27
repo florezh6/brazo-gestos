@@ -6,16 +6,25 @@
 <script type="module">
   // Lado navegador de la comparacion: los mismos cuadros, el mismo
   // detector que la pagina (js/camara.js) y la misma regla
-  // (js/deteccion.js). Sin espejo, como la pagina.
+  // (js/deteccion.js). Volteado en espejo antes de detectar, como la
+  // pagina y como el Python.
   import { crearDetector } from '../js/camara.js';
   import { leerManos } from '../js/deteccion.js';
   const n = Number(new URLSearchParams(location.search).get('n'));
   const { detector, motor } = await crearDetector();
   const lecturas = [];
+  const lienzo = document.createElement('canvas');
+  const ctx = lienzo.getContext('2d');
   for (let i = 1; i <= n; i++) {
     const r = await fetch(`datos/video/${String(i).padStart(4, '0')}.jpg`);
     const imagen = await createImageBitmap(await r.blob());
-    const manos = detector.detectForVideo(imagen, (i - 1) * 100).landmarks || [];
+    lienzo.width = imagen.width;
+    lienzo.height = imagen.height;
+    ctx.save();
+    ctx.scale(-1, 1);
+    ctx.drawImage(imagen, -imagen.width, 0);
+    ctx.restore();
+    const manos = detector.detectForVideo(lienzo, (i - 1) * 100).landmarks || [];
     lecturas.push(leerManos(manos));
   }
   window.resultado = { motor, lecturas };
