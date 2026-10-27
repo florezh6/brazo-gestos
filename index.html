@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Al alcance de la mano</title>
   <meta name="description" content="Actividad del Departamento de Ingeniería Mecánica de la Universidad de los Andes: un brazo robótico que obedece gestos de la mano reconocidos con inteligencia artificial.">
-  <link rel="icon" href="marca/mechita-cara.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/estilo.css?v=2986cda00a">
+  <link rel="icon" href="marca/mechita-cara.png" type="image/png">
+  <link rel="stylesheet" href="css/estilo.css?v=299a256427">
 </head>
 <body>
   <header class="cabecera">
@@ -44,7 +44,7 @@
       <canvas id="lienzo"></canvas>
 
       <div class="cargando" id="cargando">
-        <img src="marca/mechita.svg" alt="" class="mechita-cargando">
+        <img src="marca/mechita-saludando.webp" alt="" class="mechita-cargando" width="520" height="664">
         <p id="cargando-texto">Cargando el modelo de la mano…</p>
       </div>
 
@@ -95,7 +95,7 @@
       </form>
 
       <aside class="mechita-dice">
-        <img src="marca/mechita-cara.svg" alt="">
+        <img src="marca/mechita-overol.webp" alt="" width="320" height="341">
         <p class="solo-computador">Parte del reto es que cada equipo recuerde su propio diseño. Por eso la pantalla no muestra qué hace cada gesto.</p>
         <p class="solo-telefono" hidden>Haz un número del 0 al 5 con los dedos frente a la cámara. Con las dos manos a la vista aparece PAUSA.</p>
       </aside>
@@ -109,7 +109,7 @@
         <h2>De la mano al robot</h2>
         <p class="entrada">En una fracción de segundo, una red neuronal encuentra la mano en la imagen, una regla geométrica cuenta los dedos y un microcontrolador traduce ese número en el movimiento de cuatro motores. La inteligencia artificial decide qué está viendo. La ingeniería mecánica hace que eso se convierta en movimiento real, con fuerza, precisión y seguridad.</p>
       </div>
-      <img src="marca/mechita.svg" alt="" class="mechita-portada">
+      <img src="marca/mechita-seneca-taller.webp" alt="La Mechita y Séneca trabajando en un taller" class="mechita-portada" width="900" height="716">
     </section>
 
     <section class="recorrido" aria-labelledby="t-recorrido">
@@ -234,10 +234,10 @@
 <!-- /diagrama:brazo -->
           <button class="boton control" data-letra="s" style="left:68.8%;top:8.8%">Subir <kbd>s</kbd></button>
           <button class="boton control" data-letra="b" style="left:68.8%;top:59.5%">Bajar <kbd>b</kbd></button>
-          <button class="boton control" data-letra="o" style="left:88.8%;top:67.4%">Abrir garra <kbd>o</kbd></button>
-          <button class="boton control" data-letra="c" style="left:88.8%;top:77.7%">Cerrar garra <kbd>c</kbd></button>
-          <button class="boton control" data-letra="i" style="left:14.4%;top:74.9%">Girar a la izquierda <kbd>i</kbd></button>
-          <button class="boton control" data-letra="d" style="left:67.5%;top:74.9%">Girar a la derecha <kbd>d</kbd></button>
+          <button class="boton control" data-letra="o" style="left:86.9%;top:64.2%">Abrir garra <kbd>o</kbd></button>
+          <button class="boton control" data-letra="c" style="left:86.9%;top:78.1%">Cerrar garra <kbd>c</kbd></button>
+          <button class="boton control" data-letra="i" style="left:20.6%;top:94.4%">Girar a la izquierda <kbd>i</kbd></button>
+          <button class="boton control" data-letra="d" style="left:60.6%;top:94.4%">Girar a la derecha <kbd>d</kbd></button>
           <button class="boton control pausa" data-letra="p" style="left:10.0%;top:7.0%">Pausa <kbd>p</kbd></button>
         </div>
         <p class="ayuda">Izquierda y derecha se ven desde atrás del brazo, mirando hacia donde apunta la garra. Si el brazo gira al revés, intercambie los dos topes de la base en «Límites y posiciones».</p>
@@ -349,88 +349,88 @@
   <rect x="34" y="70" width="150" height="96" rx="8" class="d-pantalla" fill="#1b2c41"/>
   <rect x="44" y="80" width="130" height="76" rx="3" class="d-vidrio" fill="#d9e6f6"/>
   <path d="M22 172 L196 172 L184 186 L34 186 Z" class="d-teclado" fill="#9fb0c4" stroke="#1b2c41" stroke-width="2"/>
-  <text x="109" y="124" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41" text-anchor="middle">Chrome o Edge</text>
+  <text x="109" y="124" class="d-t" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#1b2c41" text-anchor="middle">Chrome o Edge</text>
 </g>
 <rect x="300" y="70" width="360" height="270" rx="12" class="d-placa" fill="#0f6e8c" stroke="#111" stroke-width="3"/>
 <rect x="274" y="92" width="40" height="46" rx="4" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/>
 <rect x="282" y="260" width="34" height="40" rx="5" class="d-jack" fill="#222" stroke="#111" stroke-width="2"/>
-<text x="520.0" y="324" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
-<text x="386" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">D</text>
-<text x="386" y="127" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">S</text>
-<text x="386" y="148" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">V</text>
-<text x="386" y="169" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">G</text>
-<text x="408" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
+<text x="520.0" y="324" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
+<text x="386" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">D</text>
+<text x="386" y="127" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">S</text>
+<text x="386" y="148" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">V</text>
+<text x="386" y="169" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">G</text>
+<text x="408" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
 <rect x="400" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="400" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="400" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="429" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<text x="429" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
 <rect x="421" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="421" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="421" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
-<text x="450" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
+<text x="450" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
 <rect x="442" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="442" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="442" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="471" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
+<text x="471" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
 <rect x="463" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="463" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="463" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="492" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
+<text x="492" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
 <rect x="484" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="484" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="484" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="513" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">7</text>
+<text x="513" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">7</text>
 <rect x="505" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="505" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="505" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="534" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">8</text>
+<text x="534" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">8</text>
 <rect x="526" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="526" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="526" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="555" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">9</text>
+<text x="555" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">9</text>
 <rect x="547" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="547" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="547" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
-<text x="576" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">10</text>
+<text x="576" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">10</text>
 <rect x="568" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="568" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="568" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
-<text x="597" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">11</text>
+<text x="597" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">11</text>
 <rect x="589" y="114" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="589" y="135" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
 <rect x="589" y="156" width="16" height="16" rx="2" class="d-pin usado" fill="#ffe500" stroke="#111" stroke-width="1.5"/>
-<text x="618" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">12</text>
+<text x="618" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">12</text>
 <rect x="610" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="610" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="610" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
-<text x="639" y="190" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">13</text>
+<text x="639" y="190" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">13</text>
 <rect x="631" y="114" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="631" y="135" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="631" y="156" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <rect x="340" y="246" width="74" height="34" rx="4" class="d-bornera" fill="#2fae5b" stroke="#111" stroke-width="2"/>
 <circle cx="358" cy="263" r="8" class="d-tornillo" fill="#c7cfd8" stroke="#39434f" stroke-width="2"/><circle cx="396" cy="263" r="8" class="d-tornillo" fill="#c7cfd8" stroke="#39434f" stroke-width="2"/>
-<text x="344" y="306" class="d-signo" font-family="Barlow, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">+</text><text x="410" y="306" class="d-signo" font-family="Barlow, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">−</text>
-<text x="377" y="238" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">bornera</text>
+<text x="344" y="306" class="d-signo" font-family="Poppins, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">+</text><text x="410" y="306" class="d-signo" font-family="Poppins, system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">−</text>
+<text x="377" y="238" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">bornera</text>
 <rect x="468" y="250" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/><rect x="488" y="250" width="16" height="16" rx="2" class="d-pin" fill="#e9eef4" stroke="#0b3c4d" stroke-width="1.5"/>
 <path d="M460 242 L512 274 M512 242 L460 274" class="d-tachado" stroke="#ff5a45" stroke-width="4" stroke-linecap="round" fill="none"/>
-<text x="486" y="294" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">SEL sin puente</text>
+<text x="486" y="294" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">SEL sin puente</text>
 <path d="M184 120 C230 120 240 115 274 115" class="d-cable-usb" stroke="#6b7c90" stroke-width="7" fill="none" stroke-linecap="round"/>
-<text x="236" y="104" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41" text-anchor="middle">USB</text>
-<text x="236" y="146" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">datos y 5 V</text>
-<text x="236" y="162" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">para el Arduino</text>
+<text x="236" y="104" class="d-t" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#1b2c41" text-anchor="middle">USB</text>
+<text x="236" y="146" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">datos y 5 V</text>
+<text x="236" y="162" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">para el Arduino</text>
 <g class="d-fuente">
   <rect x="40" y="400" width="130" height="92" rx="14" class="d-adaptador" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
   <rect x="22" y="424" width="20" height="9" rx="2" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/><rect x="22" y="458" width="20" height="9" rx="2" class="d-metal" fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"/>
-  <text x="105" y="440" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">Fuente</text>
-  <text x="105" y="460" class="d-t claro chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">5 a 6 V · 3 A o más</text>
+  <text x="105" y="440" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">Fuente</text>
+  <text x="105" y="460" class="d-t claro chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">5 a 6 V · 3 A o más</text>
 </g>
 <path d="M170 446 C210 446 200 470 236 470" class="d-cable-dc" stroke="#222" stroke-width="6" fill="none" stroke-linecap="round"/>
 <rect x="236" y="456" width="56" height="30" rx="4" class="d-adaptador-bornera" fill="#2fae5b" stroke="#111" stroke-width="2"/>
-<text x="264" y="510" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">plug a bornera</text>
+<text x="264" y="510" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">plug a bornera</text>
 <path d="M292 464 L358 464 L358 271" class="d-cable-pos" stroke="#d6402b" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
 <path d="M292 478 L396 478 L396 271" class="d-cable-neg" stroke="#111" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
-<text x="412" y="432" class="d-t" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1b2c41">energía de los motores</text>
-<text x="412" y="448" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">no pasa por el Arduino</text>
+<text x="412" y="432" class="d-t" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#1b2c41">energía de los motores</text>
+<text x="412" y="448" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41">no pasa por el Arduino</text>
 <path d="M429 114 L429 26 L732 26 L732 104 L770 104" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
 <path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
 <path d="M429 114 L429 26 L732 26 L732 104 L770 104" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
@@ -438,8 +438,8 @@
 <rect x="770" y="74" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
 <rect x="760" y="96" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
 <circle cx="864" cy="104" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
-<text x="814" y="109" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">garra</text>
-<text x="814" y="154" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 3</text>
+<text x="814" y="109" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">garra</text>
+<text x="814" y="154" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 3</text>
 <path d="M555 114 L555 34 L722 34 L722 216 L770 216" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
 <path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
 <path d="M555 114 L555 34 L722 34 L722 216 L770 216" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
@@ -447,8 +447,8 @@
 <rect x="770" y="186" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
 <rect x="760" y="208" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
 <circle cx="864" cy="216" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
-<text x="814" y="221" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">base</text>
-<text x="814" y="266" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 9</text>
+<text x="814" y="221" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">base</text>
+<text x="814" y="266" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 9</text>
 <path d="M576 114 L576 42 L712 42 L712 328 L770 328" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
 <path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
 <path d="M576 114 L576 42 L712 42 L712 328 L770 328" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
@@ -456,8 +456,8 @@
 <rect x="770" y="298" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
 <rect x="760" y="320" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
 <circle cx="864" cy="328" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
-<text x="814" y="333" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">altura</text>
-<text x="814" y="378" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 10</text>
+<text x="814" y="333" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">altura</text>
+<text x="814" y="378" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 10</text>
 <path d="M597 114 L597 50 L702 50 L702 440 L770 440" class="d-funda" stroke="#000" stroke-opacity="0.18" stroke-width="14" fill="none" stroke-linejoin="round"/>
 <path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(-3.5 -3.5)" stroke="#7a4a24" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
 <path d="M597 114 L597 50 L702 50 L702 440 L770 440" transform="translate(0 0)" stroke="#d6402b" class="d-hilo" stroke-width="3.2" fill="none" stroke-linejoin="round"/>
@@ -465,15 +465,15 @@
 <rect x="770" y="410" width="120" height="60" rx="6" class="d-servo" fill="#2b3a4f" stroke="#111" stroke-width="2.5"/>
 <rect x="760" y="432" width="140" height="16" rx="3" class="d-servo-alas" fill="#3b4c63" stroke="#111" stroke-width="2"/>
 <circle cx="864" cy="440" r="14" class="d-cuerno" fill="#f6f9fd" stroke="#111" stroke-width="2.5"/>
-<text x="814" y="445" class="d-t claro" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">alcance</text>
-<text x="814" y="490" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 11</text>
-<text x="716" y="18" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41" text-anchor="middle">señal de cada servo</text>
-<g transform="translate(470 470)">
-  <rect x="0" y="0" width="250" height="70" rx="8" class="d-recuadro" fill="#ffffff" stroke="#cfd8e3" stroke-width="2"/>
-  <text x="14" y="22" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">Conector del servo</text>
-  <rect x="16" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="42" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">G marrón</text>
-  <rect x="98" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="124" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">V rojo</text>
-  <rect x="170" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="196" y="49" class="d-t chico" font-family="Barlow, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#1b2c41">S naranja</text>
+<text x="814" y="445" class="d-t claro" font-family="Poppins, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff" text-anchor="middle">alcance</text>
+<text x="814" y="490" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">pin 11</text>
+<text x="716" y="18" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41" text-anchor="middle">señal de cada servo</text>
+<g transform="translate(440 470)">
+  <rect x="0" y="0" width="290" height="70" rx="8" class="d-recuadro" fill="#ffffff" stroke="#cfd8e3" stroke-width="2"/>
+  <text x="14" y="22" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41">Conector del servo</text>
+  <rect x="14" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="40" y="49" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41">G marrón</text>
+  <rect x="112" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="138" y="49" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41">V rojo</text>
+  <rect x="190" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="216" y="49" class="d-t chico" font-family="Poppins, system-ui, sans-serif" font-size="11" font-weight="600" fill="#1b2c41">S naranja</text>
 </g>
 </svg>
 <!-- /diagrama:conexiones -->
@@ -607,7 +607,7 @@
   </main>
 
   <footer class="pie">
-    <img src="marca/mechita-cara.svg" alt="" class="pie-mechita">
+    <img src="marca/mechita-cara.png" alt="" class="pie-mechita" width="128" height="128">
     <p>Departamento de Ingeniería Mecánica, Universidad de los Andes. Actividad «Al alcance de la mano».</p>
   </footer>
 

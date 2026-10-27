@@ -76,7 +76,9 @@ Tercera vuelta, después de que Hugo vio los diagramas en negro y el consejo de 
 
 **Pendiente al cortar la sesión del 27-oct por límite de uso.** Publicado el commit 770196a con el arreglo de versiones; las 35 pruebas de Node y los 14 escenarios del navegador pasan, y la transición desde la versión anterior funciona en las pruebas locales, incluida la secuencia recarga forzada y luego navegación normal. En el Chrome real de Hugo, después de una recarga forzada la página se ve completa y consistente, pero el service worker nuevo quedó en estado «esperando» sin tomar el control. La hipótesis no verificada es otra pestaña de Hugo con la página abierta bajo el service worker viejo. Próximo paso: pedirle a Hugo que cierre todas las pestañas de la página, abrirla de nuevo y revisar el estado; si sigue esperando, agregar a sw.js un mensaje 'activar' que llame skipWaiting y que app.js lo envíe cuando vea registration.waiting.
 
-**La Mechita es provisional.** Está dibujada en `marca/mechita.svg` a partir de la publicación del departamento del 11 de abril de 2025 en Instagram. Hay que reemplazarla por los archivos oficiales de comunicaciones IMEC; basta con sobrescribir `marca/mechita.svg` y `marca/mechita-cara.svg`.
+**Mechita oficial desde el 27 de octubre.** Hugo entregó las ilustraciones del departamento, en Descargas › OneDrive_1_27-10-2026, y la presentación «IMEC presentación charlas admitidos». En la página van «Mechita y Séneca 5» en la portada de Cómo funciona, «Mechita saludando» en la pantalla de carga, «Mechita overol» en el consejo de la Actividad, y la cabeza recortada de esta última en el ícono y el pie.
+
+**Estilo alineado con la presentación institucional:** Poppins en toda la página, azul rey `#0840CA` en bloques planos, fondo gris `#F4F4F4`, el amarillo `#FFFC00` de la Mechita y los números grandes en azul. Klavika, la tipografía institucional que también usa la presentación, no es libre y no se incluyó.
 
 ## Decisiones tomadas sin aprobación de Hugo
 
@@ -87,7 +89,7 @@ Están para que las revise. Ninguna cambia lo que se aprobó en el plan.
 - Se reinstaló Rosetta en el Mac con `softwareupdate --install-rosetta`. El compilador de Arduino es para Intel y macOS 27 venía sin Rosetta, así que tampoco funcionaba `SUBIR AL ARDUINO.command`.
 - Trato de usted en los textos de la página y la guía.
 - Botón «Ver el diseño cargado» que lo muestra 6 segundos y lo vuelve a ocultar solo, y campo opcional con el nombre del equipo.
-- Tipografía Barlow como aproximación libre a la de los banners del departamento, que no se pudo identificar con certeza.
+- Tipografía Poppins, la que usa la presentación institucional del departamento.
 - Los extremos se nombran por lo que hacen, como `base_izq` o `altura_arriba`, y no como mínimo y máximo. Un servo montado al revés se arregla intercambiando los dos números.
 - Las velocidades y pasos de los servos no se configuran desde la página. Quedaron fijos con los valores medidos el 9 de agosto.
 - Desde la página, «#mover» puede llevar cualquier servo de 0 a 180, la garra incluida, con una advertencia fija sobre el 8 de agosto. Las teclas 7 y 8 siguen sin pasar del cierre.

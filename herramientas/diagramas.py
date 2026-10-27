@@ -105,12 +105,12 @@ def conexiones():
     s.append('<text x="716" y="18" class="d-t chico" text-anchor="middle">señal de cada servo</text>')
 
     # recuadro: orden de los hilos
-    s.append('''<g transform="translate(470 470)">
-  <rect x="0" y="0" width="250" height="70" rx="8" class="d-recuadro"/>
+    s.append('''<g transform="translate(440 470)">
+  <rect x="0" y="0" width="290" height="70" rx="8" class="d-recuadro"/>
   <text x="14" y="22" class="d-t chico">Conector del servo</text>
-  <rect x="16" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="42" y="49" class="d-t chico">G marrón</text>
-  <rect x="98" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="124" y="49" class="d-t chico">V rojo</text>
-  <rect x="170" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="196" y="49" class="d-t chico">S naranja</text>
+  <rect x="14" y="34" width="20" height="20" rx="2" fill="#7a4a24"/><text x="40" y="49" class="d-t chico">G marrón</text>
+  <rect x="112" y="34" width="20" height="20" rx="2" fill="#d6402b"/><text x="138" y="49" class="d-t chico">V rojo</text>
+  <rect x="190" y="34" width="20" height="20" rx="2" fill="#f08a1c"/><text x="216" y="49" class="d-t chico">S naranja</text>
 </g>''')
     s.append('</svg>')
     return '\n'.join(s)
@@ -159,13 +159,13 @@ def brazo():
 # dibujo salga bien aunque la hoja de estilos no cargue o sea de otra
 # version. Las reglas de css/estilo.css tienen prioridad sobre estos
 # atributos, asi que alli se pueden seguir ajustando.
-LETRA = 'font-family="Barlow, system-ui, sans-serif"'
+LETRA = 'font-family="Poppins, system-ui, sans-serif"'
 ESTILOS = {
     'd-portatil': '', 'd-fuente': '',
-    'd-t': f'{LETRA} font-size="13" font-weight="600" fill="#1b2c41"',
-    'd-t chico': f'{LETRA} font-size="11.5" font-weight="600" fill="#1b2c41"',
-    'd-t claro': f'{LETRA} font-size="13" font-weight="600" fill="#ffffff"',
-    'd-t claro chico': f'{LETRA} font-size="11.5" font-weight="600" fill="#ffffff"',
+    'd-t': f'{LETRA} font-size="12.5" font-weight="600" fill="#1b2c41"',
+    'd-t chico': f'{LETRA} font-size="11" font-weight="600" fill="#1b2c41"',
+    'd-t claro': f'{LETRA} font-size="12.5" font-weight="600" fill="#ffffff"',
+    'd-t claro chico': f'{LETRA} font-size="11" font-weight="600" fill="#ffffff"',
     'd-signo': f'{LETRA} font-size="22" font-weight="700" fill="#ffffff"',
     'd-placa': 'fill="#0f6e8c" stroke="#111" stroke-width="3"',
     'd-metal': 'fill="#c7cfd8" stroke="#5d6b7a" stroke-width="2"',

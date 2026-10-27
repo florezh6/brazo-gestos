@@ -36,15 +36,16 @@ const BASICOS = [
   'js/programador.js',
   'js/protocolo.js',
   'firmware/brazo_web.hex',
-  'fuentes/barlow-latin-400-normal.woff2',
-  'fuentes/barlow-latin-600-normal.woff2',
-  'fuentes/barlow-latin-700-normal.woff2',
-  'fuentes/barlow-semi-condensed-latin-700-normal.woff2',
-  'fuentes/barlow-semi-condensed-latin-800-italic.woff2',
+  'fuentes/poppins-latin-400-normal.woff2',
+  'fuentes/poppins-latin-600-normal.woff2',
+  'fuentes/poppins-latin-700-normal.woff2',
+  'fuentes/poppins-latin-800-italic.woff2',
   'marca/uniandes.svg',
   'marca/departamento-imec.svg',
-  'marca/mechita.svg',
-  'marca/mechita-cara.svg',
+  'marca/mechita-saludando.webp',
+  'marca/mechita-seneca-taller.webp',
+  'marca/mechita-overol.webp',
+  'marca/mechita-cara.png',
 ];
 
 const BASICOS_FIJOS = [

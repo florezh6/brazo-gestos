@@ -16,7 +16,7 @@ La página está en **https://florezh6.github.io/brazo-gestos/**. Funciona en Go
 | Ruta | Qué es |
 |---|---|
 | `index.html`, `css/`, `js/` | La página, con las pestañas Actividad, Cómo funciona, Brazo y Guía. Sin paso de compilación. |
-| `marca/` | Logos oficiales del departamento, tomados de mecanica.uniandes.edu.co, y la Mechita provisional. |
+| `marca/` | Logos oficiales del departamento, tomados de mecanica.uniandes.edu.co, e ilustraciones oficiales de la Mechita y Séneca, entregadas por el departamento el 27 de octubre de 2026, reducidas al tamaño en que se muestran. |
 | `js/deteccion.js` | Conteo de dedos y estabilizador, traducidos línea por línea del Python. |
 | `js/brazo.js`, `js/protocolo.js` | Conexión con la placa por Web Serial. |
 | `js/programador.js` | Carga del `.hex` por el bootloader, protocolo STK500 v1. |
