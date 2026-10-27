@@ -71,10 +71,27 @@ function irA(pestana) {
     if (b.dataset.pestana === pestana) b.setAttribute('aria-current', 'page');
     else b.removeAttribute('aria-current');
   }
-  $('actividad').hidden = pestana !== 'actividad';
-  $('brazo').hidden = pestana !== 'brazo';
+  for (const id of ['actividad', 'como', 'brazo', 'guia']) $(id).hidden = pestana !== id;
+  if (location.hash.slice(1) !== pestana && !location.hash.startsWith('#g-')) {
+    history.replaceState(null, '', '#' + pestana);
+  }
   revisarPermiso();
 }
+
+// La pestana tambien se puede abrir desde la direccion, por ejemplo
+// index.html#guia, y los enlaces del indice de la guia (#g-...) abren
+// la guia si no estaba a la vista.
+function pestanaDesdeDireccion() {
+  const h = location.hash.slice(1);
+  if (h.startsWith('g-')) {
+    if (estado.pestana !== 'guia') irA('guia');
+    const destino = document.getElementById(h);
+    if (destino) destino.scrollIntoView();
+  } else if (['actividad', 'como', 'brazo', 'guia'].includes(h)) {
+    irA(h);
+  }
+}
+window.addEventListener('hashchange', pestanaDesdeDireccion);
 
 for (const b of document.querySelectorAll('button.pestana')) {
   b.addEventListener('click', () => irA(b.dataset.pestana));
@@ -105,37 +122,14 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('pagehide', () => brazo.enviar(LETRA_PAUSA));
 
 // ---------------------------------------------------------------------
-//  TABLA "QUE HACE CADA GESTO"
-// ---------------------------------------------------------------------
-function pintarTablaMapeo() {
-  const lista = $('filas-mapeo');
-  lista.replaceChildren();
-  for (const g of GESTOS) {
-    const li = document.createElement('li');
-    li.dataset.gesto = g;
-    const n = document.createElement('span');
-    n.className = 'dedos';
-    n.textContent = g;
-    const c = document.createElement('span');
-    c.textContent = nombreCorto(estado.mapeo[g]);
-    li.append(n, c);
-    lista.append(li);
-  }
-  marcarFilaActiva();
-}
-
-function marcarFilaActiva() {
-  for (const li of $('filas-mapeo').children) {
-    li.classList.toggle('activa', String(estabilizador.confirmado) === li.dataset.gesto);
-  }
-}
-
-// ---------------------------------------------------------------------
 //  CARGAR EL DISENO DE UN EQUIPO
 //
-//  Seis casillas, en el orden del formulario en papel. Mientras una
-//  casilla tiene el foco, el brazo se queda quieto: no se puede
-//  configurar y operar a la vez.
+//  Seis casillas, del gesto 0 al 5. Mientras una casilla tiene el foco,
+//  el brazo se queda quieto: no se puede configurar y operar a la vez.
+//
+//  Apenas se aplica, el diseno se OCULTA. La pantalla se proyecta, y
+//  parte del reto es que cada equipo recuerde su propio diseno. El
+//  profesor puede revisarlo unos segundos con "Ver el diseno cargado".
 // ---------------------------------------------------------------------
 const casillas = GESTOS.map((g) => {
   const etiqueta = document.createElement('label');
@@ -160,8 +154,17 @@ function avisoMapeo(texto, bien = false) {
   $('aviso-mapeo').classList.toggle('bien', bien);
 }
 
+let relojMostrar = null;
+
+function ocultarDiseno(oculto) {
+  clearTimeout(relojMostrar);
+  $('casillas').classList.toggle('oculto', oculto);
+  $('boton-mostrar').textContent = oculto ? 'Ver el diseño cargado' : 'Ocultar el diseño';
+}
+
 function abrirMapeo(vaciar) {
   if (vaciar) llenarCasillas([]);
+  ocultarDiseno(false);
   avisoMapeo('');
   casillas[0].focus();
 }
@@ -172,12 +175,12 @@ function cerrarMapeo() {
 
 function aplicarMapeo(mapeo, mensaje) {
   estado.mapeo = { ...mapeo };
-  registrarMapeo(estado.mapeo);
+  registrarMapeo(estado.mapeo, $('nombre-equipo').value.trim());
   llenarCasillas(letrasDe(estado.mapeo));
+  ocultarDiseno(true);
   // El operador puede estar sosteniendo el mismo gesto de antes, pero
   // ahora significa otra cosa: hay que confirmarlo desde cero.
   estabilizador.reiniciar();
-  pintarTablaMapeo();
   avisoMapeo(mensaje, true);
 }
 
@@ -193,6 +196,11 @@ formMapeo.addEventListener('focusout', (e) => {
 });
 
 casillas.forEach((c, k) => {
+  // Tocar una casilla oculta empieza un diseno nuevo desde cero, para
+  // que no se vea el anterior.
+  c.addEventListener('focus', () => {
+    if ($('casillas').classList.contains('oculto')) abrirMapeo(true);
+  });
   c.addEventListener('input', () => {
     c.value = c.value.toLowerCase();
     c.classList.remove('mal');
@@ -214,6 +222,7 @@ casillas.forEach((c, k) => {
     if (e.key === 'Escape') {
       // Cancelar: queda el diseno que estaba.
       llenarCasillas(letrasDe(estado.mapeo));
+      ocultarDiseno(true);
       avisoMapeo('Carga cancelada. Sigue el diseño anterior.');
       cerrarMapeo();
       e.stopPropagation();
@@ -232,12 +241,21 @@ formMapeo.addEventListener('submit', (e) => {
     }
     return;
   }
-  aplicarMapeo(r.mapeo, 'Diseño cargado.');
+  const equipo = $('nombre-equipo').value.trim();
+  aplicarMapeo(r.mapeo, equipo ? `Diseño de ${equipo} cargado y oculto.` : 'Diseño cargado y oculto.');
   cerrarMapeo();
 });
 
+$('boton-mostrar').addEventListener('click', () => {
+  const oculto = $('casillas').classList.contains('oculto');
+  ocultarDiseno(!oculto);
+  // Se vuelve a ocultar solo, por si el profesor olvida hacerlo con la
+  // pantalla proyectada.
+  if (oculto) relojMostrar = setTimeout(() => ocultarDiseno(true), 6000);
+});
+
 function volverAFabrica() {
-  aplicarMapeo(MAPEO_DE_FABRICA, 'De vuelta al diseño de fábrica.');
+  aplicarMapeo(MAPEO_DE_FABRICA, 'De vuelta al diseño de fábrica, oculto.');
   cerrarMapeo();
 }
 $('boton-fabrica').addEventListener('click', volverAFabrica);
@@ -354,7 +372,7 @@ function procesarCuadro() {
 }
 
 function pintarLectura() {
-  $('crudo').textContent = 'detectando: ' + (estado.lectura === null ? '–'
+  $('crudo').textContent = 'detectando ' + (estado.lectura === null ? '–'
     : estado.lectura === PAUSA ? 'dos manos' : estado.lectura);
   const confirmado = estabilizador.confirmado;
   const caja = $('lectura');
@@ -364,14 +382,12 @@ function pintarLectura() {
     caja.hidden = false;
     caja.classList.add('pausa');
     $('lectura-numero').textContent = 'PAUSA';
-    $('lectura-comando').textContent = estado.lectura === PAUSA ? 'dos manos' : 'todo quieto';
   } else {
     caja.hidden = false;
     caja.classList.remove('pausa');
+    // Solo el numero: el nombre de la orden delataria el diseno.
     $('lectura-numero').textContent = confirmado;
-    $('lectura-comando').textContent = nombreCorto(estado.mapeo[confirmado]);
   }
-  marcarFilaActiva();
 }
 
 let pararBucle = null;
@@ -478,6 +494,7 @@ function pintarEstadoBrazo() {
     'conectando': 'Conectando. La placa se reinicia al conectar; tarda unos segundos.',
     'programando': 'Cargando el programa en la placa. No desconecte el cable.',
     'sin-soporte': 'Este navegador no puede hablar con el Arduino. Abra la página en Google Chrome o Microsoft Edge.',
+    'no-compatible': `La placa conectada es un ${brazo.detalle}. Esta actividad necesita una placa con ATmega328P, como el Arduino Uno R3 o el Nano, originales o clones.`,
   };
   $('conexion-detalle').textContent = detalles[e] || '';
 
@@ -488,7 +505,7 @@ function pintarEstadoBrazo() {
     });
   } else if (e === 'perdido') {
     aviso('brazo', 'Se perdió la conexión con el brazo. La detección sigue funcionando; al volver a enchufar el cable se reconecta solo.', { grave: true });
-  } else if (e === 'ocupado' || e === 'otra-pestana') {
+  } else if (e === 'ocupado' || e === 'otra-pestana' || e === 'no-compatible') {
     aviso('brazo', detalles[e], { grave: true });
   } else {
     quitarAviso('brazo');
@@ -553,9 +570,17 @@ for (const b of document.querySelectorAll('#manual [data-letra]')) {
   const letra = b.dataset.letra;
   if (letra === 'i' || letra === 'd') {
     // El giro dura mientras se mantenga presionado, igual que el gesto.
-    b.addEventListener('pointerdown', (e) => { b.setPointerCapture(e.pointerId); brazo.enviar(letra); });
+    b.addEventListener('pointerdown', (e) => {
+      b.setPointerCapture(e.pointerId);
+      b.classList.add('activo');
+      brazo.enviar(letra);
+    });
     for (const fin of ['pointerup', 'pointercancel', 'lostpointercapture']) {
-      b.addEventListener(fin, () => brazo.enviar(LETRA_PAUSA));
+      b.addEventListener(fin, () => {
+        if (!b.classList.contains('activo')) return;
+        b.classList.remove('activo');
+        brazo.enviar(LETRA_PAUSA);
+      });
     }
     b.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) brazo.enviar(letra); } });
     b.addEventListener('keyup', (e) => { if (e.key === ' ' || e.key === 'Enter') brazo.enviar(LETRA_PAUSA); });
@@ -836,12 +861,15 @@ $('form-consola').addEventListener('submit', async (e) => {
 //  ARRANQUE
 // ---------------------------------------------------------------------
 llenarCasillas(letrasDe(estado.mapeo));
-pintarTablaMapeo();
+ocultarDiseno(true);
 pintarEstadoBrazo();
 
 if (!('serial' in navigator)) {
   aviso('navegador', 'Este navegador no puede conectarse con el Arduino. La detección de la mano funciona igual, pero para mover el brazo abra esta página en Google Chrome o Microsoft Edge.', { grave: true });
 }
+
+pestanaDesdeDireccion();
+$('boton-imprimir').addEventListener('click', () => window.print());
 
 iniciarDeteccion();
 let idGuardado = '';

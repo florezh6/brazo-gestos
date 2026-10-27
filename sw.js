@@ -9,7 +9,7 @@
 
 // Si se cambia MediaPipe o el modelo, hay que cambiar este nombre: lo
 // guardado de vendor/ y modelo/ no se vuelve a pedir nunca.
-const CAJA = 'brazo-gestos-v1';
+const CAJA = 'brazo-gestos-v2';
 
 const BASICOS = [
   './',
@@ -25,9 +25,15 @@ const BASICOS = [
   'js/programador.js',
   'js/protocolo.js',
   'firmware/brazo_web.hex',
-  'fuentes/archivo-latin-wght-normal.woff2',
-  'fuentes/archivo-latin-ext-wght-normal.woff2',
-  'icono.svg',
+  'fuentes/barlow-latin-400-normal.woff2',
+  'fuentes/barlow-latin-600-normal.woff2',
+  'fuentes/barlow-latin-700-normal.woff2',
+  'fuentes/barlow-semi-condensed-latin-700-normal.woff2',
+  'fuentes/barlow-semi-condensed-latin-800-italic.woff2',
+  'marca/uniandes.svg',
+  'marca/departamento-imec.svg',
+  'marca/mechita.svg',
+  'marca/mechita-cara.svg',
   'vendor/mediapipe/vision_bundle.mjs',
   // MediaPipe pide estos dos antes de que este archivo tome control de
   // la pagina en la primera visita: si no se guardan aqui, no quedan

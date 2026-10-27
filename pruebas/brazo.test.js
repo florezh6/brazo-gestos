@@ -156,3 +156,17 @@ test('si la pagina se atrasa en pleno giro, la base retoma sola', async () => {
     puerto.apagar();
   }
 });
+
+test('un Arduino Mega original se reconoce como no compatible sin abrir el puerto', async () => {
+  const placa = new PlacaSimulada({ app: HEX, bootloader: OPTIBOOT });
+  const puerto = new PuertoSimulado(placa, { usbVendorId: 0x2341, usbProductId: 0x0042 });
+  const brazo = new Brazo(new SerialFalso(puerto), null);
+  try {
+    assert.equal(await brazo.reconectar(), false);
+    assert.equal(brazo.estado, 'no-compatible');
+    assert.equal(brazo.detalle, 'Arduino Mega 2560');
+    assert.equal(puerto.abierto, false);
+  } finally {
+    puerto.apagar();
+  }
+});

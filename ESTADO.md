@@ -47,6 +47,19 @@ BASE=https://florezh6.github.io/brazo-gestos/ node pruebas/navegador.mjs captura
    ```
 4. **Aprobación de textos por Hugo.** La guía `guia.html` y los mensajes de la página están redactados con su marco de redacción, pero él no los ha leído. Mostrárselos antes de darlos por terminados.
 
+## Rediseño del 27 de octubre
+
+Hugo aprobó un plan con estos cambios, todos hechos:
+
+- Nombre «Al alcance de la mano», logos oficiales del departamento, paleta de sus piezas gráficas, tipografía Barlow y la Mechita.
+- Actividad sin la tabla de gestos ni el nombre de la orden en pantalla. El diseño se oculta al aplicarlo y el profesor puede verlo unos segundos. Pantalla completa con solo el video y la detección. Nombre del equipo en el registro.
+- Pestaña nueva Cómo funciona, para proyectar: recorrido de un gesto, lo mecánico, aplicaciones y la relación con la IA.
+- Brazo: control manual sobre un dibujo del brazo, PL2303 en la lista de chips, aviso específico para Mega, Leonardo, Micro, Uno R4, Nano Every y Due originales, y el nombre del chip si la firma no es ATmega328P.
+- Guía como pestaña, con diagrama de conexiones del Sensor Shield V5, placas compatibles, gestos con dorso o palma, minuto a minuto revisado, formulario opcional y solución de problemas aparte.
+- Advertencias reescritas sin anécdotas: fenómeno, riesgo y arreglo.
+
+**La Mechita es provisional.** Está dibujada en `marca/mechita.svg` a partir de la publicación del departamento del 11 de abril de 2025 en Instagram. Hay que reemplazarla por los archivos oficiales de comunicaciones IMEC; basta con sobrescribir `marca/mechita.svg` y `marca/mechita-cara.svg`.
+
 ## Decisiones tomadas sin aprobación de Hugo
 
 Están para que las revise. Ninguna cambia lo que se aprobó en el plan.
@@ -55,6 +68,8 @@ Están para que las revise. Ninguna cambia lo que se aprobó en el plan.
 - avr8js en lugar de simavr, porque simavr no está en Homebrew. avr8js no trae la instrucción SPM ni el reset por DTR; los dos se emularon en `pruebas/placa_simulada.js`.
 - Se reinstaló Rosetta en el Mac con `softwareupdate --install-rosetta`. El compilador de Arduino es para Intel y macOS 27 venía sin Rosetta, así que tampoco funcionaba `SUBIR AL ARDUINO.command`.
 - Trato de usted en los textos de la página y la guía.
+- Botón «Ver el diseño cargado» que lo muestra 6 segundos y lo vuelve a ocultar solo, y campo opcional con el nombre del equipo.
+- Tipografía Barlow como aproximación libre a la de los banners del departamento, que no se pudo identificar con certeza.
 - Los extremos se nombran por lo que hacen, como `base_izq` o `altura_arriba`, y no como mínimo y máximo. Un servo montado al revés se arregla intercambiando los dos números.
 - Las velocidades y pasos de los servos no se configuran desde la página. Quedaron fijos con los valores medidos el 9 de agosto.
 - Desde la página, «#mover» puede llevar cualquier servo de 0 a 180, la garra incluida, con una advertencia fija sobre el 8 de agosto. Las teclas 7 y 8 siguen sin pasar del cierre.

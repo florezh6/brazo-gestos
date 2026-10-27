@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "@fontsource-variable/archivo": "^5.1.0",
+    "@fontsource/barlow": "^5.1.0",
+    "@fontsource/barlow-semi-condensed": "^5.1.0",
     "@mediapipe/tasks-vision": "^1.0.1",
     "avr8js": "^0.20.1",
     "esbuild": "^0.24.0",

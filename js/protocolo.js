@@ -62,16 +62,36 @@ export const FILTROS_USB = [
   { usbVendorId: 0x1a86 },   // CH340 (Nano y Uno clones)
   { usbVendorId: 0x0403 },   // FTDI (Nano antiguos)
   { usbVendorId: 0x10c4 },   // CP210x
+  { usbVendorId: 0x067b },   // Prolific PL2303
 ];
 
 export function nombreChipUsb(info) {
   return {
     0x2341: 'Arduino',
     0x2a03: 'Arduino',
-    0x1a86: 'chip CH340, típico de Nano y Uno clones',
+    0x1a86: 'chip CH340 o CH9102, típico de los clones',
     0x0403: 'chip FTDI',
     0x10c4: 'chip CP210x',
+    0x067b: 'chip PL2303',
   }[info && info.usbVendorId] || 'dispositivo USB serie';
+}
+
+// Placas oficiales que se reconocen por su identificador USB y que NO
+// sirven, porque no usan el ATmega328P. Con un clon no se puede saber
+// desde aqui: se descubre al intentar cargar el programa.
+const NO_COMPATIBLES = {
+  0x0010: 'Arduino Mega 2560', 0x0042: 'Arduino Mega 2560',
+  0x0036: 'Arduino Leonardo', 0x8036: 'Arduino Leonardo',
+  0x0037: 'Arduino Micro', 0x8037: 'Arduino Micro',
+  0x0069: 'Arduino Uno R4 Minima', 0x1002: 'Arduino Uno R4 WiFi',
+  0x0058: 'Arduino Nano Every',
+  0x003d: 'Arduino Due', 0x003e: 'Arduino Due',
+};
+
+// Devuelve el nombre de la placa si se sabe que no es compatible.
+export function placaNoCompatible(info) {
+  if (!info || (info.usbVendorId !== 0x2341 && info.usbVendorId !== 0x2a03)) return null;
+  return NO_COMPATIBLES[info.usbProductId] || null;
 }
 
 // Clasifica una linea que llego de la placa.

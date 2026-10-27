@@ -96,11 +96,11 @@ export function leerRegistro(almacen = globalThis.localStorage) {
   }
 }
 
-export function registrarMapeo(mapeo, almacen = globalThis.localStorage, fecha = new Date()) {
+export function registrarMapeo(mapeo, equipo = '', almacen = globalThis.localStorage, fecha = new Date()) {
   // Que no se pueda escribir el registro NO puede tumbar el taller.
   try {
     const registro = leerRegistro(almacen);
-    registro.push({ fecha: fecha.toISOString(), mapeo });
+    registro.push({ fecha: fecha.toISOString(), equipo, mapeo });
     almacen.setItem(CLAVE_REGISTRO, JSON.stringify(registro));
   } catch (e) { /* navegador en modo privado, por ejemplo */ }
 }
@@ -109,14 +109,15 @@ export function borrarRegistro(almacen = globalThis.localStorage) {
   try { almacen.removeItem(CLAVE_REGISTRO); } catch (e) { /* nada */ }
 }
 
-// El mismo formato del mapeos_usados.txt de la version Python.
+// El mismo formato del mapeos_usados.txt de la version Python, con el
+// nombre del equipo cuando se escribio.
 export function registroComoTexto(registro) {
-  return registro.map(({ fecha, mapeo }) => {
+  return registro.map(({ fecha, equipo, mapeo }) => {
     const d = new Date(fecha);
     const dos = (n) => String(n).padStart(2, '0');
     const cuando = `${d.getFullYear()}-${dos(d.getMonth() + 1)}-${dos(d.getDate())} ` +
       `${dos(d.getHours())}:${dos(d.getMinutes())}:${dos(d.getSeconds())}`;
     const filas = GESTOS.map((g) => `   ${g} -> ${mapeo[g]}`).join('\n');
-    return `${cuando}\n${filas}\n`;
+    return `${cuando}${equipo ? '  ' + equipo : ''}\n${filas}\n`;
   }).join('\n');
 }

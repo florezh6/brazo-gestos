@@ -1,8 +1,8 @@
-# Brazo por gestos
+# Al alcance de la mano
 
-Versión web de la actividad de un brazo del taller IMEC de Ingeniería Mecánica, Universidad de los Andes. Un brazo EEZYbotARM con Arduino Uno o Nano obedece gestos de la mano reconocidos con MediaPipe en el navegador.
+Actividad del Departamento de Ingeniería Mecánica de la Universidad de los Andes. Un brazo EEZYbotARM con Arduino Uno o Nano obedece gestos de la mano reconocidos con MediaPipe en el navegador.
 
-La página está en **https://florezh6.github.io/brazo-gestos/**. Funciona en Google Chrome y Microsoft Edge, en Windows y Mac, sin instalar nada. La guía para el profesor está en `guia.html`.
+La página está en **https://florezh6.github.io/brazo-gestos/**. Funciona en Google Chrome y Microsoft Edge, en Windows y Mac, sin instalar nada. La guía para el profesor es una pestaña de la misma página.
 
 ## Qué hace la página
 
@@ -15,7 +15,8 @@ La página está en **https://florezh6.github.io/brazo-gestos/**. Funciona en Go
 
 | Ruta | Qué es |
 |---|---|
-| `index.html`, `css/`, `js/` | La página. Sin paso de compilación. |
+| `index.html`, `css/`, `js/` | La página, con las pestañas Actividad, Cómo funciona, Brazo y Guía. Sin paso de compilación. |
+| `marca/` | Logos oficiales del departamento, tomados de mecanica.uniandes.edu.co, y la Mechita provisional. |
 | `js/deteccion.js` | Conteo de dedos y estabilizador, traducidos línea por línea del Python. |
 | `js/brazo.js`, `js/protocolo.js` | Conexión con la placa por Web Serial. |
 | `js/programador.js` | Carga del `.hex` por el bootloader, protocolo STK500 v1. |

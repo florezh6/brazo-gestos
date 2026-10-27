@@ -121,22 +121,31 @@ const ESCENARIOS = {
 
     await pagina.keyboard.type('sb');
     await pagina.keyboard.press('Enter');
-    assert.match(await textoDe(pagina, '#aviso-mapeo'), /Diseño cargado/);
-    const filas = await pagina.locator('#filas-mapeo li').allInnerTexts();
-    assert.match(filas[0], /abrir garra/);
-    assert.match(filas[1], /cerrar garra/);
+    assert.match(await textoDe(pagina, '#aviso-mapeo'), /Diseño cargado y oculto/);
+    const mapeo = () => pagina.evaluate(() => window.taller.estado.mapeo);
+    assert.equal((await mapeo())[0], 'ABRIR GARRA');
+    assert.equal((await mapeo())[1], 'CERRAR GARRA');
     assert.equal(await pagina.isVisible('#quieto'), false);
+    // El diseno queda oculto: las letras no se ven en la pantalla.
+    assert.equal(await pagina.evaluate(() => document.getElementById('casillas').classList.contains('oculto')), true);
+    await pagina.screenshot({ path: `${CAPTURAS}/02b-diseno-oculto.png` });
+    // "Ver el diseno cargado" lo muestra y se vuelve a ocultar solo.
+    await pagina.click('#boton-mostrar');
+    assert.equal(await pagina.evaluate(() => document.getElementById('casillas').classList.contains('oculto')), false);
+    await pagina.waitForFunction(() => document.getElementById('casillas').classList.contains('oculto'), null, { timeout: 9000 });
 
-    // La c dentro de una casilla no cambia nada fuera, y la f tampoco.
+    // Tocar una casilla oculta empieza un diseno nuevo; Esc lo cancela y
+    // deja el anterior.
     await pagina.locator('#casillas input').nth(2).focus();
+    assert.equal(await pagina.locator('#casillas input').nth(0).inputValue(), '', 'empieza en blanco');
     await pagina.keyboard.press('Escape');
     assert.match(await textoDe(pagina, '#aviso-mapeo'), /cancelada/);
-    assert.match((await pagina.locator('#filas-mapeo li').allInnerTexts())[0], /abrir garra/);
+    assert.equal((await mapeo())[0], 'ABRIR GARRA');
 
     // F vuelve al de fabrica
     await pagina.locator('body').click({ position: { x: 5, y: 300 } });
     await pagina.keyboard.press('f');
-    assert.match((await pagina.locator('#filas-mapeo li').allInnerTexts())[0], /cerrar garra/);
+    assert.equal((await mapeo())[0], 'CERRAR GARRA');
     const registro = await pagina.evaluate(() => JSON.parse(localStorage.getItem('imec-mapeos-usados')));
     assert.equal(registro.length, 2);
     await pagina.screenshot({ path: `${CAPTURAS}/03-mapeo-fabrica.png` });
@@ -293,9 +302,9 @@ const ESCENARIOS = {
     await pagina.evaluate(async () => {
       await navigator.serviceWorker.ready;
       for (let k = 0; k < 100; k++) {
-        const caja = await caches.open('brazo-gestos-v1');
+        const caja = await caches.open('brazo-gestos-v2');
         const llaves = await caja.keys();
-        if (llaves.some((r) => r.url.endsWith('.wasm')) && llaves.length >= 20) return;
+        if (llaves.some((r) => r.url.endsWith('.wasm')) && llaves.length >= 25) return;
         await new Promise((r) => setTimeout(r, 300));
       }
       throw new Error('el service worker no guardo los archivos');

@@ -6,7 +6,7 @@
 // camara congelada frente a 20 estudiantes es peor que un brazo quieto.
 
 import {
-  IDENTIDAD, FILTROS_USB, leerLinea, nombreChipUsb,
+  IDENTIDAD, FILTROS_USB, leerLinea, nombreChipUsb, placaNoCompatible,
 } from './protocolo.js';
 import { programar } from './programador.js';
 import { LETRA_LATIDO, LETRA_PAUSA } from './mapeo.js';
@@ -39,6 +39,7 @@ export const ESTADOS = {
   'otra-pestana': 'El brazo se está usando en otra pestaña',
   'programando': 'Cargando el programa en la placa…',
   'perdido': 'Se perdió la conexión con el brazo',
+  'no-compatible': 'Placa no compatible',
 };
 
 export class Brazo extends EventTarget {
@@ -137,6 +138,12 @@ export class Brazo extends EventTarget {
   }
 
   async abrir(puerto) {
+    const incompatible = placaNoCompatible(puerto.getInfo());
+    if (incompatible) {
+      this.ultimoPuerto = null;
+      this.cambiarEstado('no-compatible', incompatible);
+      return false;
+    }
     this.cambiarEstado('conectando', nombreChipUsb(puerto.getInfo()));
 
     if (!(await this.tomarCandado())) {

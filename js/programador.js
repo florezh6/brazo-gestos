@@ -98,6 +98,15 @@ const FIRMAS_VALIDAS = [
   [0x1e, 0x95, 0x14],
 ];
 
+// Otros chips que responden igual al bootloader pero no sirven, para
+// poder decir cual se encontro.
+const FIRMAS_CONOCIDAS = {
+  '1e9406': 'ATmega168, de los Nano y Diecimila más antiguos',
+  '1e950f': 'ATmega328P',
+  '1e9801': 'ATmega2560, de un Arduino Mega',
+  '1e9587': 'ATmega32U4, de un Leonardo o un Micro',
+};
+
 const TAMANO_PAGINA = 128;
 
 // El bootloader ocupa el final de la memoria; el programa no puede
@@ -275,13 +284,15 @@ export async function programar(puerto, textoHex, alAvanzar = () => {}) {
 
     if (!velocidad) {
       throw new ErrorProgramador(
-        'La placa no respondió como un Arduino Uno o Nano. Revise que el cable USB sea de datos y no solo de carga, y que la placa sea un Uno o un Nano.');
+        'La placa no respondió como un Arduino Uno o Nano. Revise que el cable USB sea de datos y no solo de carga. Si la placa es un Mega, un Uno R4, un Nano Every o un Leonardo, no es compatible con esta actividad.');
     }
 
     const firma = await sesion.orden([STK.READ_SIGN], 3);
     if (!FIRMAS_VALIDAS.some((f) => f.every((b, k) => b === firma[k]))) {
+      const clave = firma.map((b) => b.toString(16).padStart(2, '0')).join('');
+      const chip = FIRMAS_CONOCIDAS[clave] || 'un microcontrolador desconocido';
       throw new ErrorProgramador(
-        'La placa respondió, pero no tiene el chip de un Arduino Uno o Nano, el ATmega328P. Este programa solo sirve para esas dos placas.');
+        `La placa respondió, pero tiene ${chip}. Este programa solo sirve para placas con ATmega328P, como el Arduino Uno y el Nano, originales o clones.`);
     }
 
     await sesion.orden([STK.ENTER_PROGMODE]);

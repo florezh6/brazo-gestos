@@ -3,25 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Brazo por gestos</title>
-  <meta name="description" content="Actividad del taller IMEC: un brazo robótico que obedece gestos de la mano, reconocidos con inteligencia artificial en el navegador.">
-  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <title>Al alcance de la mano</title>
+  <meta name="description" content="Actividad del Departamento de Ingeniería Mecánica de la Universidad de los Andes: un brazo robótico que obedece gestos de la mano reconocidos con inteligencia artificial.">
+  <link rel="icon" href="marca/mechita-cara.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-  <header class="barra">
-    <h1 class="marca">Brazo por gestos</h1>
+  <header class="cabecera">
+    <div class="cabecera-fila">
+      <a class="marca-institucional" href="https://mecanica.uniandes.edu.co/" target="_blank" rel="noopener" aria-label="Departamento de Ingeniería Mecánica, Universidad de los Andes">
+        <img src="marca/uniandes.svg" alt="Universidad de los Andes" class="logo-uniandes">
+        <span class="separador-logos" aria-hidden="true"></span>
+        <img src="marca/departamento-imec.svg" alt="Departamento de Ingeniería Mecánica" class="logo-imec">
+      </a>
+      <div class="titulo-actividad">
+        <h1>Al alcance de la mano</h1>
+        <p>Controla un brazo robótico con inteligencia artificial</p>
+      </div>
+      <div class="estado-brazo" id="estado-brazo" data-estado="desconectado">
+        <span class="luz" aria-hidden="true"></span>
+        <span id="estado-texto">Brazo sin conectar</span>
+        <button class="boton claro" id="boton-conectar">Conectar brazo</button>
+      </div>
+    </div>
     <nav class="pestanas" aria-label="Secciones">
       <button class="pestana" data-pestana="actividad" aria-current="page">Actividad</button>
+      <button class="pestana" data-pestana="como">Cómo funciona</button>
       <button class="pestana" data-pestana="brazo">Brazo</button>
-      <a class="pestana" href="guia.html" target="_blank" rel="noopener">Guía</a>
-      <a class="pestana" href="formulario.html" target="_blank" rel="noopener">Formulario</a>
+      <button class="pestana" data-pestana="guia">Guía para el profesor</button>
     </nav>
-    <div class="estado-brazo" id="estado-brazo" data-estado="desconectado">
-      <span class="luz" aria-hidden="true"></span>
-      <span id="estado-texto">Brazo sin conectar</span>
-      <button class="boton" id="boton-conectar">Conectar brazo</button>
-    </div>
   </header>
 
   <div id="avisos" class="avisos" aria-live="polite"></div>
@@ -29,118 +39,215 @@
   <!-- ============================ ACTIVIDAD ============================ -->
   <main id="actividad" class="seccion actividad">
     <div class="escenario" id="escenario">
-      <div class="lienzo-marco">
-        <video id="video" playsinline muted></video>
-        <canvas id="lienzo"></canvas>
+      <video id="video" playsinline muted></video>
+      <canvas id="lienzo"></canvas>
 
-        <div class="cargando" id="cargando">
-          <p id="cargando-texto">Cargando el modelo de la mano…</p>
-        </div>
-
-        <div class="lectura" id="lectura" hidden>
-          <span class="lectura-numero" id="lectura-numero">–</span>
-          <span class="lectura-comando" id="lectura-comando"></span>
-        </div>
-        <p class="crudo" id="crudo">detectando: –</p>
-        <p class="quieto" id="quieto" hidden>El brazo está quieto mientras se carga el diseño de un equipo</p>
+      <div class="cargando" id="cargando">
+        <img src="marca/mechita.svg" alt="" class="mechita-cargando">
+        <p id="cargando-texto">Cargando el modelo de la mano…</p>
       </div>
 
-      <aside class="tabla-mapeo" aria-label="Qué hace cada gesto">
-        <h2>Qué hace cada gesto</h2>
-        <ol class="filas-mapeo" id="filas-mapeo"></ol>
-        <p class="regla-pausa">Con las dos manos a la vista, <strong>PAUSA</strong>. Sin ninguna mano, el brazo también se queda quieto.</p>
-      </aside>
+      <div class="lectura" id="lectura" hidden>
+        <span class="lectura-numero" id="lectura-numero">–</span>
+      </div>
+      <p class="crudo" id="crudo">detectando –</p>
+      <p class="quieto" id="quieto" hidden>Brazo quieto mientras se carga un diseño</p>
     </div>
 
-    <div class="mando">
-      <form class="cargar-mapeo" id="form-mapeo" autocomplete="off">
+    <aside class="riel" aria-label="Controles del profesor">
+      <form class="tarjeta cargar-mapeo" id="form-mapeo" autocomplete="off">
         <h2>Diseño del equipo</h2>
-        <p class="ayuda">Escriba las seis letras del formulario, del gesto 0 al 5, y presione Enter.</p>
+        <label class="campo campo-equipo">
+          <span>Equipo</span>
+          <input id="nombre-equipo" placeholder="Equipo 1" maxlength="30">
+        </label>
+        <p class="ayuda">Las seis letras que eligió el equipo, del gesto 0 al 5. Con Enter se aplica y se oculta.</p>
         <div class="casillas" id="casillas"></div>
-        <p class="chuleta"><span><kbd>c</kbd> cerrar garra</span><span><kbd>o</kbd> abrir garra</span><span><kbd>i</kbd> girar izquierda</span><span><kbd>d</kbd> girar derecha</span><span><kbd>s</kbd> subir</span><span><kbd>b</kbd> bajar</span></p>
+        <p class="chuleta">
+          <span><kbd>c</kbd> cerrar garra</span><span><kbd>o</kbd> abrir garra</span>
+          <span><kbd>i</kbd> girar a la izquierda</span><span><kbd>d</kbd> girar a la derecha</span>
+          <span><kbd>s</kbd> subir</span><span><kbd>b</kbd> bajar</span>
+        </p>
         <p class="aviso-mapeo" id="aviso-mapeo" role="alert"></p>
         <div class="acciones">
-          <button type="submit" class="boton principal">Aplicar diseño</button>
+          <button type="submit" class="boton principal">Aplicar y ocultar</button>
+          <button type="button" class="boton" id="boton-mostrar">Ver el diseño cargado</button>
           <button type="button" class="boton" id="boton-fabrica">Volver al de fábrica</button>
         </div>
       </form>
 
-      <div class="ajustes-actividad">
-        <h2>Cámara y proyección</h2>
+      <section class="tarjeta" aria-labelledby="t-proyeccion">
+        <h2 id="t-proyeccion">Cámara y proyección</h2>
         <label class="campo">
           <span>Cámara</span>
           <select id="selector-camara"><option value="">Sin cámara todavía</option></select>
         </label>
         <div class="acciones">
-          <button type="button" class="boton" id="boton-pantalla">Pantalla completa</button>
-          <button type="button" class="boton" id="boton-registro">Descargar diseños usados</button>
+          <button type="button" class="boton principal" id="boton-pantalla">Proyectar en pantalla completa</button>
+          <button type="button" class="boton" id="boton-registro">Descargar los diseños usados</button>
         </div>
-        <p class="ayuda">Con <kbd>M</kbd> se carga un diseño, con <kbd>F</kbd> se vuelve al de fábrica y con <kbd>Esc</kbd> se cancela la carga. <span id="motor"></span></p>
+        <p class="ayuda">Atajos de teclado: <kbd>M</kbd> para cargar un diseño, <kbd>F</kbd> para volver al de fábrica y <kbd>Esc</kbd> para cancelar. <span id="motor"></span></p>
+      </section>
+
+      <aside class="mechita-dice">
+        <img src="marca/mechita-cara.svg" alt="">
+        <p>Parte del reto es que cada equipo recuerde su propio diseño. Por eso la pantalla no muestra qué hace cada gesto.</p>
+      </aside>
+    </aside>
+  </main>
+
+  <!-- =========================== COMO FUNCIONA =========================== -->
+  <main id="como" class="seccion como" hidden>
+    <section class="portada-como">
+      <div>
+        <h2>De la mano al robot</h2>
+        <p class="entrada">En una fracción de segundo, una red neuronal encuentra la mano en la imagen, una regla geométrica cuenta los dedos y un microcontrolador traduce ese número en el movimiento de cuatro motores. La inteligencia artificial decide qué está viendo. La ingeniería mecánica hace que eso se convierta en movimiento real, con fuerza, precisión y seguridad.</p>
       </div>
-    </div>
+      <img src="marca/mechita.svg" alt="" class="mechita-portada">
+    </section>
+
+    <section class="recorrido" aria-labelledby="t-recorrido">
+      <h2 id="t-recorrido">El recorrido de un gesto</h2>
+      <ol class="pasos">
+        <li>
+          <h3>Cámara</h3>
+          <p>Toma unas 30 imágenes por segundo. Cada imagen es una cuadrícula de cerca de un millón de puntos de color.</p>
+        </li>
+        <li>
+          <h3>Red neuronal</h3>
+          <p>MediaPipe, un modelo entrenado con miles de fotos de manos, ubica 21 puntos sobre cada mano: la muñeca, los nudillos y las puntas de los dedos.</p>
+        </li>
+        <li>
+          <h3>Regla de conteo</h3>
+          <p>Un dedo está estirado si su punta queda más lejos de la muñeca que su nudillo. El pulgar se mide aparte, contra la base del meñique. Un gesto cuenta cuando se repite cinco imágenes seguidas.</p>
+        </li>
+        <li>
+          <h3>Diseño del equipo</h3>
+          <p>El número de dedos se traduce en una orden según la tabla que eligió cada equipo. Dos manos a la vista son siempre una pausa.</p>
+        </li>
+        <li>
+          <h3>Arduino</h3>
+          <p>Recibe una letra por el cable USB y además una señal de vida cada décima de segundo. Si esa señal deja de llegar, detiene el brazo.</p>
+        </li>
+        <li>
+          <h3>Servos y mecanismo</h3>
+          <p>Cuatro servomotores mueven la base, la altura, el alcance y la garra. El mecanismo de barras convierte esos giros en el movimiento del brazo.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="bloques-como">
+      <article>
+        <h2>Lo mecánico</h2>
+        <h3>Un mecanismo de paralelogramo</h3>
+        <p>El brazo EEZYbotARM une sus barras formando paralelogramos. Así la garra conserva su orientación mientras el brazo sube, baja o se estira, sin un motor dedicado a la muñeca. Es el mismo principio de las lámparas de escritorio articuladas y de muchos brazos de paletizado industrial.</p>
+        <h3>Servomotores</h3>
+        <p>Un servo es un motor con una caja de engranajes y un sensor de posición. El Arduino le indica el ángulo con un pulso eléctrico de entre 0,5 y 2,4 milisegundos que se repite 50 veces por segundo. El servo empuja con una fuerza proporcional a la distancia entre donde está y donde se le pidió estar.</p>
+        <h3>Par contra la gravedad</h3>
+        <p>Subir el brazo exige mucho más par que girar la base, porque el motor de la altura levanta todo el peso del brazo con un brazo de palanca largo. Por eso el programa manda la altura directo al extremo, para que el servo empuje con toda su fuerza desde el primer instante, y la baja en pasos cortos para no dejar caer el objeto.</p>
+        <h3>Energía y seguridad</h3>
+        <p>Cada servo puede pedir más de un amperio al arrancar, cinco veces lo que entrega el Arduino. Por eso los motores se alimentan de una fuente aparte. Y si se corta la comunicación, por un cable que se suelta o una pestaña que se cierra, el Arduino detiene el brazo en menos de medio segundo.</p>
+      </article>
+
+      <article>
+        <h2>Dónde se usa</h2>
+        <ul class="usos">
+          <li><strong>Teleoperación.</strong> Brazos que se manejan a distancia para desactivar explosivos, trabajar dentro de reactores o reparar estructuras bajo el agua.</li>
+          <li><strong>Prótesis y exoesqueletos.</strong> Manos y piernas robóticas que interpretan señales del cuerpo para moverse como su usuario quiere.</li>
+          <li><strong>Cirugía asistida.</strong> El cirujano mueve unos controles y el robot reproduce el movimiento a escala, sin temblor.</li>
+          <li><strong>Robots colaborativos.</strong> En las fábricas, robots que trabajan junto a las personas y reaccionan a sus gestos y su presencia.</li>
+          <li><strong>Rehabilitación.</strong> Equipos que acompañan los ejercicios de un paciente y miden su avance.</li>
+        </ul>
+        <h2>Ingeniería mecánica e inteligencia artificial</h2>
+        <p>La inteligencia artificial percibe y decide. Para que esa decisión se convierta en algo útil hacen falta mecanismos que se muevan como se necesita, materiales que aguanten, motores con la fuerza justa, energía suficiente y un sistema de control que lo haga de forma segura. Ese es el trabajo de la ingeniería mecánica, y cada vez más se hace junto con modelos que aprenden de datos.</p>
+      </article>
+    </section>
   </main>
 
   <!-- ============================== BRAZO ============================== -->
   <main id="brazo" class="seccion brazo" hidden>
-    <p class="aviso-seccion">Mientras esta pestaña está abierta, los gestos no mueven el brazo. Se mueve solo con los botones de aquí.</p>
+    <p class="aviso-seccion">Mientras esta pestaña está abierta, los gestos no mueven el brazo. Se mueve solo con los controles de aquí.</p>
 
-    <section class="bloque" aria-labelledby="t-conexion">
-      <h2 id="t-conexion">Conexión</h2>
-      <p id="conexion-detalle" class="detalle">Conecte el Arduino por USB y presione «Conectar brazo».</p>
-      <div class="acciones">
-        <button class="boton principal" id="boton-conectar-2">Conectar brazo</button>
-        <button class="boton" id="boton-desconectar" disabled>Desconectar</button>
-        <button class="boton enlace" id="boton-todos">No aparece mi placa en la lista</button>
-      </div>
-
-      <div class="preparar" id="bloque-preparar">
-        <h3>Preparar la placa</h3>
-        <p>Carga en el Arduino el programa del taller. Hace falta una sola vez por placa, o si la placa llegó con otro programa. Funciona con Arduino Uno y Nano. Tarda unos 20 segundos y no hay que tocar nada mientras tanto.</p>
+    <div class="brazo-arriba">
+      <section class="tarjeta" aria-labelledby="t-conexion">
+        <h2 id="t-conexion">Conexión</h2>
+        <p id="conexion-detalle" class="detalle">Conecte el Arduino por USB y presione «Conectar brazo».</p>
         <div class="acciones">
-          <button class="boton" id="boton-preparar">Preparar la placa</button>
+          <button class="boton principal" id="boton-conectar-2">Conectar brazo</button>
+          <button class="boton" id="boton-desconectar" disabled>Desconectar</button>
+          <button class="boton enlace" id="boton-todos">No aparece mi placa en la lista</button>
         </div>
-        <div class="progreso" id="progreso" hidden>
-          <progress id="barra-progreso" max="1" value="0"></progress>
-          <span id="texto-progreso"></span>
+
+        <div class="preparar" id="bloque-preparar">
+          <h3>Preparar la placa</h3>
+          <p>Carga en el Arduino el programa del taller. Hace falta una vez por placa, o cuando la placa trae otro programa. Sirve para Arduino Uno y Nano, originales o clones. Tarda unos 20 segundos y durante ese tiempo no hay que desconectar el cable.</p>
+          <div class="acciones">
+            <button class="boton" id="boton-preparar">Preparar la placa</button>
+          </div>
+          <div class="progreso" id="progreso" hidden>
+            <progress id="barra-progreso" max="1" value="0"></progress>
+            <span id="texto-progreso"></span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="bloque" aria-labelledby="t-manual">
-      <h2 id="t-manual">Control manual</h2>
-      <p class="detalle">Para probar el brazo sin la cámara, o si la detección falla durante la actividad. Mantenga presionado un botón de giro para girar.</p>
-      <div class="manual" id="manual">
-        <button class="boton" data-letra="i">Girar izquierda <kbd>i</kbd></button>
-        <button class="boton" data-letra="d">Girar derecha <kbd>d</kbd></button>
-        <button class="boton" data-letra="s">Subir <kbd>s</kbd></button>
-        <button class="boton" data-letra="b">Bajar <kbd>b</kbd></button>
-        <button class="boton" data-letra="o">Abrir garra <kbd>o</kbd></button>
-        <button class="boton" data-letra="c">Cerrar garra <kbd>c</kbd></button>
-        <button class="boton pausa" data-letra="p">Pausa <kbd>p</kbd></button>
-      </div>
-    </section>
+      <section class="tarjeta" aria-labelledby="t-manual">
+        <h2 id="t-manual">Control manual</h2>
+        <p class="detalle">Cada botón está donde se mueve esa parte del brazo. Los de girar funcionan mientras se mantengan presionados.</p>
+        <div class="mando-brazo" id="manual">
+          <svg viewBox="0 0 520 360" class="dibujo-brazo" aria-hidden="true">
+            <ellipse cx="230" cy="318" rx="120" ry="22" class="pieza-base"/>
+            <path d="M120 300 A120 22 0 0 0 150 334" class="flecha-giro" marker-end="url(#punta)"/>
+            <path d="M340 300 A120 22 0 0 1 310 334" class="flecha-giro" marker-end="url(#punta)"/>
+            <rect x="195" y="240" width="70" height="72" rx="8" class="pieza"/>
+            <path d="M230 250 L300 130" class="barra"/>
+            <path d="M300 130 L405 165" class="barra"/>
+            <path d="M250 268 L318 150" class="barra fina"/>
+            <circle cx="230" cy="250" r="12" class="articulacion"/>
+            <circle cx="300" cy="130" r="11" class="articulacion"/>
+            <circle cx="405" cy="165" r="9" class="articulacion"/>
+            <path d="M405 165 L430 200 M405 165 L445 180" class="garra"/>
+            <path d="M300 92 L300 58" class="flecha-recta" marker-end="url(#punta)"/>
+            <path d="M330 175 L330 210" class="flecha-recta" marker-end="url(#punta)"/>
+            <defs>
+              <marker id="punta" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 Z" class="punta"/>
+              </marker>
+            </defs>
+          </svg>
+          <button class="boton control" data-letra="s" style="left:52%;top:2%">Subir <kbd>s</kbd></button>
+          <button class="boton control" data-letra="b" style="left:52%;top:62%">Bajar <kbd>b</kbd></button>
+          <button class="boton control" data-letra="o" style="left:80%;top:30%">Abrir garra <kbd>o</kbd></button>
+          <button class="boton control" data-letra="c" style="left:80%;top:62%">Cerrar garra <kbd>c</kbd></button>
+          <button class="boton control" data-letra="i" style="left:0%;top:76%">Girar a la izquierda <kbd>i</kbd></button>
+          <button class="boton control" data-letra="d" style="left:66%;top:84%">Girar a la derecha <kbd>d</kbd></button>
+          <button class="boton control pausa" data-letra="p" style="left:2%;top:4%">Pausa <kbd>p</kbd></button>
+        </div>
+        <p class="ayuda">Izquierda y derecha se ven desde atrás del brazo, mirando hacia donde apunta la garra. Si el brazo gira al revés, intercambie los dos topes de la base en «Límites y posiciones».</p>
+      </section>
+    </div>
 
-    <section class="bloque" aria-labelledby="t-pines">
+    <section class="tarjeta" aria-labelledby="t-pines">
       <h2 id="t-pines">Pines de los servos</h2>
-      <p class="detalle">A qué pin del Arduino va el cable de señal de cada servo. «Mover un poco» sacude ese servo unos grados para reconocer cuál es.</p>
+      <p class="detalle">El pin del Arduino al que va el cable de señal de cada servo. «Mover un poco» sacude ese servo unos grados para reconocer cuál es.</p>
       <div class="pines" id="pines"></div>
       <p class="aviso-config" id="aviso-pines" role="alert"></p>
     </section>
 
-    <section class="bloque" aria-labelledby="t-posiciones">
+    <section class="tarjeta" aria-labelledby="t-posiciones">
       <h2 id="t-posiciones">Límites y posiciones</h2>
-      <p class="detalle">Cada cambio mueve el servo a ese ángulo para que se vea dónde queda. Vaya de a 5 grados y deténgase en cuanto el servo zumbe o llegue al tope.</p>
-      <p class="advertencia" id="advertencia-garra">Cuidado con la garra. En el brazo original 90° es la canasta cerrada del todo. Por debajo de ese ángulo el servo empuja contra el tope y se calienta, y así se recalentó uno el 8 de agosto. Busque el cierre subiendo desde abierta, nunca bajando a ciegas.</p>
+      <p class="detalle">Cada cambio lleva el servo a ese ángulo para que se vea dónde queda. Conviene avanzar de a 5 grados y detenerse en cuanto el servo zumbe o llegue al tope.</p>
+      <p class="advertencia" id="advertencia-garra">Si se manda un servo más allá del tope mecánico de su pieza, el motor sigue empujando contra el tope sin poder llegar. Consume mucha corriente, se calienta en pocos minutos y puede dañar sus engranajes. Se reconoce porque zumba quieto. En la garra pasa al pedirle que cierre más de lo que la canasta permite. Para corregirlo, devuelva el valor 5 grados hacia adentro hasta que el zumbido pare y guarde.</p>
       <div class="posiciones" id="posiciones"></div>
       <p class="aviso-config" id="aviso-posiciones" role="alert"></p>
       <div class="acciones guardar">
         <button class="boton principal" id="boton-guardar" disabled>Guardar en la placa</button>
         <button class="boton" id="boton-config-fabrica">Volver a la configuración de fábrica</button>
-        <span class="sin-guardar" id="sin-guardar" hidden>Hay cambios sin guardar. Si se desconecta la placa, se pierden.</span>
+        <span class="sin-guardar" id="sin-guardar" hidden>Hay cambios sin guardar. Si la placa se desconecta, se pierden.</span>
       </div>
     </section>
 
-    <section class="bloque" aria-labelledby="t-consola">
+    <section class="tarjeta" aria-labelledby="t-consola">
       <h2 id="t-consola">Consola</h2>
       <p class="detalle">Todo lo que la página le manda a la placa y lo que la placa responde. Los latidos, un punto cada décima de segundo, no se muestran.</p>
       <pre class="consola" id="consola" tabindex="0" aria-label="Consola"></pre>
@@ -153,19 +260,19 @@
       </form>
     </section>
 
-    <section class="bloque" aria-labelledby="t-comandos">
+    <section class="tarjeta" aria-labelledby="t-comandos">
       <h2 id="t-comandos">Comandos que entiende la placa</h2>
       <table class="comandos">
         <thead><tr><th scope="col">Se escribe</th><th scope="col">Qué hace</th></tr></thead>
         <tbody>
           <tr><td><code>i</code> / <code>d</code></td><td>Gira la base a la izquierda o a la derecha mientras siga llegando señal. Cualquier otra letra detiene el giro.</td></tr>
-          <tr><td><code>s</code> / <code>b</code></td><td>Lleva el brazo arriba de un golpe, o abajo de a poco. No hay alturas intermedias.</td></tr>
-          <tr><td><code>o</code> / <code>c</code></td><td>Abre la garra de un golpe, o la cierra de a poco.</td></tr>
+          <tr><td><code>s</code> / <code>b</code></td><td>Lleva el brazo arriba de un golpe, o abajo en pasos cortos. No hay alturas intermedias.</td></tr>
+          <tr><td><code>o</code> / <code>c</code></td><td>Abre la garra de un golpe, o la cierra en pasos cortos.</td></tr>
           <tr><td><code>p</code></td><td>Pausa. Detiene el giro. La altura y la garra se quedan como estén.</td></tr>
-          <tr><td><code>.</code></td><td>Latido. Si pasan 400 ms sin recibir nada, la placa detiene el brazo sola.</td></tr>
+          <tr><td><code>.</code></td><td>Latido. Si pasan 400 ms sin recibir nada, la placa detiene el brazo.</td></tr>
           <tr><td><code>1</code> a <code>8</code></td><td>Calibración. Mueven base, altura, alcance o garra de a 5 grados. <code>?</code> muestra los ángulos.</td></tr>
           <tr><td><code>#info</code></td><td>Responde <code>IMEC-BRAZO v1</code> si la placa tiene el programa del taller.</td></tr>
-          <tr><td><code>#config</code></td><td>Muestra pines y ángulos guardados.</td></tr>
+          <tr><td><code>#config</code></td><td>Muestra los pines y los ángulos guardados.</td></tr>
           <tr><td><code>#set clave valor</code></td><td>Cambia un valor, por ejemplo <code>#set pin_garra 5</code>.</td></tr>
           <tr><td><code>#mover servo ángulo</code></td><td>Lleva un servo a un ángulo, por ejemplo <code>#mover base 90</code>.</td></tr>
           <tr><td><code>#guardar</code> / <code>#fabrica</code></td><td>Guarda la configuración en la placa, o vuelve a la de fábrica.</td></tr>
@@ -173,6 +280,243 @@
       </table>
     </section>
   </main>
+
+  <!-- =============================== GUIA =============================== -->
+  <main id="guia" class="seccion guia" hidden>
+    <nav class="indice" aria-label="Contenido de la guía">
+      <p class="indice-titulo">Contenido</p>
+      <ol>
+        <li><a href="#g-que-es">Qué es</a></li>
+        <li><a href="#g-materiales">Materiales</a></li>
+        <li><a href="#g-conexion">Conexión eléctrica</a></li>
+        <li><a href="#g-placas">Placas compatibles</a></li>
+        <li><a href="#g-primera-vez">Antes de la primera sesión</a></li>
+        <li><a href="#g-actividad">La actividad</a></li>
+        <li><a href="#g-gestos">Cómo se hacen los gestos</a></li>
+        <li><a href="#g-diseno">Cargar el diseño de cada equipo</a></li>
+        <li><a href="#g-problemas">Solución de problemas</a></li>
+      </ol>
+      <button class="boton" id="boton-imprimir">Imprimir la guía</button>
+    </nav>
+
+    <article class="texto-guia">
+      <section id="g-que-es">
+        <h2>Qué es</h2>
+        <p>Una actividad de una hora para estudiantes de colegio. En equipos, deciden qué orden del brazo robótico va con cada gesto de la mano, de 0 a 5 dedos, y después intentan llevar un objeto de un punto a otro usando solo su diseño. La cámara del portátil ve la mano, un modelo de inteligencia artificial la reconoce y un Arduino mueve el brazo.</p>
+        <p>Todo corre en el navegador. No hay que instalar nada en el computador.</p>
+      </section>
+
+      <section id="g-materiales">
+        <h2>Materiales</h2>
+        <ul>
+          <li>Un portátil Windows o Mac con cámara, o con una cámara web.</li>
+          <li>Google Chrome o Microsoft Edge. Safari y Firefox muestran la detección de la mano, pero no pueden comunicarse con el Arduino.</li>
+          <li>El brazo EEZYbotARM armado, con sus cuatro servos MG995 o similares.</li>
+          <li>Un Arduino Uno o Nano con un Sensor Shield V5.</li>
+          <li>Una fuente de 5 a 6 V que entregue al menos 3 A, con un adaptador de plug a bornera.</li>
+          <li>Un cable USB de datos para el Arduino. Hay cables que solo cargan y no transmiten datos.</li>
+          <li>Un objeto liviano que quepa dentro de la garra cerrada, y dos puntos marcados en la mesa, A y B, a la misma distancia de la base del brazo.</li>
+        </ul>
+      </section>
+
+      <section id="g-conexion">
+        <h2>Conexión eléctrica</h2>
+        <p>El Arduino no se conecta a los servos con cables sueltos. Encima va un <strong>Sensor Shield V5</strong>, una tarjeta que se encaja sobre los pines del Arduino como una tapa. Por cada pin digital trae una fila de tres pines, marcados G, V y S, que coinciden con el conector de tres cables de un servo. También trae una bornera de tornillos para la alimentación de los motores.</p>
+        <figure class="diagrama">
+          <svg viewBox="0 0 780 440" role="img" aria-labelledby="t-diagrama">
+            <title id="t-diagrama">Diagrama de conexiones: computador por USB al Arduino con Sensor Shield, fuente a la bornera y cuatro servos en los pines 3, 9, 10 y 11</title>
+            <defs>
+              <marker id="flecha-cable" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><circle cx="5" cy="5" r="4" fill="currentColor"/></marker>
+            </defs>
+            <!-- computador -->
+            <rect x="20" y="40" width="140" height="90" rx="8" class="d-caja"/>
+            <text x="90" y="80" class="d-texto" text-anchor="middle">Computador</text>
+            <text x="90" y="102" class="d-texto-chico" text-anchor="middle">Chrome o Edge</text>
+            <path d="M160 85 L250 85" class="d-cable usb"/>
+            <text x="205" y="75" class="d-texto-chico" text-anchor="middle">USB</text>
+            <!-- arduino + shield -->
+            <rect x="250" y="40" width="300" height="275" rx="10" class="d-placa"/>
+            <text x="400" y="66" class="d-texto claro" text-anchor="middle">Arduino Uno + Sensor Shield V5</text>
+            <!-- filas de pines: G V S, como en el shield -->
+            <g class="d-pines">
+              <text x="391" y="100" class="d-texto-chico claro" text-anchor="middle">G</text>
+              <text x="419" y="100" class="d-texto-chico claro" text-anchor="middle">V</text>
+              <text x="447" y="100" class="d-texto-chico claro" text-anchor="middle">S</text>
+              <text x="270" y="128" class="d-texto-chico claro">D3 garra</text>
+              <rect x="380" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="408" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="436" y="112" width="22" height="22" rx="3" class="d-fila activa"/>
+              <text x="270" y="164" class="d-texto-chico claro">D9 base</text>
+              <rect x="380" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="408" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="436" y="148" width="22" height="22" rx="3" class="d-fila activa"/>
+              <text x="270" y="200" class="d-texto-chico claro">D10 altura</text>
+              <rect x="380" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="408" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="436" y="184" width="22" height="22" rx="3" class="d-fila activa"/>
+              <text x="270" y="236" class="d-texto-chico claro">D11 alcance</text>
+              <rect x="380" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="408" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
+              <rect x="436" y="220" width="22" height="22" rx="3" class="d-fila activa"/>
+            </g>
+            <!-- bornera y puente SEL -->
+            <rect x="270" y="252" width="70" height="30" rx="4" class="d-bornera"/>
+            <text x="305" y="272" class="d-texto-chico" text-anchor="middle">+  −</text>
+            <rect x="400" y="252" width="44" height="24" rx="4" class="d-sel"/>
+            <path d="M396 248 L448 280 M448 248 L396 280" class="d-tachado"/>
+            <text x="422" y="300" class="d-texto-chico claro" text-anchor="middle">puente SEL retirado</text>
+
+            <!-- fuente -->
+            <rect x="20" y="320" width="200" height="90" rx="8" class="d-caja"/>
+            <text x="120" y="358" class="d-texto" text-anchor="middle">Fuente 5 a 6 V</text>
+            <text x="120" y="382" class="d-texto-chico" text-anchor="middle">3 A o más</text>
+            <path d="M220 350 L292 350 L292 282" class="d-cable positivo"/>
+            <path d="M220 380 L318 380 L318 282" class="d-cable negativo"/>
+            <!-- servos -->
+            <g class="d-servos">
+              <rect x="640" y="70" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="97" class="d-texto-chico" text-anchor="middle">Servo garra</text>
+              <rect x="640" y="140" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="167" class="d-texto-chico" text-anchor="middle">Servo base</text>
+              <rect x="640" y="210" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="237" class="d-texto-chico" text-anchor="middle">Servo altura</text>
+              <rect x="640" y="280" width="110" height="44" rx="6" class="d-servo"/><text x="695" y="307" class="d-texto-chico" text-anchor="middle">Servo alcance</text>
+              <path d="M458 123 C560 123 560 92 640 92" class="d-cable servo"/>
+              <path d="M458 159 C560 159 560 162 640 162" class="d-cable servo"/>
+              <path d="M458 195 C560 195 560 232 640 232" class="d-cable servo"/>
+              <path d="M458 231 C560 231 560 302 640 302" class="d-cable servo"/>
+            </g>
+          </svg>
+          <figcaption>Cada servo se enchufa en la fila de su pin, con el cable marrón o negro en G, el rojo en V y el naranja o amarillo en S. La fuente se atornilla a la bornera respetando + y −.</figcaption>
+        </figure>
+        <p>Hay tres detalles que deciden si funciona o no.</p>
+        <ol>
+          <li><strong>Los servos se alimentan de la fuente, nunca del USB.</strong> Un servo MG995 puede pedir más de 1 A al arrancar y el Arduino entrega unos 0,2 A. Alimentados desde el USB, la placa se reinicia apenas el brazo se mueve.</li>
+          <li><strong>El puente SEL del shield se quita antes de conectar la fuente.</strong> Ese puente une la alimentación de los servos con la del Arduino. Si se deja puesto, la fuente queda conectada directo al Arduino y lo puede dañar. Con el puente retirado, el Arduino se alimenta del USB, los servos de la fuente, y el shield une las tierras.</li>
+          <li><strong>La polaridad de la fuente.</strong> En casi todos los adaptadores de pared el positivo es el centro del plug. La etiqueta del adaptador lo indica con un círculo y un punto en el centro marcado con +.</li>
+        </ol>
+        <p>Los pines del diagrama son los de fábrica. Si el brazo se armó con otros, no hay que mover cables: se cambian en la pestaña Brazo, en «Pines de los servos».</p>
+      </section>
+
+      <section id="g-placas">
+        <h2>Placas compatibles</h2>
+        <p>Sirven las placas con el microcontrolador ATmega328P, originales o clones de cualquier marca, como Elegoo:</p>
+        <ul>
+          <li>Arduino Uno R3 y sus clones, con chip USB 16U2, CH340 o CH9102.</li>
+          <li>Arduino Nano y sus clones, con el bootloader nuevo o con el viejo. La página prueba los dos.</li>
+        </ul>
+        <p>No sirven Arduino Uno R4, Nano Every, Mega 2560, Leonardo, ni placas ESP32 o LGT8F328P, porque usan otro microcontrolador. Si se conecta una de ellas, la página avisa que no es compatible.</p>
+        <p>Los clones con chip CH340 necesitan un controlador en el computador. Windows 10 y 11 lo instalan solos la primera vez que se conecta la placa con internet.</p>
+      </section>
+
+      <section id="g-primera-vez">
+        <h2>Antes de la primera sesión</h2>
+        <ol>
+          <li>Abra la página en Chrome o Edge. Cuando el navegador pregunte por la cámara, elija «Permitir».</li>
+          <li>Conecte el Arduino por USB y encienda la fuente de los servos.</li>
+          <li>Presione «Conectar brazo», elija la placa en la lista y presione «Conectar». La placa se reinicia al conectarse y responde en unos 3 segundos.</li>
+          <li>Si aparece «La placa no tiene el programa del taller», vaya a la pestaña Brazo y presione «Preparar la placa».</li>
+          <li>En la pestaña Brazo, presione «Mover un poco» en cada servo y confirme que se mueve el que corresponde. Si se mueve otro, elija el pin correcto. Si ese pin lo tenía otro servo, los dos se intercambian.</li>
+          <li>Revise los límites de cada servo con los botones de 5 en 5 grados y presione «Guardar en la placa». La placa conserva esos valores aunque se desconecte.</li>
+          <li>Pruebe los seis gestos en la pestaña Actividad.</li>
+        </ol>
+        <p>Después de la primera visita, la página queda guardada en el navegador y funciona sin internet.</p>
+      </section>
+
+      <section id="g-actividad">
+        <h2>La actividad</h2>
+        <p>El reto es llevar un objeto del punto A al punto B moviendo el brazo solo con gestos. Los grupos trabajan en equipos de 4 o 5. Dentro de cada equipo los roles se reparten solos: alguien hace los gestos, alguien mira el brazo y corrige, alguien lleva el tiempo. Conviene que roten entre intentos.</p>
+        <p>La cámara apunta a las manos de quien hace los gestos, no al brazo. Esa persona queda de espaldas o de lado al robot y depende de lo que le diga su equipo, como en una teleoperación real.</p>
+        <p>La pantalla no muestra qué hace cada gesto. El equipo tiene que recordar el diseño que eligió, y equivocarse de dirección o confundir dos gestos es parte del reto. Planear un diseño fácil de recordar es parte de la estrategia.</p>
+        <table>
+          <thead><tr><th scope="col">Minuto</th><th scope="col">Qué pasa</th></tr></thead>
+          <tbody>
+            <tr><td>0 a 10</td><td>En la pestaña Actividad se proyecta la cámara con los 21 puntos sobre la mano de un voluntario. Luego, en la pestaña Cómo funciona, se explica el recorrido de un gesto hasta el robot. Se presenta el reto.</td></tr>
+            <tr><td>10 a 20</td><td>Los equipos se forman y deciden qué orden va con cada gesto, sin tocar el robot.</td></tr>
+            <tr><td>20 a 50</td><td>Turnos de unos 5 minutos por equipo, con un reintento. Antes del reintento cada equipo puede cambiar su diseño. Mientras esperan, los demás equipos observan y anticipan qué le va a pasar al que está jugando.</td></tr>
+            <tr><td>50 a 60</td><td>Cierre con los diseños que funcionaron, los que no y por qué. La lista de diseños usados sirve para este momento.</td></tr>
+          </tbody>
+        </table>
+        <p>Como apoyo opcional hay un <a href="formulario.html" download>formulario imprimible</a> para que cada equipo anote su diseño. La actividad funciona igual sin él.</p>
+      </section>
+
+      <section id="g-gestos">
+        <h2>Cómo se hacen los gestos</h2>
+        <p>El sistema cuenta cuántos dedos hay levantados, de 0 a 5, sin importar cuáles. Funciona con el dorso o con la palma hacia la cámara. Dos indicaciones mejoran mucho la detección:</p>
+        <ul>
+          <li>La mano completa dentro de la imagen, sin dedos cortados por el borde.</li>
+          <li>Para el 5, la mano bien abierta, con el pulgar separado de los demás dedos. Con la mano abierta pero relajada, el pulgar queda pegado y el sistema puede contar 4.</li>
+        </ul>
+        <p>Un gesto cuenta cuando se sostiene cinco imágenes seguidas, poco menos de un quinto de segundo. Mostrar las dos manos es PAUSA y detiene el brazo, sea cual sea el diseño del equipo. Si la mano sale de la imagen, el brazo también se queda quieto.</p>
+        <p>Girar a la izquierda o a la derecha dura mientras se sostenga el gesto. Subir, bajar, abrir y cerrar van al extremo de una vez y ahí se quedan, así que sostener el gesto no hace más.</p>
+      </section>
+
+      <section id="g-diseno">
+        <h2>Cargar el diseño de cada equipo</h2>
+        <p>Cada orden tiene una letra: c cerrar garra, o abrir garra, i girar a la izquierda, d girar a la derecha, s subir y b bajar. El diseño de un equipo son seis letras, una por gesto del 0 al 5.</p>
+        <ol>
+          <li>Presione la tecla M, o haga clic en la primera casilla de «Diseño del equipo». Mientras se escribe, el brazo se queda quieto.</li>
+          <li>Escriba el nombre del equipo y las seis letras, y presione Enter. Las casillas se ocultan apenas se aplica el diseño.</li>
+          <li>Para revisar el diseño cargado sin que lo vea todo el salón, use «Ver el diseño cargado»: se muestra unos segundos y se vuelve a ocultar.</li>
+        </ol>
+        <p>La página no acepta letras repetidas ni menos de seis. Si un diseño deja el brazo imposible de manejar, la tecla F o «Volver al de fábrica» recuperan el diseño conocido. Al final, «Descargar los diseños usados» entrega la lista de diseños de cada equipo con su hora.</p>
+      </section>
+
+      <section id="g-problemas" class="problemas">
+        <h2>Solución de problemas</h2>
+
+        <div class="problema">
+          <h3>No se ve la cámara</h3>
+          <p>Haga clic en el ícono de la cámara a la derecha de la barra de direcciones y elija «Permitir». Si ya estaba permitido, el bloqueo viene del sistema operativo.</p>
+          <p>En Mac, abra Ajustes del Sistema › Privacidad y seguridad › Cámara, active Chrome o Edge y vuelva a abrir el navegador.</p>
+          <p>En Windows, abra Configuración › Privacidad y seguridad › Cámara y active «Permitir que las aplicaciones de escritorio accedan a la cámara».</p>
+          <p>Si la página dice que la cámara está ocupada, cierre Zoom, Teams, Meet u otra pestaña que la esté usando.</p>
+        </div>
+
+        <div class="problema">
+          <h3>La detección no arranca y la página habla de la aceleración gráfica</h3>
+          <p>La detección de la mano usa la tarjeta gráfica a través del navegador. En Chrome escriba chrome://settings/system en la barra de direcciones, y en Edge edge://settings/system. Active «Usar aceleración de gráficos cuando esté disponible» y reinicie el navegador.</p>
+        </div>
+
+        <div class="problema">
+          <h3>La placa no aparece en la lista al conectar</h3>
+          <p>Pruebe otro cable USB, porque hay cables que solo cargan. Si la placa es un clon con chip CH340 y el computador es Windows, espere un minuto con internet para que se instale el controlador. Si sigue sin aparecer, use «No aparece mi placa en la lista», en la pestaña Brazo, que muestra todos los puertos.</p>
+        </div>
+
+        <div class="problema">
+          <h3>«El puerto está ocupado»</h3>
+          <p>Otro programa tiene la placa abierta. Cierre el Arduino IDE, su Monitor Serie o cualquier otra pestaña con esta página, y vuelva a conectar.</p>
+        </div>
+
+        <div class="problema">
+          <h3>«El brazo se está usando en otra pestaña»</h3>
+          <p>La página está abierta dos veces y solo una puede mandar órdenes al brazo, para que dos programas no lo controlen a la vez. Cierre la otra.</p>
+        </div>
+
+        <div class="problema">
+          <h3>El brazo tiembla, se mueve solo o el Arduino se reinicia</h3>
+          <p>Casi siempre es la alimentación. Revise que los servos estén conectados a la fuente externa, que la fuente entregue al menos 3 A y que el puente SEL del shield esté retirado.</p>
+        </div>
+
+        <div class="problema">
+          <h3>Un servo zumba quieto o se calienta</h3>
+          <p>Está empujando contra un tope mecánico sin poder llegar al ángulo que se le pidió. En la pestaña Brazo, lleve ese límite 5 grados hacia adentro hasta que el zumbido pare, y guarde.</p>
+        </div>
+
+        <div class="problema">
+          <h3>Al brazo le falta fuerza para subir</h3>
+          <p>Revise primero la mecánica. Con las tuercas de las articulaciones demasiado apretadas, la fricción supera el par del servo. Con el servo de altura soltado de su pieza, el brazo debería subir empujándolo con dos dedos. Si no sube así, afloje las tuercas.</p>
+        </div>
+
+        <div class="problema">
+          <h3>La detección falla durante la actividad</h3>
+          <p>Revise la luz, que no haya una ventana brillante detrás de la mano, y repita las indicaciones de los gestos. Si no se recupera, el control manual de la pestaña Brazo permite terminar el turno.</p>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="pie">
+    <img src="marca/mechita-cara.svg" alt="" class="pie-mechita">
+    <p>Departamento de Ingeniería Mecánica, Universidad de los Andes. Actividad «Al alcance de la mano».</p>
+  </footer>
 
   <script type="module" src="js/app.js"></script>
 </body>
