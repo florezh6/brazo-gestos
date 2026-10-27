@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Comparación con video</title></head>
+<body>
+<p id="estado">Procesando…</p>
+<script type="module">
+  // Lado navegador de la comparacion: los mismos cuadros, el mismo
+  // detector que la pagina (js/camara.js) y la misma regla
+  // (js/deteccion.js). Sin espejo, como la pagina.
+  import { crearDetector } from '../js/camara.js';
+  import { leerManos } from '../js/deteccion.js';
+  const n = Number(new URLSearchParams(location.search).get('n'));
+  const { detector, motor } = await crearDetector();
+  const lecturas = [];
+  for (let i = 1; i <= n; i++) {
+    const r = await fetch(`datos/video/${String(i).padStart(4, '0')}.jpg`);
+    const imagen = await createImageBitmap(await r.blob());
+    const manos = detector.detectForVideo(imagen, (i - 1) * 100).landmarks || [];
+    lecturas.push(leerManos(manos));
+  }
+  window.resultado = { motor, lecturas };
+  document.getElementById('estado').textContent = 'Listo';
+</script>
+</body>
+</html>

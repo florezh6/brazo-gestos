@@ -1,6 +1,6 @@
 # Estado del desarrollo
 
-Última actualización: 27 de octubre de 2026. Sesión cerrada por Hugo antes de las pruebas en Windows.
+Última actualización: 27 de octubre de 2026.
 
 Plan aprobado: `~/.claude/plans/s-vamos-con-la-rippling-lampson.md`.
 
@@ -31,14 +31,20 @@ BASE=https://florezh6.github.io/brazo-gestos/ node pruebas/navegador.mjs captura
 
 ## Pendiente, en orden
 
-1. **Prueba en Windows por Parsec.** Hugo ya dio acceso a Parsec en la sesión del 27 de octubre, pero no se alcanzó a abrir. En Edge, sobre la URL publicada, revisar que la página cargue, que la cámara del portátil funcione, que «Conectar brazo» abra la ventana de puertos y que recargue sin internet. El Mac también está unido al Windows por un cable USB-C.
+1. **Prueba en Windows: hecha el 27 de octubre por Parsec, salvo la cámara.** En Edge sobre Windows 11, la página publicada carga completa, el modelo de la mano corre en la tarjeta gráfica y «Conectar brazo» abre la ventana de puertos de Web Serial, que sin Arduino dice «No se encontraron dispositivos compatibles». Falta la cámara, porque ese Windows no tiene ninguna conectada: la página lo dijo con el aviso correcto. El modo sin internet no se probó allá porque apagar la red cortaría Parsec; Edge usa el mismo motor que Chrome, donde sí pasó. Al usar Parsec, el texto escrito con el teclado simulado llega como una fila de letras «a» y Ctrl del Mac se vuelve la tecla Windows. Lo que funcionó fue pegar desde el portapapeles con clic derecho › «Pegar e ir a».
 2. **Prueba con el brazo real**, unos 15 minutos, la hace Hugo:
    1. Conectar el Uno, «Preparar la placa» y ver «Brazo conectado». Es lo único que no se pudo simular: el reinicio de la placa por la línea DTR del USB.
    2. «Mover un poco» en cada servo y confirmar que los pines de fábrica coinciden.
    3. Los seis gestos con el brazo moviéndose, la pausa con dos manos y sacar la mano del encuadre.
    4. Desenchufar el USB con la base girando. Debe detenerse en menos de medio segundo.
    5. Repetir el paso 1 en el Windows.
-3. **Paridad de punta a punta con un video real.** Falta un video de unos 30 s de una mano haciendo 0 a 5 con el dorso hacia la cámara. No se encontró uno libre en bancos de video, así que hay que pedírselo a Hugo. Con él, comparar cuadro a cuadro MediaPipe de Python contra la página. Criterio acordado: al menos 95 % de cuadros con el mismo conteo.
+3. **Paridad de punta a punta con un video real.** La comparación ya está armada y probada con un video sin manos, 30 de 30 cuadros iguales. Falta el video de Hugo, de unos 30 s, con la mano haciendo 0 a 5 con el dorso hacia la cámara. Las dos versiones procesan los mismos cuadros, 10 por segundo: Python con su volteo en espejo, como el programa del taller, y la página sin volteo, como ella. Criterio acordado: al menos 95 % de cuadros con la misma lectura. Pasos, con el servidor de pruebas corriendo:
+   ```
+   pruebas/video_preparar.sh <video>
+   <python con mediapipe 1.0.0> pruebas/video_python.py <ruta a tecnico/deteccion_dedos.py> modelo/hand_landmarker.task
+   node pruebas/video.mjs
+   ```
+   El Python con MediaPipe 1.0.0 se arma aparte, por ejemplo con `python3 -m venv` y `pip install mediapipe==1.0.0`. El `venv/` de la carpeta del taller está roto.
 4. **Aprobación de textos por Hugo.** La guía `guia.html` y los mensajes de la página están redactados con su marco de redacción, pero él no los ha leído. Mostrárselos antes de darlos por terminados.
 
 ## Decisiones tomadas sin aprobación de Hugo
