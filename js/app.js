@@ -26,6 +26,7 @@ const estado = {
   lectura: null,
   ordenesPermitidas: false,
   sinGuardar: new Set(),
+  cuadros: 0,          // cuadros procesados, para revisar que la deteccion corre
 };
 
 const brazo = new Brazo();
@@ -331,6 +332,7 @@ function procesarCuadro() {
 
   const lectura = leerManos(manos);
   estado.lectura = lectura;
+  if (detector && !fallaDeteccion) estado.cuadros++;
 
   if (estabilizador.actualizar(lectura) && estado.ordenesPermitidas) {
     if (lectura === PAUSA || lectura === null) {

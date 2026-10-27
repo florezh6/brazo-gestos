@@ -29,6 +29,12 @@ const BASICOS = [
   'fuentes/archivo-latin-ext-wght-normal.woff2',
   'icono.svg',
   'vendor/mediapipe/vision_bundle.mjs',
+  // MediaPipe pide estos dos antes de que este archivo tome control de
+  // la pagina en la primera visita: si no se guardan aqui, no quedan
+  // guardados nunca. Chrome y Edge usan la version SIMD; la otra,
+  // nosimd, solo se guarda si algun navegador la llega a pedir.
+  'vendor/mediapipe/wasm/vision_wasm_internal.js',
+  'vendor/mediapipe/wasm/vision_wasm_internal.wasm',
   'modelo/hand_landmarker.task',
 ];
 

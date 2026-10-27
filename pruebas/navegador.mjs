@@ -11,7 +11,7 @@ import { chromium } from 'playwright-core';
 import assert from 'node:assert/strict';
 import { mkdirSync } from 'node:fs';
 
-const BASE = 'http://localhost:8765/';
+const BASE = process.env.BASE || 'http://localhost:8765/';
 const CAPTURAS = process.argv[2] || 'capturas';
 const SOLO = process.argv.slice(3);
 mkdirSync(CAPTURAS, { recursive: true });
@@ -28,7 +28,7 @@ function instalarSerialFalso(escenario) {
     return;
   }
   const serial = new EventTarget();
-  const listo = import('/pruebas/serial_falso.js').then((m) => m.crear(escenario, serial));
+  const listo = import(new URL('pruebas/serial_falso.js', location.href).href).then((m) => m.crear(escenario, serial));
   serial.getPorts = async () => { const f = await listo; return f.autorizado ? [f.puerto] : []; };
   serial.requestPort = async () => { const f = await listo; f.autorizado = true; return f.puerto; };
   Object.defineProperty(Navigator.prototype, 'serial', { get: () => serial, configurable: true });
@@ -90,7 +90,7 @@ const ESCENARIOS = {
     // La deteccion debe seguir corriendo varios segundos sin avisar fallas.
     await esperar(3000);
     assert.equal(await pagina.isVisible('.aviso[data-id="deteccion"]'), false, 'la deteccion fallo');
-    const cuadros = await pagina.evaluate(() => window.taller.estabilizador.repeticiones);
+    const cuadros = await pagina.evaluate(() => window.taller.estado.cuadros);
     assert.ok(cuadros > 20, 'la deteccion debe procesar cuadros: ' + cuadros);
     await pagina.screenshot({ path: `${CAPTURAS}/01-actividad-1366.png` });
     assert.deepEqual(errores, []);
@@ -283,6 +283,31 @@ const ESCENARIOS = {
     assert.match(await textoDe(pagina, '.aviso[data-id="navegador"]'), /Chrome o Microsoft Edge/);
     assert.equal(await estadoBrazo(pagina), 'sin-soporte');
     await pagina.screenshot({ path: `${CAPTURAS}/10-sin-web-serial.png` });
+    await contexto.close();
+  },
+
+  async 'sin internet despues de la primera visita'(nav) {
+    const { contexto, pagina, errores } = await nuevaPagina(nav, { programa: 'nuevo', autorizado: true });
+    await pagina.waitForSelector('#cargando', { state: 'hidden', timeout: 60000 });
+    // Esperar a que el service worker guarde todo lo basico.
+    await pagina.evaluate(async () => {
+      await navigator.serviceWorker.ready;
+      for (let k = 0; k < 100; k++) {
+        const caja = await caches.open('brazo-gestos-v1');
+        const llaves = await caja.keys();
+        if (llaves.some((r) => r.url.endsWith('.wasm')) && llaves.length >= 20) return;
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      throw new Error('el service worker no guardo los archivos');
+    });
+    await contexto.setOffline(true);
+    await pagina.reload();
+    await pagina.waitForSelector('#cargando', { state: 'hidden', timeout: 60000 });
+    await esperar(2000);
+    assert.equal(await pagina.isVisible('.aviso[data-id="modelo"]'), false, 'el modelo debe cargar sin internet');
+    assert.equal(await pagina.isVisible('.aviso[data-id="deteccion"]'), false);
+    await pagina.waitForFunction(() => window.taller.estado.cuadros > 20, null, { timeout: 15000 });
+    assert.deepEqual(errores.filter((e) => !/ERR_INTERNET_DISCONNECTED|Failed to load resource/.test(e)), []);
     await contexto.close();
   },
 

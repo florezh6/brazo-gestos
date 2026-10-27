@@ -5,13 +5,13 @@
 
 import { PlacaSimulada, PuertoSimulado } from './placa_simulada.js';
 
-const leer = (ruta) => fetch(ruta).then((r) => r.text());
+const leer = (ruta) => fetch(new URL(ruta, import.meta.url)).then((r) => r.text());
 
 export async function crear(escenario, serial) {
-  const bootloader = await leer('/pruebas/bootloaders/optiboot_atmega328.hex');
+  const bootloader = await leer('./bootloaders/optiboot_atmega328.hex');
   let app = null;
-  if (escenario.programa === 'nuevo') app = await leer('/firmware/brazo_web.hex');
-  if (escenario.programa === 'antiguo') app = await leer('/pruebas/firmware_antiguo.hex');
+  if (escenario.programa === 'nuevo') app = await leer('../firmware/brazo_web.hex');
+  if (escenario.programa === 'antiguo') app = await leer('./firmware_antiguo.hex');
 
   const placa = new PlacaSimulada({ app, bootloader });
   const puerto = new PuertoSimulado(placa);
